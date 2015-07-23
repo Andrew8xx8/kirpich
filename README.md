@@ -15,4 +15,5 @@ TOKEN=ВашТокен bundle exec ruby ./run.rb
 ```
 
 ## Картинка для привлечения внимания
-![Паша кирпич объясняет суть мема](http://dl.dropboxusercontent.com/u/4256669/kirpich)
+
+![Паша кирпич объясняет суть мема](https://dl.dropboxusercontent.com/u/4256669/kirpich.png)
