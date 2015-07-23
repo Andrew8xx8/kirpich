@@ -34,7 +34,7 @@ module Kirpich
         elsif data['text'] =~ /^(пашок|пашка|кирпич|паш|пацантре|народ|кто-нибудь|эй|э)/i || data['text'] =~ /(kirpich:|@kirpich:)/ || data['channel'] == 'D081AUUHW'
           text = on_call(data)
         end
-      rescue
+      rescue RuntimeError
         text = @answers.do_not_know_text
       end
 
@@ -81,7 +81,6 @@ module Kirpich
         m = data['text'].scan(/(объясни|разъясни|растолкуй|что|как|кто) ?(что|как|кто)? ?(это|эта|такой|такое|такие)? (.*)/im)
         if m && m[0] && m[0][3]
           q = m[0][3]
-        p q
           text = @answers.lurk_search q
         else
           text = @answers.do_not_know_text
