@@ -1,4 +1,5 @@
 require 'nokogiri'
+require 'open-uri'
 
 module Kirpich
   class Answers
@@ -17,6 +18,18 @@ module Kirpich
       result.join(' ')
     end
 
+    def google_search(text)
+      "http://lmgtfy.com/?q=#{URI::encode(text)}"
+    end
+
+    def pidor_text
+      'пидора ответ'
+    end
+
+    def cat_image
+      "http://www.randomkittengenerator.com/images/cats/rotator.php?#{rand(999999999)}"
+    end
+
     def huifikatorr_text(text)
       url = "http://huifikator.ru/api.php?text=#{text}"
       response = Faraday.get url
@@ -26,7 +39,8 @@ module Kirpich
     end
 
     def response_text(text)
-      return HZ.sample unless text
+      return do_not_know_text unless text
+
       text = text.split(' ').last
       huifikatorr_text(text)
     end
@@ -230,7 +244,13 @@ module Kirpich
         end
       end
 
-      result = do_not_know_text unless result
+      unless result
+        if rand(2)
+          result = google_search(text)
+        else
+          result = do_not_know_text
+        end
+      end
 
       if rand(4) == 0
         result += "\nВот так вот, #{Kirpich::OBR.sample}"

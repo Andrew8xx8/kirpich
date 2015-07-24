@@ -19,8 +19,26 @@ bundle install
 TOKEN=ВашТокен bundle exec ruby ./run.rb
 ```
 
-## Картинка для привлечения внимания
+## Паша...
+
+### ...знает мемы
 
 ![Паша кирпич объясняет суть мема](https://dl.dropboxusercontent.com/u/4256669/kirpich.png)
 
+### ...в курсе дел
+
 ![Паша отвечает за дела](https://dl.dropboxusercontent.com/u/4256669/kirpich2.png)
+
+### ...любит пироги
+
+![Паша любит пироги](https://dl.dropboxusercontent.com/u/4256669/kirpich3.png)
+
+### ...следит за финансами
+
+![Паша любит следит за финансами](https://dl.dropboxusercontent.com/u/4256669/kirpich4.png)
+
+### ...знает толк в женщинах
+
+![Паша любит женщин](https://dl.dropboxusercontent.com/u/4256669/kirpich5.png)
+
+

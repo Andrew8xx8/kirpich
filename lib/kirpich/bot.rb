@@ -55,7 +55,7 @@ module Kirpich
         text = @answers.nah_text
       elsif data['text'] =~ /^(зда?о?ров|привет)/i
         text = @answers.hello_text
-      elsif data['text'] =~ /(спасибо|збсь?|красава|молодчик|красавчик|от души|по красоте)/i
+      elsif data['text'] =~ /(спасибо|збсь?|красава|молодчик|красавчик|от души|по красоте|зацени)/i
         text = @answers.ok_text
       elsif data['text'] =~ /(танцуй|исполни|пацандобль|танец)/i
         text = @answers.dance_text
@@ -99,12 +99,21 @@ module Kirpich
         text = @answers.sexcom_image('http://www.sex.com/big-dicks/porn-pics/?sort=latest')
       elsif data['text'] =~ /(запость|ебни|пиздани|ебани|постани|постни|еще)/i
         text = @answers.random_text
+      elsif data['text'] =~ /(нежность|забота|добр(ота)?|милым|заботливым|нежным|добрым)/i
+        text = @answers.cat_image
       elsif data['text'] =~ /(правила)/i
         text = @answers.rules_text
       elsif data['text'] =~ /(погода)/i
         text = @answers.poh_text
-      elsif data['text'] =~ /(стоит|надо|можно|да|нет).*?\?/i
+      elsif data['text'] =~ /(устал|приуныл|дерзкий|ровный|четкий|стоит|надо|можно|да|нет).*?\?/i
         text = @answers.yes_no_text
+      elsif data['text'] =~ /(найди|поищи|загугли|погугли|по шурши|че там)\s(.*?)$/i
+        md = data['text'].scan(/.*?(найди|поищи|загугли|погугли|по шурши|че там)\s(.*?)$/i)
+        if md && md[0] && md[0][1]
+          text = @answers.google_search(md[0][1])
+        end
+      elsif data['text'] =~ /(нет)$/i
+        text = @answers.pidor_text
       elsif data['text'] =~ /выполни.*\(.*?\)/i
         m = data['text'].scan(/выполни.*\((.*?)\)/i)
         if m && m[0][0]
@@ -113,6 +122,11 @@ module Kirpich
           rescue Exception
             text = @answers.do_not_know_text
           end
+        end
+      elsif data['text'] =~ /\?$/i
+        text = @answers.yes_no_text
+        if rand(3) == 0
+          text += ". " + @answers.response_text(data['text'].gsub(/\?/, ''))
         end
       end
 
@@ -123,7 +137,7 @@ module Kirpich
     end
 
     def random_post
-      methods = [:random_text, :brakingmad_text, :pikabu_image, :pikabu_text, :interfax_text, :currency]
+      methods = [:cat_image, :random_text, :brakingmad_text, :pikabu_image, :pikabu_text, :interfax_text, :currency]
       @answers.send methods.sample
     end
 
