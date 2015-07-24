@@ -16,6 +16,10 @@ module Kirpich
       return if data['user'] == 'U081B2XCP'
 
       text = select_text(data)
+      p '--------------'
+      p data
+      p text
+      p '--------------'
       if text
         post_text text, data
       end
@@ -30,8 +34,8 @@ module Kirpich
         elsif data['text'] =~ /(зда?о?ров|привет|вечер в хату)/i
           text = @answers.hello_text
         elsif data['text'] =~ /(как дела|что.*?как|чо.*?каво)/i
-          text = @answers.ok_text
-        elsif data['text'] =~ /^(пашок|пашка|кирпич|паш|пацантре|народ|кто-нибудь|эй|э)/i || data['text'] =~ /(kirpich:|@kirpich:)/ || data['channel'] == 'D081AUUHW'
+          text = @answers.interfax_text
+        elsif data['text'] =~ /^(паштет|пашок|пашка|кирпич|паш|пацантре|народ|кто-нибудь|эй|э)/i || data['text'] =~ /(kirpich:|@kirpich:)/ || data['channel'] == 'D081AUUHW'
           text = on_call(data)
         end
       rescue RuntimeError
@@ -50,18 +54,22 @@ module Kirpich
         text = @answers.nah_text
       elsif data['text'] =~ /^(зда?о?ров|привет)/i
         text = @answers.hello_text
-      elsif data['text'] =~ /(красава|молодчик)/i
+      elsif data['text'] =~ /(красава|молодчик|красавчик)/i
         text = @answers.ok_text
       elsif data['text'] =~ /^материализуй.*/i
         text = @answers.materialize(data['text'])
-      elsif data['text'] =~ /(дальше|продолжай|давай еще|еще|следующую)/i
-        text = @answers.inferot_next_image
       elsif data['text'] =~ /(титьк|грудь|сисек|сиська|сиськи|сиську|сосок|понедельник)/i
-        text = @answers.inferot_image('http://inferot.net/girls/big-tits/')
+        text = @answers.sexcom_image('http://www.sex.com/babes+big-tits/porn-pics/?sort=latest')
       elsif data['text'] =~ /(жоп|задниц|попец|вторник)/i
-        text = @answers.inferot_image('http://inferot.net/girls/ass/')
+        text = @answers.sexcom_image('http://www.sex.com/ass+babes/porn-pics/?sort=latest')
       elsif data['text'] =~ /(рыжая|рыжую)/i
-        text = @answers.inferot_image('http://inferot.net/girls/red/')
+        text = @answers.sexcom_image('http://www.sex.com/babes+redhead/porn-pics/?sort=latest')
+      elsif data['text'] =~ /(винтаж|олдскул|ламповую)/i
+        text = @answers.sexcom_image('http://www.sex.com/babes+vintage/porn-pics/?sort=latest')
+      elsif data['text'] =~ /(блондин|белую)/i
+        text = @answers.sexcom_image('http://www.sex.com/babes+blonde/porn-pics/?sort=latest')
+      elsif data['text'] =~ /(броюнет)/i
+        text = @answers.sexcom_image('http://www.sex.com/babes+brunette/porn-pics/?sort=latest')
       elsif data['text'] =~ /(кто.*главный)/i
         text = @answers.chef_text
       elsif data['text'] =~ /(картинку|смехуечек|пикчу)/i
@@ -104,13 +112,29 @@ module Kirpich
             text = @answers.do_not_know_text
           end
         end
-      else
-        text = @answers.call_text
+      end
+
+      text ||= @answers.call_text
+    end
+
+    def random_post
+      methods = [:random_text, :brakingmad_text, :pikabu_image, :pikabu_text, :interfax_text, :currency]
+      @answers.send methods.sample
+    end
+
+    def random_post_timer
+      time = rand(1000)
+
+      EM.add_timer(time) do
+        Slack.chat_postMessage as_user: true, channel: 'C08189F96', text: random_post
+
+        random_post_timer
       end
     end
 
     def on_hello
-      #random_post_timer
+      random_post
+      random_post_timer
     end
   end
 end

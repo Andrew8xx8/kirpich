@@ -27,6 +27,38 @@ module Kirpich
       urls.sample
     end
 
+    def random_text
+      response = Faraday.get "http://lurkmore.to/%D0%A1%D0%BB%D1%83%D0%B6%D0%B5%D0%B1%D0%BD%D0%B0%D1%8F:Random"
+
+      link = response.headers["location"]
+      if link
+        response = Faraday.get link
+        page = Nokogiri::HTML(response.body)
+
+        images = page.css('img.thumbimage').map { |e| e['src'] }
+        if images.any?
+          result ||= ''
+          result += "#{images.sample.gsub(/^\/\//, 'http://')}\n"
+        end
+
+        texts = page.css('#bodyContent>p').map { |e| e.text }
+
+        if texts.any?
+          result ||= ''
+          result += "#{texts[0]}\n"
+          result += "#{texts[1]}\n" if texts.length > 1
+        end
+      end
+
+      result = do_not_know_text unless result
+
+      if rand(4) == 0
+        result += "\nВот так вот, #{Kirpich::OBR.sample}"
+      end
+
+      result
+    end
+
     def inferot_image(url)
       response = Faraday.get url
 
@@ -55,7 +87,7 @@ module Kirpich
       response = Faraday.get 'http://breakingmad.me/ru/'
 
       txts = Nokogiri::HTML(response.body).css(".news-row").map { |e| e }.sample
-      txts = "#{txts.css("h2").first.text}.\n#{txts.css('.news-full-forspecial').first.text}"
+      txts = "#{txts.css("h2").first.text}.\n\n#{txts.css('.news-full-forspecial').first.text}"
       materialize txts
     end
 
@@ -83,7 +115,7 @@ module Kirpich
         src.text
       end
 
-      materialize "Молния! #{txts.sample}"
+      materialize "#{txts.sample}"
     end
 
     def currency
@@ -118,9 +150,11 @@ module Kirpich
     end
 
     def obr_text(text, rand)
-      if rand(rand) === 0
+      if rand(rand) === 0 && !(text =~ /[,.:;!?'\"\/#$%^&*()]/)
         text += ", #{Kirpich::OBR.sample}"
       end
+
+      text
     end
 
     def hello_text

@@ -52,4 +52,31 @@ class Kirpich::BotTest < Minitest::Test
     assert { answer == :chef_text }
   end
 
+  def test_good
+    answer = @bot.select_text({'text' => 'паша красава', 'channel' => 'test'})
+    assert { answer == :ok_text }
+
+    answer = @bot.select_text({'text' => 'пашок красавчик', 'channel' => 'test'})
+    assert { answer == :ok_text }
+
+    answer = @bot.select_text({'text' => 'пашок молодчик', 'channel' => 'test'})
+    assert { answer == :ok_text }
+  end
+
+  def test_call
+    answer = @bot.select_text({'text' => 'пашок ты сидел?', 'channel' => 'test'})
+    assert { answer == :call_text }
+
+    answer = @bot.select_text({'text' => 'Паш, цены на нефть поднимутся?', 'channel' => 'test'})
+    assert { answer == :call_text }
+  end
+
+  def test_random
+    answer = @bot.select_text({'text' => 'пашок расскажи что-нибудь?', 'channel' => 'test'})
+    assert { answer == :call_text }
+
+    answer = @bot.select_text({'text' => 'пашок создай настроение', 'channel' => 'test'})
+    assert { answer == :call_text }
+  end
+
 end
