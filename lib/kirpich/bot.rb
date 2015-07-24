@@ -10,6 +10,7 @@ module Kirpich
 
     def post_text(text, data)
       Slack.chat_postMessage as_user: true, channel: data['channel'], text: text
+    rescue RuntimeError
     end
 
     def on_message(data)
@@ -95,7 +96,7 @@ module Kirpich
         end
       elsif data['text'] =~ /(запость|ебни|пиздани|ебани|постани|постни).*(сереге)/i
         text = @answers.sexcom_image('http://www.sex.com/big-dicks/porn-pics/?sort=latest')
-      elsif data['text'] =~ /(запость|ебни|пиздани|ебани|постани|постни)/i
+      elsif data['text'] =~ /(запость|ебни|пиздани|ебани|постани|постни|еще)/i
         text = @answers.random_text
       elsif data['text'] =~ /(правила)/i
         text = @answers.rules_text
@@ -126,7 +127,7 @@ module Kirpich
       time = rand(1000)
 
       EM.add_timer(time) do
-        Slack.chat_postMessage as_user: true, channel: 'C08189F96', text: random_post
+        Slack.chat_postMessage as_user: true, channel: ['C08189F96', 'G084E5SC9'].sample, text: random_post
 
         random_post_timer
       end
