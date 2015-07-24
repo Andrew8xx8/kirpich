@@ -17,14 +17,31 @@ module Kirpich
       result.join(' ')
     end
 
-    def sexcom_image(url)
+    def huifikatorr_text(text)
+      url = "http://huifikator.ru/api.php?text=#{text}"
       response = Faraday.get url
+      response.body.force_encoding("cp1251").encode("utf-8", undef: :replace)
+    rescue
+      Kirpich::CALL.sample
+    end
 
-      urls = Nokogiri::HTML(response.body).css(".image_wrapper img").map do |src|
-        src['data-src']
-      end
+    def response_text(text)
+      return HZ.sample unless text
+      text = text.split(' ').last
+      huifikatorr_text(text)
+    end
 
-      urls.sample
+    def sexcom_image(url)
+      response = Faraday.get "http://girlstream.ru/api/photos.json?page=#{rand(200)}"
+      result = JSON.parse response.body
+
+      "http://girlstream.ru/#{result.sample["image"]["url"]}"
+    rescue RuntimeError
+      NO_GIRLS.sample
+    end
+
+    def dance_text
+      "#{Kirpich::DANCE.sample}?rand=#{rand(999999999)}"
     end
 
     def random_text
@@ -50,11 +67,11 @@ module Kirpich
         end
       end
 
-      result = do_not_know_text unless result
-
-      if rand(4) == 0
+      if result && rand(4) == 0
         result += "\nВот так вот, #{Kirpich::OBR.sample}"
       end
+
+      result = do_not_know_text unless result
 
       result
     end

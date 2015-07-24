@@ -9,7 +9,9 @@ module Kirpich
     'чет там нет нихуя',
     'ПОТРАЧЕНО',
     'кончились фотки',
-    'сами ищите еп'
+    'сами ищите еп',
+    'все',
+    'устал'
   ]
 
   GLAV = [
@@ -65,11 +67,11 @@ module Kirpich
   ZBS = [
     'збс',
     'от души',
-    'от души, браток',
     'по красоте!',
     'четко!',
     'четенько',
     'охуенчик',
+    'збсь'
   ]
 
   CALL = [
@@ -132,5 +134,19 @@ module Kirpich
     'я бля в душе не ебу',
     'да хуйня все это',
     "да бля, хуй его разберет",
+  ]
+
+  DANCE = [
+    'https://coubsecure-a.akamaihd.net/get/bucket:12.21/p/coub/simple/cw_gif_big/ab02fc08185/d36ddf1903bc08a323fd9/1409457239_1386437773_7ywgty_1xiiwzbr.gif',
+    'http://cs.pikabu.ru/images/big_size_comm/2013-05_5/13692503455645.gif',
+    'http://i1146.photobucket.com/albums/o528/arcki1/Eseincmodomomentoenelqueteolvidasdecmoseandaba.gif',
+    'http://cs.pikabu.ru/images/big_size_comm/2013-06_1/13704391038349.gif',
+    'http://ell.akamai.coub.com/get/b56/p/coub/simple/cw_gif_big/cb679b49208/0219114cbc551f0fb1ce8/1429554654_2wdmak_61e5q.gif',
+    'http://img0.joyreactor.cc/pics/post/%D0%B3%D0%B8%D1%84%D0%BA%D0%B8-%D1%82%D0%B0%D0%BD%D1%86%D1%8B-%D0%B3%D0%BE%D0%BF%D0%BE%D1%82%D0%B0-%D0%BC%D1%83%D0%B7%D1%8B%D0%BA%D0%B0-533811.gif',
+    'http://ell.akamai.coub.com/get/bucket:22.31/p/coub/simple/cw_gif_big/f390254ffe0/3ae72f03babaa5846dbbd/1409454865_1379678449_1fkzo2iw20130920-23151-o51vis.gif',
+    'http://savepic.org/1551925.gif',
+    'http://savepic.org/1543733.gif',
+    'http://cs.pikabu.ru/images/big_size_comm/2013-05_6/13698330315697.gif',
+    'https://lh5.googleusercontent.com/-nj12xRYdqfE/Upi-np3n7UI/AAAAAAAAH7s/gr4QwHgovt8/w329-h248-no/Realnye_Patsany_-_Pasadobl.gif',
   ]
 end

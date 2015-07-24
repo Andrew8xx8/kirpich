@@ -55,8 +55,10 @@ module Kirpich
         text = @answers.nah_text
       elsif data['text'] =~ /^(зда?о?ров|привет)/i
         text = @answers.hello_text
-      elsif data['text'] =~ /(красава|молодчик|красавчик)/i
+      elsif data['text'] =~ /(спасибо|збсь?|красава|молодчик|красавчик|от души|по красоте)/i
         text = @answers.ok_text
+      elsif data['text'] =~ /(танцуй|исполни|пацандобль|танец)/i
+        text = @answers.dance_text
       elsif data['text'] =~ /^материализуй.*/i
         text = @answers.materialize(data['text'])
       elsif data['text'] =~ /(титьк|грудь|сисек|сиська|сиськи|сиську|сосок|понедельник)/i
@@ -77,7 +79,6 @@ module Kirpich
         text = @answers.pikabu_image
       elsif data['text'] =~ /(пятница)/i
         text = @answers.brakingmad_text
-        text = text, data
       elsif data['text'] =~ /где это/i
         m = data['text'].scan(/где это (.*)/im)
         q = m[0][0]
@@ -85,7 +86,7 @@ module Kirpich
       elsif data['text'] =~ /курс/i
         text = @answers.currency
       elsif data['text'] =~ /(умеешь|можешь)/i
-        text = Kirpich::HELP, data
+        text = Kirpich::HELP
       elsif data['text'] =~ /(объясни|разъясни|растолкуй|что|как|кто) ?(что|как|кто)? ?(это|эта|такой|такое|такие)? (.*)/i
         m = data['text'].scan(/(объясни|разъясни|растолкуй|что|как|кто) ?(что|как|кто)? ?(это|эта|такой|такое|такие)? (.*)/im)
         if m && m[0] && m[0][3]
@@ -102,7 +103,7 @@ module Kirpich
         text = @answers.rules_text
       elsif data['text'] =~ /(погода)/i
         text = @answers.poh_text
-      elsif data['text'] =~ /(надо|можно|да|нет).*?\?/i
+      elsif data['text'] =~ /(стоит|надо|можно|да|нет).*?\?/i
         text = @answers.yes_no_text
       elsif data['text'] =~ /выполни.*\(.*?\)/i
         m = data['text'].scan(/выполни.*\((.*?)\)/i)
@@ -115,6 +116,9 @@ module Kirpich
         end
       end
 
+      if rand(2) == 0
+        text ||= @answers.response_text(data['text'])
+      end
       text ||= @answers.call_text
     end
 
@@ -124,7 +128,7 @@ module Kirpich
     end
 
     def random_post_timer
-      time = rand(1000)
+      time = rand(3000)
 
       EM.add_timer(time) do
         Slack.chat_postMessage as_user: true, channel: ['C08189F96', 'G084E5SC9'].sample, text: random_post
