@@ -97,6 +97,8 @@ module Kirpich
         end
       elsif data['text'] =~ /(запость|ебни|пиздани|ебани|постани|постни).*(сереге)/i
         text = @answers.sexcom_image('http://www.sex.com/big-dicks/porn-pics/?sort=latest')
+      elsif data['text'] =~ /(денчик)/i
+        text = 'Нету его'
       elsif data['text'] =~ /(запость|ебни|пиздани|ебани|постани|постни|еще)/i
         text = @answers.random_text
       elsif data['text'] =~ /(нежность|забота|добр(ота)?|милым|заботливым|нежным|добрым)/i
@@ -115,11 +117,12 @@ module Kirpich
       elsif data['text'] =~ /(нет)$/i
         text = @answers.pidor_text
       elsif data['text'] =~ /выполни.*\(.*?\)/i
-        m = data['text'].scan(/выполни.*\((.*?)\)/i)
+        m = data['text'].scan(/выполни.*\((.*)\)/i)
         if m && m[0][0]
           begin
             text = eval(m[0][0])
-          rescue Exception
+          rescue Exception => e
+            p e
             text = @answers.do_not_know_text
           end
         end
@@ -142,7 +145,7 @@ module Kirpich
     end
 
     def random_post_timer
-      time = rand(3000)
+      time = 5000 + rand(7000)
 
       EM.add_timer(time) do
         Slack.chat_postMessage as_user: true, channel: ['C08189F96', 'G084E5SC9'].sample, text: random_post
