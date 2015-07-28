@@ -1,3 +1,4 @@
-PENSHIFT_REPO_DIR
-bundle exec ruby ./run.rb
+#!/bin/bash
 
+cd $OPENSHIFT_REPO_DIR
+bundle exec ruby ./run.rb
