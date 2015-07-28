@@ -2,5 +2,7 @@
 echo "Trying to start kirpich"
 cd ${OPENSHIFT_REPO_DIR}
 cat ./kirpich.pid
-bundle exec ${OPENSHIFT_REPO_DIR}/bin/run --pid ./kirpich.pid --log ./kirpich.log
+PID_FILE="${OPENSHIFT_DATA_DIR}kirpich.pid"
+LOG_FILE="${OPENSHIFT_LOG_DIR}kirpich.log"
+bundle exec ${OPENSHIFT_REPO_DIR}/bin/run --pid $PID_FILE --log $LOG_FILE -d
 exit 0
