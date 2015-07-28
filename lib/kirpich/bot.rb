@@ -125,7 +125,7 @@ module Kirpich
           end
         end
       elsif data['text'] =~ /\?$/i
-        text = @answers.yes_no_text
+        text = @answers.yes_no_text(data)
       end
 
       if rand(2) == 0

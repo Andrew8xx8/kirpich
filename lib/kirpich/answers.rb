@@ -202,12 +202,12 @@ module Kirpich
       obr_text(text, 2)
     end
 
-    def yes_no_text
+    def yes_no_text(data)
       text = YES_NO.sample
       obr_text(text, 3)
 
       if rand(3) == 0
-        text += ". " + @answers.response_text(data['text'].gsub(/\?/, ''))
+        text += ". " + response_text(data['text'].gsub(/\?/, ''))
       end
     end
 
