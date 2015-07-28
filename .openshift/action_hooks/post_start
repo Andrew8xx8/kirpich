@@ -1,6 +1,0 @@
-#!/bin/bash
-
-echo "Starting bot"
-pwd
-ls
-bin/run
