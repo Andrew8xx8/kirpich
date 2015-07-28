@@ -29,4 +29,5 @@ Gem::Specification.new do |spec|
   spec.add_dependency "nokogiri"
   spec.add_dependency "json"
   spec.add_dependency "fisher_classifier"
+  spec.add_dependency "dante"
 end
