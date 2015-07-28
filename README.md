@@ -41,4 +41,3 @@ TOKEN=ВашТокен bundle exec ruby ./run.rb
 
 ![Паша любит женщин](https://dl.dropboxusercontent.com/u/4256669/kirpich5.png)
 
-
