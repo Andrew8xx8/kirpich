@@ -63,6 +63,9 @@ class Kirpich::BotTest < Minitest::Test
   end
 
   def test_call
+    answer = @bot.select_text({'text' => 'пашок ты не приуныл ли случаем?', 'channel' => 'test'})
+    assert { answer == :yes_no_text }
+
     answer = @bot.select_text({'text' => 'пашок ты сидел?', 'channel' => 'test'})
     assert { answer == :yes_no_text }
 

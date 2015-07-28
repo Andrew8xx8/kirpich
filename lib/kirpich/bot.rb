@@ -107,8 +107,6 @@ module Kirpich
         text = @answers.rules_text
       elsif data['text'] =~ /(погода)/i
         text = @answers.poh_text
-      elsif data['text'] =~ /(устал|приуныл|дерзкий|ровный|четкий|стоит|надо|можно|да|нет).*?\?/i
-        text = @answers.yes_no_text
       elsif data['text'] =~ /(найди|поищи|загугли|погугли|по шурши|че там)\s(.*?)$/i
         md = data['text'].scan(/.*?(найди|поищи|загугли|погугли|по шурши|че там)\s(.*?)$/i)
         if md && md[0] && md[0][1]
