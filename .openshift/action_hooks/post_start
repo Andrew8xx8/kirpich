@@ -3,4 +3,4 @@
 echo $TOKEN
 echo $OPENSHIFT_REPO_DIR
 cd $OPENSHIFT_REPO_DIR
-#bundle exec ruby ./run.rb
+ruby ./run.rb
