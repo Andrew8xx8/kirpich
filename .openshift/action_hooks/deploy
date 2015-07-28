@@ -2,4 +2,4 @@
 echo "Trying to kill kirpich..."
 
 PID_FILE="${OPENSHIFT_DATA_DIR}kirpich.pid"
-kill -9 $(PID_FILE)
+kill -9 $($PID_FILE)
