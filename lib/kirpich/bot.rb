@@ -98,7 +98,7 @@ module Kirpich
       elsif data['text'] =~ /(запость|ебни|пиздани|ебани|постани|постни).*(сереге)/i
         text = @answers.sexcom_image('http://www.sex.com/big-dicks/porn-pics/?sort=latest')
       elsif data['text'] =~ /(денчик)/i
-        text = 'Нету его'
+        text = @answers.den_text
       elsif data['text'] =~ /(запость|ебни|пиздани|ебани|постани|постни|еще)/i
         text = @answers.random_text
       elsif data['text'] =~ /(нежность|забота|добр(ота)?|милым|заботливым|нежным|добрым)/i

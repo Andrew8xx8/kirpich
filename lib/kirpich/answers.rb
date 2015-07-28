@@ -54,6 +54,10 @@ module Kirpich
       NO_GIRLS.sample
     end
 
+    def den_text
+      DEN.sample
+    end
+
     def dance_text
       "#{Kirpich::DANCE.sample}?rand=#{rand(999999999)}"
     end
