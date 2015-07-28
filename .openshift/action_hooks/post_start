@@ -1,5 +1,0 @@
-#!/bin/bash
-echo "Replacing the default Passenger server with Puma"
-cd ${OPENSHIFT_REPO_DIR}
-bundle exec ${OPENSHIFT_REPO_DIR}/bin/run
-exit 0
