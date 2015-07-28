@@ -1,0 +1,3 @@
+PENSHIFT_REPO_DIR
+bundle exec ruby ./run.rb
+
