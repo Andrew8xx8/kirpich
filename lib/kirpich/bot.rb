@@ -99,7 +99,7 @@ module Kirpich
         text = @answers.sexcom_image('http://www.sex.com/big-dicks/porn-pics/?sort=latest')
       elsif data['text'] =~ /(денчик)/i
         text = @answers.den_text
-      elsif data['text'] =~ /(запость|ебни|пиздани|ебани|постани|постни|еще)/i
+      elsif data['text'] =~ /(запость|ебни|пиздани|ебани|постани|постни|еще|создай.*настроение|скажи.*что.*нибудь)/i
         text = @answers.random_text
       elsif data['text'] =~ /(нежность|забота|добр(ота)?|милым|заботливым|нежным|добрым)/i
         text = @answers.cat_image
@@ -128,9 +128,6 @@ module Kirpich
         end
       elsif data['text'] =~ /\?$/i
         text = @answers.yes_no_text
-        if rand(3) == 0
-          text += ". " + @answers.response_text(data['text'].gsub(/\?/, ''))
-        end
       end
 
       if rand(2) == 0

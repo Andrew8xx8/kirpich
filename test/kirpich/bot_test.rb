@@ -3,7 +3,6 @@ require 'kirpich/bot'
 
 class AnswersStub
   def method_missing(method_name, *args)
-    p method_name
     method_name
   end
 end
@@ -29,7 +28,7 @@ class Kirpich::BotTest < Minitest::Test
 
   def test_boobs
     answer = @bot.select_text({'text' => 'кирпич, покажи сиськи', 'channel' => 'test'})
-    assert { answer == :inferot_image }
+    assert { answer == :sexcom_image }
   end
 
   def test_poh
@@ -65,18 +64,18 @@ class Kirpich::BotTest < Minitest::Test
 
   def test_call
     answer = @bot.select_text({'text' => 'пашок ты сидел?', 'channel' => 'test'})
-    assert { answer == :call_text }
+    assert { answer == :yes_no_text }
 
     answer = @bot.select_text({'text' => 'Паш, цены на нефть поднимутся?', 'channel' => 'test'})
-    assert { answer == :call_text }
+    assert { answer == :yes_no_text }
   end
 
   def test_random
-    answer = @bot.select_text({'text' => 'пашок расскажи что-нибудь?', 'channel' => 'test'})
-    assert { answer == :call_text }
+    answer = @bot.select_text({'text' => 'пашок расскажи что-нибудь', 'channel' => 'test'})
+    assert { answer == :random_text }
 
     answer = @bot.select_text({'text' => 'пашок создай настроение', 'channel' => 'test'})
-    assert { answer == :call_text }
+    assert { answer == :random_text }
   end
 
 end
