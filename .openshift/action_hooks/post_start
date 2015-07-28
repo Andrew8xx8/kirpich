@@ -1,6 +1,4 @@
 #!/bin/bash
 
-echo $TOKEN
-echo $OPENSHIFT_REPO_DIR
-cd $OPENSHIFT_REPO_DIR
-ruby ./run.rb
+echo "Starting bot"
+bin/run
