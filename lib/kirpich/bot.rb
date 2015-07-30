@@ -17,12 +17,16 @@ module Kirpich
       return if data['user'] == 'U081B2XCP'
 
       text = select_text(data)
-      p '--------------'
-      p data
-      p text
-      p '--------------'
       if text
-        post_text text, data
+        if (text.is_a?(Array))
+          text.each do |part|
+            EM.next_tick do
+              post_text part, data
+            end
+          end
+        else
+          post_text text, data
+        end
       end
     end
 
@@ -35,7 +39,11 @@ module Kirpich
         elsif data['text'] =~ /(зда?о?ров|привет|вечер в хату)/i
           text = @answers.hello_text
         elsif data['text'] =~ /(как дела|что.*?как|чо.*?каво)/i
-          text = @answers.interfax_text
+          if rand(2) == 0
+            text = @answers.developerslife_image
+          else
+            text = @answers.interfax_text
+          end
         elsif data['text'] =~ /^(паштет|пашок|пашка|кирпич|паш|пацантре|народ|кто-нибудь|эй|э)/i || data['text'] =~ /(kirpich:|@kirpich:)/ || data['channel'] == 'D081AUUHW'
           text = on_call(data)
         end
@@ -75,6 +83,8 @@ module Kirpich
         text = @answers.sexcom_image('http://www.sex.com/babes+brunette/porn-pics/?sort=latest')
       elsif data['text'] =~ /(кто.*главный)/i
         text = @answers.chef_text
+      elsif data['text'] =~ /(программист|девелопер)/i
+        text = @answers.developerslife_image
       elsif data['text'] =~ /(картинку|смехуечек|пикчу)/i
         text = @answers.pikabu_image
       elsif data['text'] =~ /(пятница)/i
@@ -131,11 +141,12 @@ module Kirpich
       if rand(2) == 0
         text ||= @answers.response_text(data['text'])
       end
+
       text ||= @answers.call_text
     end
 
     def random_post
-      methods = [:cat_image, :random_text, :brakingmad_text, :pikabu_image, :pikabu_text, :interfax_text, :currency]
+      methods = [:cat_image, :random_text, :brakingmad_text, :pikabu_image, :pikabu_text, :interfax_text, :currency, :developerslife_image]
       @answers.send methods.sample
     end
 

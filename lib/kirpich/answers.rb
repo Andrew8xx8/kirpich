@@ -1,5 +1,6 @@
 require 'nokogiri'
 require 'open-uri'
+require 'json'
 
 module Kirpich
   class Answers
@@ -43,6 +44,12 @@ module Kirpich
 
       text = text.split(' ').last
       huifikatorr_text(text)
+    end
+
+    def developerslife_image
+      response = Faraday.get "http://developerslife.ru/random"
+      page = Nokogiri::HTML(response.body)
+      [page.css('.entry .gif img')[0]["src"], page.css('.entry .code .value')[0].text]
     end
 
     def sexcom_image(url)
