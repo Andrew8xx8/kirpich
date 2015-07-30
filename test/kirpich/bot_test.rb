@@ -90,13 +90,4 @@ class Kirpich::BotTest < Minitest::Test
     answer = @bot.select_text({'text' => 'Паш, цены на нефть поднимутся?', 'channel' => 'test'})
     assert { answer == :yes_no_text }
   end
-
-  def test_random
-    answer = @bot.select_text({'text' => 'пашок расскажи что-нибудь', 'channel' => 'test'})
-    assert { answer == :random_text }
-
-    answer = @bot.select_text({'text' => 'пашок создай настроение', 'channel' => 'test'})
-    assert { answer == :random_text }
-  end
-
 end

@@ -57,6 +57,8 @@ module Kirpich
     def on_call(data)
       if data['text'] =~ /(синька)/i
         text = answer(:sin_text)
+      elsif data['text'] =~ /.*\?$/i
+        text = answer(:yes_no_text, data)
       elsif data['text'] =~ /(пошли|пошел)/i
         text = answer(:nah_text)
       elsif data['text'] =~ /(лох|черт|пидо?р|гей|хуйло|сука|бля|петух)/i
@@ -132,8 +134,6 @@ module Kirpich
             text = answer(:do_not_know_text)
           end
         end
-      elsif data['text'] =~ /\?$/i
-        text = answer(:yes_no_text, data)
       end
 
       if rand(2) == 0
