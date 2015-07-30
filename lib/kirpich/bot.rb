@@ -83,7 +83,7 @@ module Kirpich
         text = @answers.sexcom_image('http://www.sex.com/babes+brunette/porn-pics/?sort=latest')
       elsif data['text'] =~ /(кто.*главный)/i
         text = @answers.chef_text
-      elsif data['text'] =~ /(программист|девелопер)/i
+      elsif data['text'] =~ /(программист|девелопер|гиф)/i
         text = @answers.developerslife_image
       elsif data['text'] =~ /(картинку|смехуечек|пикчу)/i
         text = @answers.pikabu_image
