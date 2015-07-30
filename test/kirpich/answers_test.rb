@@ -15,9 +15,13 @@ class Kirpich::AnswersTest < Minitest::Test
   def test_developerslife_image
     stub_request(:get, "http://developerslife.ru/random").
       with(:headers => {'Accept'=>'*/*', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'User-Agent'=>'Faraday v0.9.1'}).
+      to_return(:status => 200, :body => '', :headers => { location: '//developerslife.ru/1'})
+
+    stub_request(:get, "http://developerslife.ru/1").
+      with(:headers => {'Accept'=>'*/*', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'User-Agent'=>'Faraday v0.9.1'}).
       to_return(:status => 200, :body => load_fixture("developerslife.html"), :headers => {})
 
-    @answers.developerslife_image
+    assert { @answers.developerslife_image.is_a?(Array) }
   end
 
 end

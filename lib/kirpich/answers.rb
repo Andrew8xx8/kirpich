@@ -48,8 +48,13 @@ module Kirpich
 
     def developerslife_image
       response = Faraday.get "http://developerslife.ru/random"
-      page = Nokogiri::HTML(response.body)
-      [page.css('.entry .gif img')[0]["src"], page.css('.entry .code .value')[0].text]
+      link = response.headers["location"]
+
+      if link
+        response = Faraday.get link
+        page = Nokogiri::HTML(response.body)
+        [page.css('.entry .gif img')[0]["src"], page.css('.entry .code .value')[0].text]
+      end
     end
 
     def sexcom_image(url)
