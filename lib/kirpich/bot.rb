@@ -39,11 +39,7 @@ module Kirpich
         elsif data['text'] =~ /(зда?о?ров|привет|вечер в хату)/i
           text = answer(:hello_text)
         elsif data['text'] =~ /(как дела|что.*?как|чо.*?каво)/i
-          if rand(2) == 0
-            text = answer(:developerslife_image)
-          else
-            text = answer(:interfax_text)
-          end
+          text = answer(:interfax_text)
         elsif data['text'] =~ /^(паштет|пашок|пашка|кирпич|паш|пацантре|народ|кто-нибудь|эй|э)/i || data['text'] =~ /(kirpich:|@kirpich:)/ || data['channel'] == 'D081AUUHW'
           text = on_call(data)
         end
@@ -55,6 +51,7 @@ module Kirpich
     end
 
     def on_call(data)
+      p "." + data['text'] + "."
       if data['text'] =~ /(синька)/i
         text = answer(:sin_text)
       elsif data['text'] =~ /.*\?$/i
