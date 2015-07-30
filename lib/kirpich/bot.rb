@@ -107,8 +107,8 @@ module Kirpich
         end
       elsif data['text'] =~ /(еще|повтори|заново|постарайся)/i
         text = last_answer
-      elsif data['text'] =~ /(запость|ебни|пиздани|ебани|постани|постни|создай.*настроение|скажи.*что.*нибудь)/i
-        text = answer(:random_text)
+      elsif data['text'] =~ /(запость|ебни|ебаш|хуяч|хуйни|пиздани|ебани|постани|постни|создай.*настроение|скажи.*что.*нибудь)/i
+        text = random_post
       elsif data['text'] =~ /(нежность|забота|добр(ота)?|милым|заботливым|нежным|добрым)/i
         text = answer(:cat_image)
       elsif data['text'] =~ /(правила)/i
@@ -145,7 +145,7 @@ module Kirpich
 
     def random_post
       methods = [:cat_image, :random_text, :brakingmad_text, :pikabu_image, :pikabu_text, :interfax_text, :currency, :developerslife_image]
-      @answers.send methods.sample
+      answer(methods.sample)
     end
 
     def random_post_timer
