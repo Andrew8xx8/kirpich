@@ -2,6 +2,12 @@ require 'test_helper'
 require 'kirpich/bot'
 
 class AnswersStub
+  def method(method)
+    proc { |name|
+      method
+    }
+  end
+
   def method_missing(method_name, *args)
     method_name
   end
@@ -14,6 +20,18 @@ class Kirpich::BotTest < Minitest::Test
       client: nil
     })
   end
+
+  def test_replay
+    answer = @bot.select_text({'text' => 'кирпич, разъясни что', 'channel' => 'test'})
+    assert { answer == :lurk_search }
+
+    answer = @bot.select_text({'text' => 'кирпич, еще раз', 'channel' => 'test'})
+    assert { answer == :lurk_search }
+
+    answer = @bot.select_text({'text' => 'кирпич, повторика', 'channel' => 'test'})
+    assert { answer == :lurk_search }
+  end
+
 
   def test_explain
     answer = @bot.select_text({'text' => 'кирпич, разъясни что', 'channel' => 'test'})
@@ -28,7 +46,7 @@ class Kirpich::BotTest < Minitest::Test
 
   def test_boobs
     answer = @bot.select_text({'text' => 'кирпич, покажи сиськи', 'channel' => 'test'})
-    assert { answer == :sexcom_image }
+    assert { answer == :girlstream_image }
   end
 
   def test_poh
