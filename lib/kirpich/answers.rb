@@ -51,15 +51,13 @@ module Kirpich
       link = response.headers["location"]
 
       if link
-        p link
         response = Faraday.get link
         page = Nokogiri::HTML(response.body)
         image = page.css('.entry .gif img')
         text = page.css('.entry .code .value')
 
-        p image, text
         if image && text
-          [image.first["src"], text.first.text]
+          [image.first["src"], text.first.text.gsub("'",'')]
         end
       end
     end
