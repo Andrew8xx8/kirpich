@@ -62,7 +62,7 @@ module Kirpich
       end
     end
 
-    def girlstream_image(url)
+    def girlstream_image
       response = Faraday.get "http://girlstream.ru/api/photos.json?page=#{rand(200)}"
       result = JSON.parse response.body
 
