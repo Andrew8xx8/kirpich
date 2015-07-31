@@ -19,6 +19,15 @@ bundle install
 TOKEN=ВашТокен bundle exec ruby ./run.rb
 ```
 
+## Деплой
+
+В репозитоии уже настроено все для деплоя на heroku или openshift.
+
+Едиснственное что нужно установить переменную окружения TOKEN с вашим токеном.
+
+https://devcenter.heroku.com/articles/config-vars
+https://developers.openshift.com/en/managing-environment-variables.html
+
 ## Паша...
 
 ### ...знает мемы
