@@ -52,7 +52,7 @@ module Kirpich
     end
 
     def on_call(data)
-      p "." + data['text'] + "."
+      p "Recived: [" + data['text'] + "]"
       if data['text'] =~ /(синька)/i
         text = answer(:sin_text)
       elsif data['text'] =~ /.*\?$/i
