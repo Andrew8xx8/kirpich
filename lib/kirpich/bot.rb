@@ -43,7 +43,8 @@ module Kirpich
         elsif data['text'] =~ /^(паштет|пашок|пашка|кирпич|паш|пацантре|народ|кто-нибудь|эй|э)/i || data['text'] =~ /(kirpich:|@kirpich:)/ || data['channel'] == 'D081AUUHW'
           text = on_call(data)
         end
-      rescue RuntimeError
+      rescue RuntimeError => e
+        p e
         text = answer(:do_not_know_text)
       end
 
