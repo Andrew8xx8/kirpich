@@ -221,11 +221,13 @@ module Kirpich
 
     def yes_no_text(data)
       text = YES_NO.sample
-      text = obr_text(text, 3)
+      text = obr_text(text, 4)
 
       if rand(7) == 0
         text += ". " + response_text(data['text'].gsub(/\?/, ''))
       end
+
+      text
     end
 
     def sin_text
