@@ -120,7 +120,7 @@ module Kirpich
         if md && md[0] && md[0][1]
           text = answer(:google_search, md[0][1])
         end
-      elsif data['text'] =~ /(нет)$/i
+      elsif data['text'] =~ /(ет)$/i
         text = answer(:pidor_text)
       elsif data['text'] =~ /выполни.*\(.*?\)/i
         m = data['text'].scan(/выполни.*\((.*)\)/i)
@@ -134,7 +134,7 @@ module Kirpich
         end
       end
 
-      if rand(2) == 0
+      if rand(5) == 0
         text ||= answer(:response_text, data['text'])
       end
 
@@ -157,6 +157,7 @@ module Kirpich
     end
 
     def answer(method, *args)
+      p "Respond with #{method}"
       @last_method = method
       @last_args = args
       method_object = @answers.method(method)

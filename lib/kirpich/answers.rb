@@ -223,7 +223,7 @@ module Kirpich
       text = YES_NO.sample
       obr_text(text, 3)
 
-      if rand(3) == 0
+      if rand(7) == 0
         text += ". " + response_text(data['text'].gsub(/\?/, ''))
       end
     end
