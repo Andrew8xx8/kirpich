@@ -5,3 +5,4 @@ KIRPICH_PID=$(cat "${OPENSHIFT_DATA_DIR}kirpich.pid")
 ps -p $KIRPICH_PID &> /dev/null
 [ "$?" == 0 ] && kill $KIRPICH_PID
 rm "${OPENSHIFT_DATA_DIR}kirpich.pid" &> /dev/null
+exit 0
