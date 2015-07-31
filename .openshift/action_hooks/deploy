@@ -1,8 +1,14 @@
 #!/bin/bash
-echo "Trying to kill kirpich..."
 
-KIRPICH_PID=$(cat "${OPENSHIFT_DATA_DIR}kirpich.pid")
-ps -p $KIRPICH_PID &> /dev/null
-[ "$?" == 0 ] && kill $KIRPICH_PID
-rm "${OPENSHIFT_DATA_DIR}kirpich.pid" &> /dev/null
+$PID_FILE = "${OPENSHIFT_DATA_DIR}kirpich.pid"
+
+if [ -f $PID_FILE ];
+then
+  echo "Trying to kill kirpich..."
+  KIRPICH_PID=$(cat "${OPENSHIFT_DATA_DIR}kirpich.pid")
+  ps -p $KIRPICH_PID &> /dev/null
+  [ "$?" == 0 ] && kill $KIRPICH_PID
+  rm "${OPENSHIFT_DATA_DIR}kirpich.pid" &> /dev/null
+fi
+
 exit 0
