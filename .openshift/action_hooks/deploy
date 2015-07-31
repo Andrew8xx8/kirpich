@@ -1,6 +1,6 @@
 #!/bin/bash
 
-$PID_FILE = "${OPENSHIFT_DATA_DIR}kirpich.pid"
+$PID_FILE="${OPENSHIFT_DATA_DIR}kirpich.pid"
 
 if [ -f $PID_FILE ];
 then
