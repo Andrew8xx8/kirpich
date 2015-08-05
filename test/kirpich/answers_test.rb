@@ -24,4 +24,8 @@ class Kirpich::AnswersTest < Minitest::Test
     assert { @answers.developerslife_image.is_a?(Array) }
   end
 
+  def test_yes_no
+    assert { @answers.yes_no_text({'text' => 'test'}) =~ /(да|нет|возможно)/ }
+  end
+
 end

@@ -22,6 +22,9 @@ class Kirpich::BotTest < Minitest::Test
   end
 
   def test_replay
+    answer = @bot.select_text({'text' => 'КиРпиЧ, РазЪясни что', 'channel' => 'test'})
+    assert { answer == :lurk_search }
+
     answer = @bot.select_text({'text' => 'кирпич, разъясни что', 'channel' => 'test'})
     assert { answer == :lurk_search }
 

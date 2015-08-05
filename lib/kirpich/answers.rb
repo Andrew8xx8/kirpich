@@ -4,6 +4,18 @@ require 'json'
 
 module Kirpich
   class Answers
+    def tsya(name)
+      if rand(10) == 0
+        name
+      elsif rand(5) == 0
+        "#{name}!"
+      elsif rand(7) == 0
+        "#{name}, сука!"
+      elsif rand(6) == 0
+        appeal_text(name)
+      end
+    end
+
     def materialize(text)
       result = []
       text.split(' ').each do |word|
@@ -103,7 +115,7 @@ module Kirpich
       end
 
       if result && rand(4) == 0
-        result += "\nВот так вот, #{Kirpich::OBR.sample}"
+        result += "\nВот так вот, #{Kirpich::appeal.sample}"
       end
 
       result = do_not_know_text unless result
@@ -201,48 +213,42 @@ module Kirpich
       Kirpich::HZ.sample
     end
 
-    def obr_text(text, rand)
+    def appeal_text(text, rand)
       if rand(rand) === 0 && !(text =~ /[,.:;!?'\"\/#$%^&*()]/)
-        text += ", #{Kirpich::OBR.sample}"
+        text + ", #{Kirpich::APPEAL.sample}"
+      else
+        text
       end
-
-      text
     end
 
     def hello_text
       text = Kirpich::HELLO.sample
-      obr_text(text, 3)
+      appeal_text(text, 3)
     end
 
     def ok_text
       text = Kirpich::ZBS.sample
-      obr_text(text, 2)
+      appeal_text(text, 2)
     end
 
     def yes_no_text(data)
       text = YES_NO.sample
-      text = obr_text(text, 4)
-
-      if rand(7) == 0
-        text += ". " + response_text(data['text'].gsub(/\?/, ''))
-      end
-
-      text
+      appeal_text(text, 4)
     end
 
     def sin_text
       text = Kirpich::SIN.sample
-      obr_text(text, 2)
+      appeal_text(text, 2)
     end
 
     def nah_text
       text = Kirpich::NAX.sample
-      obr_text(text, 2)
+      appeal_text(text, 2)
     end
 
     def call_text
       text = Kirpich::CALL.sample
-      obr_text(text, 4)
+      appeal_text(text, 4)
     end
 
     def lurk_search(text)
@@ -277,10 +283,6 @@ module Kirpich
         else
           result = do_not_know_text
         end
-      end
-
-      if rand(4) == 0
-        result += "\nВот так вот, #{Kirpich::OBR.sample}"
       end
 
       result

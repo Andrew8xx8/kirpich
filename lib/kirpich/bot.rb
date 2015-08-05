@@ -31,28 +31,22 @@ module Kirpich
     end
 
     def select_text(data)
-      text = ''
+      p "Recived: [" + data['text'] + "]"
 
-      begin
-        if data['text'] =~ /(сред|^(ну и|да и|и) ?похуй)/i
-          text = answer(:poh_text)
-        elsif data['text'] =~ /(зда?о?ров|привет|вечер в хату)/i
-          text = answer(:hello_text)
-        elsif data['text'] =~ /(как дела|что.*?как|чо.*?каво)/i
-          text = answer(:interfax_text)
-        elsif data['text'] =~ /^(паштет|пашок|пашка|кирпич|паш|пацантре|народ|кто-нибудь|эй|э)/i || data['text'] =~ /(kirpich:|@kirpich:)/ || data['channel'] == 'D081AUUHW'
-          text = on_call(data)
-        end
-      rescue RuntimeError => e
-        p e
-        text = answer(:do_not_know_text)
+      if data['text'] =~ /(сред|^(ну и|да и|и) ?похуй)/i
+        text = answer(:poh_text)
+      elsif data['text'] =~ /(зда?о?ров|привет|вечер в хату)/i
+        text = answer(:hello_text)
+      elsif data['text'] =~ /(как дела|что.*?как|чо.*?каво)/i
+        text = answer(:interfax_text)
+      elsif data['text'] =~ /^(паштет|пашок|пашка|кирпич|паш|пацантре|народ|кто-нибудь)/i || data['text'] =~ /(kirpich:|@kirpich:)/ || data['channel'] == 'D081AUUHW'
+        text = on_call(data)
       end
 
-      text
+      text || ''
     end
 
     def on_call(data)
-      p "Recived: [" + data['text'] + "]"
       if data['text'] =~ /(синька)/i
         text = answer(:sin_text)
       elsif data['text'] =~ /.*\?$/i
