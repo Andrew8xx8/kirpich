@@ -14,7 +14,7 @@ module Kirpich
     end
 
     def on_message(data)
-      return if data['user'] == 'U081B2XCP' || data['subtype'] == 'message_changed'
+      return if data['subtype'] == 'bot_message' || data['subtype'] == 'message_changed'
 
       text = select_text(data)
       if text
