@@ -14,7 +14,7 @@ module Kirpich
     end
 
     def on_message(data)
-      return if data['subtype'] == 'bot_message' || data['subtype'] == 'message_changed'
+      return if data['subtype'] == 'bot_message' || data['subtype'] == 'message_changed' || data['user'] == 'U081B2XCP'
 
       text = select_text(data)
       if text
@@ -53,7 +53,7 @@ module Kirpich
         text = answer(:yes_no_text, data)
       elsif data['text'] =~ /(пошли|пошел)/i
         text = answer(:nah_text)
-      elsif data['text'] =~ /(лох|черт|пидо?р|гей|хуйло|сука|бля|петух)/i
+      elsif data['text'] =~ /(здорово|лох|черт|пидо?р|гей|хуйло|сука|бля|петух)/i
         text = answer(:nah_text)
       elsif data['text'] =~ /^(зда?о?ров|привет)/i
         text = answer(:hello_text)
