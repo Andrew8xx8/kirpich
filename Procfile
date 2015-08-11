@@ -1,1 +1,1 @@
-web: bundle exec bin/run
+worker: bundle exec bin/run
