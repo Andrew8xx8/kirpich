@@ -66,16 +66,12 @@ module Kirpich
       end
     end
 
-    def xxx_image(q = 'девушки')
+    def xxx_image(q = 'девушки', r = true)
       q += ' голая' if rand(2) == 0
-      response = Faraday.get('http://ajax.googleapis.com/ajax/services/search/images', {
-        q: "#{q}",
-        rsz: '8',
-        v: '1.0',
-        as_filetype: 'jpg',
-        imgsz: 'large',
-        start: rand(50)
-      })
+      params = { q: q, rsz: '8', v: '1.0', as_filetype: 'jpg', imgsz: 'large' }
+      params[start] = rand(50) if r
+
+      response = Faraday.get('http://ajax.googleapis.com/ajax/services/search/images', params)
       result = JSON.parse response.body
 
       if result.key?("responseData") && result["responseData"].key?("results")
