@@ -16,12 +16,10 @@ module Kirpich
     end
 
     def on_message(data)
+      return if data['subtype'] == 'bot_message' || data['subtype'] == 'message_changed' || data['user'] == 'U081B2XCP'
       p "Recived: [" + data['text'] + "]"
 
-      return if data['subtype'] == 'bot_message' || data['subtype'] == 'message_changed' || data['user'] == 'U081B2XCP'
-
-      result = select_text(data['text'])
-      p result
+      result = select_text(data)
       if result
         if (result.is_a?(Array))
           result.each do |part|
@@ -43,7 +41,7 @@ module Kirpich
         result = answer(:hello_text)
       elsif text.clean =~ /(как дела|что.*?как|чо.*?каво)/i
         result = answer(:interfax_text)
-      elsif text.appeal? || text.clean =~ /(kirpich:|@kirpich:)/ || text.clean == 'D081AUUHW'
+      elsif text.appeal? || data['channel'] == 'D081AUUHW'
         result = on_call(text)
       end
 

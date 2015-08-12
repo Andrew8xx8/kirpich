@@ -67,17 +67,23 @@ module Kirpich
     end
 
     def xxx_image(q = 'девушки')
+      q += ' голая' if rand(2) == 0
       response = Faraday.get('http://ajax.googleapis.com/ajax/services/search/images', {
-        q: "эротика #{q}",
+        q: "#{q}",
         rsz: '8',
         v: '1.0',
         as_filetype: 'jpg',
-        safe: 'off'
+        imgsz: 'large',
+        start: rand(50)
       })
       p q
       result = JSON.parse response.body
 
-      result["responseData"]["results"].sample["unescapedUrl"]
+      if result.key?("responseData") && result["responseData"].key?("results")
+        result["responseData"]["results"].sample["unescapedUrl"]
+      else
+        NO_GIRLS.sample
+      end
     rescue RuntimeError
       NO_GIRLS.sample
     end
@@ -114,7 +120,7 @@ module Kirpich
       end
 
       if result && rand(4) == 0
-        result += "\nВот так вот, #{Kirpich::appeal.sample}"
+        result += "\nВот так вот, #{Kirpich::APPEAL.sample}"
       end
 
       result = do_not_know_text unless result
