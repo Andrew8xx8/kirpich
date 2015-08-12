@@ -65,7 +65,7 @@ module Kirpich
         result = answer(:dance_text)
       elsif text.clean =~ /^материализуй.*/i
         result = answer(:materialize, text.clean)
-      elsif text.clean =~ /(титьк|грудь|сисек|сиська|сиськи|сиську|сосок|понедельник)/i
+      elsif text.clean =~ /(покажи|как выглядит|фотографию|фотку|титьк|грудь|сисек|сиська|сиськи|сиську|сосок|понедельник)/i
         result = answer(:xxx_image, text.clean)
       elsif text.clean =~ /(жоп|задниц|попец|вторник)/i
         result = answer(:xxx_image, text.clean)

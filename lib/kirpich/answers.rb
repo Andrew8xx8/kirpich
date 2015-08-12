@@ -76,7 +76,6 @@ module Kirpich
         imgsz: 'large',
         start: rand(50)
       })
-      p q
       result = JSON.parse response.body
 
       if result.key?("responseData") && result["responseData"].key?("results")
