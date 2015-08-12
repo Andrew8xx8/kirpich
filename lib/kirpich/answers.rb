@@ -4,18 +4,6 @@ require 'json'
 
 module Kirpich
   class Answers
-    def tsya(name)
-      if rand(10) == 0
-        name
-      elsif rand(5) == 0
-        "#{name}!"
-      elsif rand(7) == 0
-        "#{name}, сука!"
-      elsif rand(6) == 0
-        appeal_text(name)
-      end
-    end
-
     def materialize(text)
       result = []
       text.split(' ').each do |word|
@@ -74,11 +62,18 @@ module Kirpich
       end
     end
 
-    def girlstream_image
-      response = Faraday.get "http://girlstream.ru/api/photos.json?page=#{rand(200)}"
+    def xxx_image(q = 'девушки')
+      response = Faraday.get('http://ajax.googleapis.com/ajax/services/search/images', {
+        q: "эротика #{q}",
+        rsz: '8',
+        v: '1.0',
+        as_filetype: 'jpg',
+        safe: 'off'
+      })
+      p q
       result = JSON.parse response.body
 
-      "http://girlstream.ru/#{result.sample["image"]["url"]}"
+      result["responseData"]["results"].sample["unescapedUrl"]
     rescue RuntimeError
       NO_GIRLS.sample
     end
@@ -121,30 +116,6 @@ module Kirpich
       result = do_not_know_text unless result
 
       result
-    end
-
-    def inferot_image(url)
-      response = Faraday.get url
-
-      girl = Nokogiri::HTML(response.body).css(".shortstory").map { |e| e }.sample
-
-      @prev_girl = girl.css('a').first['href']
-      girl.css('img').first['src']
-    end
-
-    def inferot_next_image
-      if @prev_girl
-        response = Faraday.get @prev_girl
-
-        @prev_girl = nil
-
-        @images = Nokogiri::HTML(response.body).css(".maincont img").map { |e| e['src'] }
-        @images.shift
-      elsif @images.any?
-        @images.shift
-      else
-        NO_GIRLS.sample
-      end
     end
 
     def brakingmad_text
@@ -231,7 +202,7 @@ module Kirpich
       appeal_text(text, 2)
     end
 
-    def yes_no_text(data)
+    def yes_no_text
       text = YES_NO.sample
       appeal_text(text, 4)
     end

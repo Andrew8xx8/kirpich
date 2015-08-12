@@ -25,7 +25,7 @@ class Kirpich::AnswersTest < Minitest::Test
   end
 
   def test_yes_no
-    assert { @answers.yes_no_text({'text' => 'test'}) =~ /(да|нет|возможно)/ }
+    assert { @answers.yes_no_text =~ /(да|нет|возможно)/ }
   end
 
 end

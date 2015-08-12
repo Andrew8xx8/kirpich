@@ -1,5 +1,6 @@
 require 'slack'
 require 'kirpich/answers'
+require 'kirpich/text'
 
 module Kirpich
   class Bot
@@ -14,125 +15,127 @@ module Kirpich
     end
 
     def on_message(data)
+      p "Recived: [" + data['text'] + "]"
+
       return if data['subtype'] == 'bot_message' || data['subtype'] == 'message_changed' || data['user'] == 'U081B2XCP'
 
-      text = select_text(data)
-      if text
-        if (text.is_a?(Array))
-          text.each do |part|
+      result = select_text(data['text'])
+      p result
+      if result
+        if (result.is_a?(Array))
+          result.each do |part|
             EM.next_tick do
               post_text part, data
             end
           end
         else
-          post_text text, data
+          post_text result, data
         end
       end
     end
 
     def select_text(data)
-      p "Recived: [" + data['text'] + "]"
-
-      if data['text'] =~ /(сред|^(ну и|да и|и) ?похуй)/i
-        text = answer(:poh_text)
-      elsif data['text'] =~ /(зда?о?ров|привет|вечер в хату)/i
-        text = answer(:hello_text)
-      elsif data['text'] =~ /(как дела|что.*?как|чо.*?каво)/i
-        text = answer(:interfax_text)
-      elsif data['text'] =~ /^(паштет|пашок|пашка|кирпич|паш|пацантре|народ|кто-нибудь)/i || data['text'] =~ /(kirpich:|@kirpich:)/ || data['channel'] == 'D081AUUHW'
-        text = on_call(data)
+      text = Kirpich::Text.new(data['text'] || '')
+      if text.clean =~ /(сред|^(ну и|да и|и) ?похуй)/i
+        result = answer(:poh_text)
+      elsif text.clean =~ /(зда?о?ров|привет|вечер в хату)/i
+        result = answer(:hello_text)
+      elsif text.clean =~ /(как дела|что.*?как|чо.*?каво)/i
+        result = answer(:interfax_text)
+      elsif text.appeal? || text.clean =~ /(kirpich:|@kirpich:)/ || text.clean == 'D081AUUHW'
+        result = on_call(text)
       end
 
-      text || ''
+      result
     end
 
-    def on_call(data)
-      if data['text'] =~ /(синька)/i
-        text = answer(:sin_text)
-      elsif data['text'] =~ /.*\?$/i
-        text = answer(:yes_no_text, data)
-      elsif data['text'] =~ /(пошли|пошел)/i
-        text = answer(:nah_text)
-      elsif data['text'] =~ /(здорово|лох|черт|пидо?р|гей|хуйло|сука|бля|петух)/i
-        text = answer(:nah_text)
-      elsif data['text'] =~ /^(зда?о?ров|привет)/i
-        text = answer(:hello_text)
-      elsif data['text'] =~ /(спасибо|збсь?|красава|молодчик|красавчик|от души|по красоте|зацени)/i
-        text = answer(:ok_text)
-      elsif data['text'] =~ /(танцуй|исполни|пацандобль|танец)/i
-        text = answer(:dance_text)
-      elsif data['text'] =~ /^материализуй.*/i
-        text = answer(:materialize, data['text'])
-      elsif data['text'] =~ /(титьк|грудь|сисек|сиська|сиськи|сиську|сосок|понедельник)/i
-        text = answer(:girlstream_image)
-      elsif data['text'] =~ /(жоп|задниц|попец|вторник)/i
-        text = answer(:girlstream_image)
-      elsif data['text'] =~ /(рыжая|рыжую)/i
-        text = answer(:girlstream_image)
-      elsif data['text'] =~ /(винтаж|олдскул|ламповую)/i
-        text = answer(:girlstream_image)
-      elsif data['text'] =~ /(блондин|белую)/i
-        text = answer(:girlstream_image)
-      elsif data['text'] =~ /(броюнет)/i
-        text = answer(:girlstream_image)
-      elsif data['text'] =~ /(кто.*главный)/i
-        text = answer(:chef_text)
-      elsif data['text'] =~ /(программист|девелопер|гиф)/i
-        text = answer(:developerslife_image)
-      elsif data['text'] =~ /(картинку|смехуечек|пикчу)/i
-        text = answer(:pikabu_image)
-      elsif data['text'] =~ /(пятница)/i
-        text = answer(:brakingmad_text)
-      elsif data['text'] =~ /где это/i
-        m = data['text'].scan(/где это (.*)/im)
+    def on_call(text)
+      if text.clean =~ /(синька)/i
+        result = answer(:sin_text)
+      elsif text.clean =~ /.*\?$/i
+        result = answer(:yes_no_text)
+      elsif text.clean =~ /(пошли|пошел)/i
+        result = answer(:nah_text)
+      elsif text.clean =~ /(здорово|лох|черт|пидо?р|гей|хуйло|сука|бля|петух)/i
+        result = answer(:nah_text)
+      elsif text.clean =~ /^(зда?о?ров|привет)/i
+        result = answer(:hello_text)
+      elsif text.clean =~ /(спасибо|збсь?|красава|молодчик|красавчик|от души|по красоте|зацени)/i
+        result = answer(:ok_text)
+      elsif text.clean =~ /(танцуй|исполни|пацандобль|танец)/i
+        result = answer(:dance_text)
+      elsif text.clean =~ /^материализуй.*/i
+        result = answer(:materialize, text.clean)
+      elsif text.clean =~ /(титьк|грудь|сисек|сиська|сиськи|сиську|сосок|понедельник)/i
+        result = answer(:xxx_image, text.clean)
+      elsif text.clean =~ /(жоп|задниц|попец|вторник)/i
+        result = answer(:xxx_image, text.clean)
+      elsif text.clean =~ /(рыжая|рыжую|рыжей)/i
+        result = answer(:xxx_image, text.clean)
+      elsif text.clean =~ /(винтаж|олдскул|ламповую)/i
+        result = answer(:xxx_image, text.clean)
+      elsif text.clean =~ /(блондин|белую)/i
+        result = answer(:xxx_image, text.clean)
+      elsif text.clean =~ /(броюнет)/i
+        result = answer(:xxx_image, text.clean)
+      elsif text.clean =~ /(кто.*главный)/i
+        result = answer(:chef_text)
+      elsif text.clean =~ /(программист|девелопер|гиф)/i
+        result = answer(:developerslife_image)
+      elsif text.clean =~ /(картинку|смехуечек|пикчу)/i
+        result = answer(:pikabu_image)
+      elsif text.clean =~ /(пятница)/i
+        result = answer(:brakingmad_text)
+      elsif text.clean =~ /где это/i
+        m = text.clean.scan(/где это (.*)/im)
         q = m[0][0]
-        text = answer(:geo_search, q)
-      elsif data['text'] =~ /курс/i
-        text = answer(:currency)
-      elsif data['text'] =~ /(умеешь|можешь)/i
-        text = Kirpich::HELP
-      elsif data['text'] =~ /(объясни|разъясни|растолкуй|что|как|кто) ?(что|как|кто)? ?(это|эта|такой|такое|такие)? (.*)/i
-        m = data['text'].scan(/(объясни|разъясни|растолкуй|что|как|кто) ?(что|как|кто)? ?(это|эта|такой|такое|такие)? (.*)/im)
+        result = answer(:geo_search, q)
+      elsif text.clean =~ /курс/i
+        result = answer(:currency)
+      elsif text.clean =~ /(умеешь|можешь)/i
+        result = Kirpich::HELP
+      elsif text.clean =~ /(объясни|разъясни|растолкуй|что|как|кто) ?(что|как|кто)? ?(это|эта|такой|такое|такие)? (.*)/i
+        m = text.clean.scan(/(объясни|разъясни|растолкуй|что|как|кто) ?(что|как|кто)? ?(это|эта|такой|такое|такие)? (.*)/im)
         if m && m[0] && m[0][3]
           q = m[0][3]
-          text = answer(:lurk_search, q)
+          result = answer(:lurk_search, q)
         else
-          text = answer(:do_not_know_text)
+          result = answer(:do_not_know_text)
         end
-      elsif data['text'] =~ /(еще|повтори|заново|постарайся)/i
-        text = last_answer
-      elsif data['text'] =~ /(запость|ебни|ебаш|хуяч|хуйни|пиздани|ебани|постани|постни|создай.*настроение|скажи.*что.*нибудь)/i
-        text = random_post
-      elsif data['text'] =~ /(нежность|забота|добр(ота)?|милым|заботливым|нежным|добрым)/i
-        text = answer(:cat_image)
-      elsif data['text'] =~ /(правила)/i
-        text = answer(:rules_text)
-      elsif data['text'] =~ /(погода)/i
-        text = answer(:poh_text)
-      elsif data['text'] =~ /(найди|поищи|загугли|погугли|по шурши|че там)\s(.*?)$/i
-        md = data['text'].scan(/.*?(найди|поищи|загугли|погугли|по шурши|че там)\s(.*?)$/i)
+      elsif text.clean =~ /(еще|повтори|заново|постарайся)/i
+        result = last_answer
+      elsif text.clean =~ /(запость|ебни|ебаш|хуяч|хуйни|пиздани|ебани|постани|постни|создай.*настроение|скажи.*что.*нибудь)/i
+        result = random_post
+      elsif text.clean =~ /(нежность|забота|добр(ота)?|милым|заботливым|нежным|добрым)/i
+        result = answer(:cat_image)
+      elsif text.clean =~ /(правила)/i
+        result = answer(:rules_text)
+      elsif text.clean =~ /(погода)/i
+        result = answer(:poh_text)
+      elsif text.clean =~ /(найди|поищи|загугли|погугли|по шурши|че там)\s(.*?)$/i
+        md = text.clean.scan(/.*?(найди|поищи|загугли|погугли|по шурши|че там)\s(.*?)$/i)
         if md && md[0] && md[0][1]
-          text = answer(:google_search, md[0][1])
+          result = answer(:google_search, md[0][1])
         end
-      elsif data['text'] =~ /(ет)$/i
-        text = answer(:pidor_text)
-      elsif data['text'] =~ /выполни.*\(.*?\)/i
-        m = data['text'].scan(/выполни.*\((.*)\)/i)
+      elsif text.clean =~ /(ет)$/i
+        result = answer(:pidor_text)
+      elsif text.clean =~ /выполни.*\(.*?\)/i
+        m = text.clean.scan(/выполни.*\((.*)\)/i)
         if m && m[0][0]
           begin
-            text = eval(m[0][0])
+            result = eval(m[0][0])
           rescue Exception => e
             p e
-            text = answer(:do_not_know_text)
+            result = answer(:do_not_know_text)
           end
         end
       end
 
       if rand(5) == 0
-        text ||= answer(:response_text, data['text'])
+        result ||= answer(:response_text, text.clean)
       end
 
-      text ||= answer(:call_text)
+      result || answer(:call_text)
     end
 
     def random_post
