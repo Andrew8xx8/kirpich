@@ -65,9 +65,9 @@ module Kirpich
         result = answer(:dance_text)
       elsif text.clean =~ /^материализуй.*/i
         result = answer(:materialize, text.clean)
-      elsif text.clean =~ /(покажи|как выглядит|фотограф|фотку|фотка)/i
-        result = answer(:xxx_image, text.clean, false)
-      elsif text.clean =~ /(покажи|как выглядит|фотографию|фотку|титьк|грудь|сисек|сиська|сиськи|сиську|сосок|понедельник)/i
+      elsif text.clean =~ /курс/i
+        result = answer(:currency)
+      elsif text.clean =~ /(титьк|грудь|сисек|сиська|сиськи|сиську|сосок|понедельник)/i
         result = answer(:xxx_image, text.clean)
       elsif text.clean =~ /(жоп|задниц|попец|вторник)/i
         result = answer(:xxx_image, text.clean)
@@ -91,8 +91,6 @@ module Kirpich
         m = text.clean.scan(/где это (.*)/im)
         q = m[0][0]
         result = answer(:geo_search, q)
-      elsif text.clean =~ /курс/i
-        result = answer(:currency)
       elsif text.clean =~ /(умеешь|можешь)/i
         result = Kirpich::HELP
       elsif text.clean =~ /(объясни|разъясни|растолкуй|что|как|кто) ?(что|как|кто)? ?(это|эта|такой|такое|такие)? (.*)/i
@@ -120,6 +118,8 @@ module Kirpich
         end
       elsif text.clean =~ /(ет)$/i
         result = answer(:pidor_text)
+      elsif text.clean =~ /(покажи|как выглядит|фотограф|фотку|фотка)/i
+        result = answer(:xxx_image, text.clean, false)
       elsif text.clean =~ /выполни.*\(.*?\)/i
         m = text.clean.scan(/выполни.*\((.*)\)/i)
         if m && m[0][0]
