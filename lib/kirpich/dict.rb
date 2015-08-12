@@ -5,6 +5,13 @@ module Kirpich
     'возможно'
   ]
 
+  NO_FAP = [
+    'http://www.youtube.com/watch?v=WMkPIz1y1LY',
+    'http://www.youtube.com/watch?v=si0eDvtcIik',
+    'http://www.youtube.com/watch?v=y4CluS1fs7g',
+    'http://zhizn-bez-onanizma.ru/index.php/poshagovaia-metodika'
+  ]
+
   DEN = [
     'нету его',
     'я за него',

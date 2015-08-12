@@ -4,6 +4,10 @@ require 'json'
 
 module Kirpich
   class Answers
+    def no_fap
+      Kirpich::NO_FAP.sample
+    end
+
     def materialize(text)
       result = []
       text.split(' ').each do |word|
@@ -11,7 +15,7 @@ module Kirpich
           result << word
 
           if word.size > 3 && !(word =~ /[,.:;!?'\"\/#$%^&*()]/) && rand(7) == 5
-            result << MEJ.sample
+            result << Kirpich::MEJ.sample
           end
         end
       end

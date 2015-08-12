@@ -7,6 +7,7 @@ module Kirpich
     def initialize(config)
       @client = config[:client]
       @answers = config[:answers]
+      @fap_count = 0
     end
 
     def post_text(text, data)
@@ -154,6 +155,16 @@ module Kirpich
     end
 
     def answer(method, *args)
+      if method == :xxx_image
+        @fap_count += 1
+        if @fap_count > 10
+          @fap_count = 0
+          return @answers.no_fap
+        end
+      else
+        @fap_count = 0
+      end
+
       p "Respond with #{method}"
       @last_method = method
       @last_args = args
