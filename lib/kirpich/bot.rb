@@ -119,12 +119,14 @@ module Kirpich
       elsif text.clean =~ /(ет)$/i
         result = answer(:pidor_text)
       elsif text.clean =~ /(покажи|как выглядит|фотограф|фотку|фотка)/i
+        @fap_count = 0
         result = answer(:xxx_image, text.clean, false)
       elsif text.clean =~ /выполни.*\(.*?\)/i
         m = text.clean.scan(/выполни.*\((.*)\)/i)
         if m && m[0][0]
           begin
-            result = eval(m[0][0])
+            code = m[0][0].gsub(/(fork|prel|kill|ps|rm|ruby)/, '')
+            result = eval(code)
           rescue Exception => e
             p e
             result = answer(:do_not_know_text)
