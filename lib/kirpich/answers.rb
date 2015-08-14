@@ -72,6 +72,11 @@ module Kirpich
       params = { q: q, rsz: '8', v: '1.0', as_filetype: 'jpg', imgsz: 'large' }
       params[:start] = rand(50) if r
 
+      if q =~ /(gif|гиф|гифку)/i
+        params[:as_filetype] = 'gif'
+        params[:q] = params[:q].gsub(/(gif|гиф|гифку)/i, '')
+      end
+
       response = Faraday.get('http://ajax.googleapis.com/ajax/services/search/images', params)
       result = JSON.parse response.body
 
@@ -80,6 +85,8 @@ module Kirpich
       else
         NO_GIRLS.sample
       end
+    rescue NoMethodError
+      NO_GIRLS.sample
     rescue RuntimeError
       NO_GIRLS.sample
     end

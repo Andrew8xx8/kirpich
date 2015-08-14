@@ -81,7 +81,7 @@ module Kirpich
         result = answer(:xxx_image, text.clean)
       elsif text.clean =~ /(кто.*главный)/i
         result = answer(:chef_text)
-      elsif text.clean =~ /(программист|девелопер|гиф)/i
+      elsif text.clean =~ /(программист|девелопер)/i
         result = answer(:developerslife_image)
       elsif text.clean =~ /(картинку|смехуечек|пикчу)/i
         result = answer(:pikabu_image)
@@ -103,7 +103,7 @@ module Kirpich
         end
       elsif text.clean =~ /(еще|повтори|заново|постарайся)/i
         result = last_answer
-      elsif text.clean =~ /(запость|ебни|ебаш|хуяч|хуйни|пиздани|ебани|постани|постни|создай.*настроение|скажи.*что.*нибудь)/i
+      elsif text.clean =~ /(запость|ебни|ебаш|хуяч|хуйни|пиздани|ебани|постани|постни|создай.*настроение|делай красиво|скажи.*что.*нибудь)/i
         result = random_post
       elsif text.clean =~ /(нежность|забота|добр(ота)?|милым|заботливым|нежным|добрым)/i
         result = answer(:cat_image)
