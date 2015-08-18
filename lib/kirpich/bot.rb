@@ -149,7 +149,7 @@ module Kirpich
     end
 
     def random_post
-      methods = [:cat_image, :random_text, :brakingmad_text, :pikabu_image, :pikabu_text, :interfax_text, :currency, :developerslife_image]
+      methods = [:cat_image, :lurk_random, :brakingmad_text, :pikabu_image, :pikabu_text, :interfax_text, :currency, :developerslife_image]
       answer(methods.sample)
     end
 

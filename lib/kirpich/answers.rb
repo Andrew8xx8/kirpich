@@ -92,38 +92,6 @@ module Kirpich
       "#{Kirpich::DANCE.sample}?rand=#{rand(999999999)}"
     end
 
-    def random_text
-      response = Faraday.get "http://lurkmore.to/%D0%A1%D0%BB%D1%83%D0%B6%D0%B5%D0%B1%D0%BD%D0%B0%D1%8F:Random"
-
-      link = response.headers["location"]
-      if link
-        response = Faraday.get link
-        page = Nokogiri::HTML(response.body)
-
-        images = page.css('img.thumbimage').map { |e| e['src'] }
-        if images.any?
-          result ||= ''
-          result += "#{images.sample.gsub(/^\/\//, 'http://')}\n"
-        end
-
-        texts = page.css('#bodyContent>p').map { |e| e.text }
-
-        if texts.any?
-          result ||= ''
-          result += "#{texts[0]}\n"
-          result += "#{texts[1]}\n" if texts.length > 1
-        end
-      end
-
-      if result && rand(4) == 0
-        result += "\nВот так вот, #{Kirpich::APPEAL.sample}"
-      end
-
-      result = do_not_know_text unless result
-
-      result
-    end
-
     def brakingmad_text
       response = Faraday.get 'http://breakingmad.me/ru/'
 
@@ -231,6 +199,10 @@ module Kirpich
       else
         result
       end
+    end
+
+    def lurk_random
+      Kirpich::Providers::Lurk.random
     end
   end
 end
