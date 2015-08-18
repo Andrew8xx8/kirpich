@@ -156,14 +156,15 @@ module Kirpich
 
     def random_post
       methods = [:cat_image, :lurk_random, :brakingmad_text, :pikabu_image, :news_text, :currency, :developerslife_image]
-      answer(methods.sample)
+      @answers.method(methods.sample)
     end
 
     def random_post_timer
       time = 3000 + rand(6000)
 
       EM.add_timer(time) do
-        Slack.chat_postMessage as_user: true, channel: ['C08189F96', 'G084E5SC9'].sample, text: random_post
+        data['channel'] = ['C08189F96', 'G084E5SC9'].sample
+        post_text(random_post, data)
 
         random_post_timer
       end

@@ -210,7 +210,6 @@ module Kirpich
 
     def random_boobs_image
       Kirpich::Providers::Image.lesaintdesseins_image
-      1 / 0
     rescue => e
       p e
       Kirpich::NO_GIRLS.sample
