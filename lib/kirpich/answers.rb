@@ -68,7 +68,6 @@ module Kirpich
 
     def xxx_image(q = 'девушки', r = true)
       q = q.gsub(/покажи/, '')
-      q += ' голая' if rand(2) == 0 && r
       params = { q: q, rsz: '8', v: '1.0', as_filetype: 'jpg', imgsz: 'large' }
       params[:start] = rand(50) if r
 
