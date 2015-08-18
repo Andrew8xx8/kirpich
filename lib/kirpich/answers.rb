@@ -203,13 +203,16 @@ module Kirpich
 
     def random_ass_image
       Kirpich::Providers::Image.les_400_image
-    rescue
+    rescue => e
+      p e
       Kirpich::NO_GIRLS.sample
     end
 
     def random_boobs_image
       Kirpich::Providers::Image.lesaintdesseins_image
-    rescue
+      1 / 0
+    rescue => e
+      p e
       Kirpich::NO_GIRLS.sample
     end
   end
