@@ -108,23 +108,13 @@ module Kirpich
       urls.sample
     end
 
-    def pikabu_text
-      response = Faraday.get 'http://pikabu.ru/best'
-
-      txts = Nokogiri::HTML(response.body).css(".b-story__content_type_text").map do |src|
-        src.text
-      end
-      materialize txts.sample
-    end
-
-    def interfax_text
-      response = Faraday.get 'http://www.interfax.ru/'
-
-      txts = Nokogiri::HTML(response.body).css(".text h3").map do |src|
-        src.text
-      end
-
-      materialize "#{txts.sample}"
+    def news_text
+      text = if rand(1) == 0
+               Kirpich::Providers::Text.interfax
+             else
+               Kirpich::Providers::Text.ria
+             end
+      materialize text
     end
 
     def currency

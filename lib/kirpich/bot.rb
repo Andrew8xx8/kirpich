@@ -50,7 +50,7 @@ module Kirpich
       elsif text.clean =~ /(зда?о?ров|привет|вечер в хату)/i
         result = answer(:hello_text)
       elsif text.clean =~ /(как дела|что.*?как|чо.*?каво)/i
-        result = answer(:interfax_text)
+        result = answer(:news_text)
       elsif text.appeal? || data['channel'] == 'D081AUUHW'
         result = on_call(text)
       end
@@ -149,12 +149,12 @@ module Kirpich
     end
 
     def random_post
-      methods = [:cat_image, :lurk_random, :brakingmad_text, :pikabu_image, :pikabu_text, :interfax_text, :currency, :developerslife_image]
+      methods = [:cat_image, :lurk_random, :brakingmad_text, :pikabu_image, :news_text, :currency, :developerslife_image]
       answer(methods.sample)
     end
 
     def random_post_timer
-      time = 5000 + rand(7000)
+      time = 3000 + rand(6000)
 
       EM.add_timer(time) do
         Slack.chat_postMessage as_user: true, channel: ['C08189F96', 'G084E5SC9'].sample, text: random_post
