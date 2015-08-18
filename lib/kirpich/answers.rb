@@ -3,6 +3,7 @@ require 'open-uri'
 require 'json'
 
 require 'kirpich/providers/google_image'
+require 'kirpich/providers/lurk'
 
 module Kirpich
   class Answers
@@ -79,7 +80,7 @@ module Kirpich
     end
 
     def choose_text(options)
-      options.sample
+      text = options.sample
       appeal_text(text, 4)
     end
 
@@ -223,40 +224,13 @@ module Kirpich
     end
 
     def lurk_search(text)
-      return do_not_know_text unless text
+      result = Kirpich::Providers::Lurk.search(text)
 
-      response = Faraday.get "http://lurkmore.to/index.php?title=#{text.strip.gsub(/ /, '_')}"
-      md = response.body.scan(/Please.*?\/(.*?)$/im)
-
-      if md && md[0] && md[0][0]
-        link = md[0][0]
-        response = Faraday.get "http://lurkmore.to/#{link}"
-        page = Nokogiri::HTML(response.body)
-
-        images = page.css('img.thumbimage').map { |e| e['src'] }
-        if images.any?
-          result ||= ''
-          result += "#{images.sample.gsub(/^\/\//, 'http://')}\n"
-        end
-
-        texts = page.css('#bodyContent>p').map { |e| e.text }
-
-        if texts.any?
-          result ||= ''
-          result += "#{texts[0]}\n"
-          result += "#{texts[1]}\n" if texts.length > 1
-        end
+      if result.empty?
+        do_not_know_text
+      else
+        result
       end
-
-      unless result
-        if rand(2)
-          result = google_search(text)
-        else
-          result = do_not_know_text
-        end
-      end
-
-      result
     end
   end
 end

@@ -67,7 +67,7 @@ module Kirpich
         result = answer(:nah_text)
       elsif text.clean =~ /^(зда?о?ров|привет)/i
         result = answer(:hello_text)
-      elsif text.clean =~ /(спасибо|збсь?|красава|молодчик|красавчик|от души|по красоте|зацени)/i
+      elsif text.clean =~ /(спасибо|збсь?|красава|молодчик|красавчик|от души|по красоте|зацени|норм)/i
         result = answer(:ok_text)
       elsif text.clean =~ /(танцуй|исполни|пацандобль|танец)/i
         result = answer(:dance_text)
@@ -112,7 +112,7 @@ module Kirpich
       elsif text.clean =~ /(.*?,)?(.*?)\sили\s(.*?)$/i
         options_match = text.clean.scan(/(.*?,)?(.*?)\sили\s(.*?)$/)
         result = if options_match.any?
-                   options = options_match.first.map { |t| t.gsub(/[?. ,]/, '') }
+                   options = options_match.first.compact.map { |t| t.gsub(/[?. ,]/, '') }
                    answer(:choose_text, options)
                  else
                    HZ.sample
