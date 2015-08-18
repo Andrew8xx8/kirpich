@@ -93,6 +93,9 @@ module Kirpich
         result = answer(:geo_search, q)
       elsif text.clean =~ /(умеешь|можешь)/i
         result = Kirpich::HELP
+      elsif text.clean =~ /(покажи|как выглядит|фотограф|фотку|фотка)/i
+        @fap_count = 0
+        result = answer(:xxx_image, text.clean, false)
       elsif text.clean =~ /(объясни|разъясни|растолкуй|что|как|кто) ?(что|как|кто)? ?(это|эта|такой|такое|такие)? (.*)/i
         m = text.clean.scan(/(объясни|разъясни|растолкуй|что|как|кто) ?(что|как|кто)? ?(это|эта|такой|такое|такие)? (.*)/im)
         if m && m[0] && m[0][3]
@@ -118,9 +121,6 @@ module Kirpich
         end
       elsif text.clean =~ /(ет)$/i
         result = answer(:pidor_text)
-      elsif text.clean =~ /(покажи|как выглядит|фотограф|фотку|фотка)/i
-        @fap_count = 0
-        result = answer(:xxx_image, text.clean, false)
       elsif text.clean =~ /выполни.*\(.*?\)/i
         m = text.clean.scan(/выполни.*\((.*)\)/i)
         if m && m[0][0]
