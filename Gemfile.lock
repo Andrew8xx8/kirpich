@@ -35,7 +35,6 @@ GEM
       mini_portile (~> 0.6.0)
     oj (2.12.11)
     predicated (0.2.6)
-    rake (10.4.2)
     ruby2ruby (2.2.0)
       ruby_parser (~> 3.1)
       sexp_processor (~> 4.0)
@@ -67,12 +66,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  bundler (~> 1.10)
   kirpich!
   minitest
-  rake (~> 10.0)
   webmock
   wrong
-
-BUNDLED WITH
-   1.10.5

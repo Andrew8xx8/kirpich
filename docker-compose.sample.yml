@@ -1,0 +1,6 @@
+pashok:
+  build: .
+  volumes:
+    - ./:/usr/src/app
+  environment:
+    TOKEN: YOUR_TOKEN

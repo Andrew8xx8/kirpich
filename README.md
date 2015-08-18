@@ -28,6 +28,16 @@ TOKEN=ВашТокен bundle exec ruby ./run.rb
 https://devcenter.heroku.com/articles/config-vars
 https://developers.openshift.com/en/managing-environment-variables.html
 
+### Docker
+
+Копируем `docker-compose.sample.yml` в `docker-compose.yml` и пишем свой токен туда.
+
+Запускаем:
+
+```
+docker-compose run pashok
+```
+
 ## Паша...
 
 ### ...знает мемы
