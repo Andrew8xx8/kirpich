@@ -76,7 +76,13 @@ module Kirpich
       elsif text.clean =~ /курс/i
         result = answer(:currency)
       elsif text.fap?
-        result = answer(:search_xxx_image, text.clean)
+        if text.clean =~ /(жопа|задница|попка|попец|булки|ноги)/i
+          result = answer(:random_ass_image)
+        elsif text.clean =~ /(сись|тить|грудь|буфер)/i
+          result = answer(:random_boobs_image)
+        else
+          result = answer(:search_xxx_image, text.clean, false)
+        end
       elsif text.clean =~ /(кто.*главный)/i
         result = answer(:chef_text)
       elsif text.clean =~ /(программист|девелопер|программер)/i
@@ -168,16 +174,16 @@ module Kirpich
       @last_method = method
       @last_args = args
 
-      if method == :search_xxx_image || method == :search_image
-        args[1] = true
-      end
-
       method_object = @answers.method(method)
       method_object.call(*args)
     end
 
     def last_answer
       if @last_method && @last_args
+        if @last_method == :search_xxx_image || @last_method == :search_image
+          @last_args[1] = true
+        end
+
         method_object = @answers.method(@last_method)
         method_object.call(*@last_args)
       end

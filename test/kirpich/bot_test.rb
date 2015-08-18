@@ -54,7 +54,7 @@ class Kirpich::BotTest < Minitest::Test
 
   def test_boobs
     answer = @bot.select_text({'text' => 'кирпич, покажи сиськи', 'channel' => 'test'})
-    assert_answer(answer, :search_xxx_image)
+    assert_answer(answer, :random_boobs_image)
   end
 
   def test_poh

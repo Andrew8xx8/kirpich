@@ -1,7 +1,7 @@
 require 'test_helper'
 require 'kirpich/providers/text'
 
-class Kirpich::Providers::LurkTest < Minitest::Test
+class Kirpich::Providers::TextTest < Minitest::Test
   def setup
   end
 

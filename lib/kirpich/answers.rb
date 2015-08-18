@@ -4,6 +4,8 @@ require 'json'
 
 require 'kirpich/providers/google_image'
 require 'kirpich/providers/lurk'
+require 'kirpich/providers/text'
+require 'kirpich/providers/image'
 
 module Kirpich
   class Answers
@@ -35,7 +37,7 @@ module Kirpich
     end
 
     def cat_image
-      "http://www.randomkittengenerator.com/images/cats/rotator.php?#{rand(999999999)}"
+      "http://www.randomkittengenerator.com/images/cats/rotator.php?#{Time.now.to_i}"
     end
 
     def huifikatorr_text(text)
@@ -51,6 +53,10 @@ module Kirpich
 
       text = text.split(' ').last
       huifikatorr_text(text)
+    end
+
+    def les_400_image
+      Kirpich::Providers::Image.les_400_image
     end
 
     def developerslife_image
@@ -89,7 +95,7 @@ module Kirpich
     end
 
     def dance_text
-      "#{Kirpich::DANCE.sample}?rand=#{rand(999999999)}"
+      "#{Kirpich::DANCE.sample}?#{Time.now.to_i}"
     end
 
     def brakingmad_text
@@ -193,6 +199,18 @@ module Kirpich
 
     def lurk_random
       Kirpich::Providers::Lurk.random
+    end
+
+    def random_ass_image
+      Kirpich::Providers::Image.les_400_image
+    rescue
+      Kirpich::NO_GIRLS.sample
+    end
+
+    def random_boobs_image
+      Kirpich::Providers::Image.lesaintdesseins_image
+    rescue
+      Kirpich::NO_GIRLS.sample
     end
   end
 end
