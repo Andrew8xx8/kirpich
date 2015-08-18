@@ -35,7 +35,17 @@ module Kirpich
 
     def select_text(data)
       text = Kirpich::Text.new(data['text'] || '')
-      if text.clean =~ /(сред|^(ну и|да и|и) ?похуй)/i
+
+      if text.fap?
+        @fap_count += 1
+      elsif @fap_count > 0
+        @fap_count -= 1
+      end
+
+      if @fap_count > 10
+        result = @answers.no_fap
+        @fap_count = 0
+      elsif text.clean =~ /(сред|^(ну и|да и|и) ?похуй)/i
         result = answer(:poh_text)
       elsif text.clean =~ /(зда?о?ров|привет|вечер в хату)/i
         result = answer(:hello_text)
@@ -51,8 +61,6 @@ module Kirpich
     def on_call(text)
       if text.clean =~ /(синька)/i
         result = answer(:sin_text)
-      elsif text.clean =~ /.*\?$/i
-        result = answer(:yes_no_text)
       elsif text.clean =~ /(пошли|пошел)/i
         result = answer(:nah_text)
       elsif text.clean =~ /(здорово|лох|черт|пидо?р|гей|хуйло|сука|бля|петух)/i
@@ -67,21 +75,11 @@ module Kirpich
         result = answer(:materialize, text.clean)
       elsif text.clean =~ /курс/i
         result = answer(:currency)
-      elsif text.clean =~ /(титьк|грудь|сисек|сиська|сиськи|сиську|сосок|понедельник)/i
-        result = answer(:xxx_image, "#{text.clean} эротика")
-      elsif text.clean =~ /(жоп|задниц|попец|вторник)/i
-        result = answer(:xxx_image, "#{text.clean} эротика")
-      elsif text.clean =~ /(рыжая|рыжую|рыжей)/i
-        result = answer(:xxx_image, "#{text.clean} эротика")
-      elsif text.clean =~ /(винтаж|олдскул|ламповую)/i
-        result = answer(:xxx_image, "#{text.clean} эротика")
-      elsif text.clean =~ /(блондин|белую)/i
-        result = answer(:xxx_image, "#{text.clean} эротика")
-      elsif text.clean =~ /(броюнет)/i
-        result = answer(:xxx_image, "#{text.clean} эротика")
+      elsif text.fap?
+        result = answer(:search_xxx_image, text.clean)
       elsif text.clean =~ /(кто.*главный)/i
         result = answer(:chef_text)
-      elsif text.clean =~ /(программист|девелопер)/i
+      elsif text.clean =~ /(программист|девелопер|программер)/i
         result = answer(:developerslife_image)
       elsif text.clean =~ /(картинку|смехуечек|пикчу)/i
         result = answer(:pikabu_image)
@@ -93,9 +91,8 @@ module Kirpich
         result = answer(:geo_search, q)
       elsif text.clean =~ /(умеешь|можешь)/i
         result = Kirpich::HELP
-      elsif text.clean =~ /(покажи|как выглядит|фотограф|фотку|фотка)/i
-        @fap_count = 0
-        result = answer(:xxx_image, text.clean, false)
+      elsif text.clean =~ /(покажи|как выглядит|фотограф|фотку|фотка|изображение)/i
+        result = answer(:search_image, text.clean, false)
       elsif text.clean =~ /(объясни|разъясни|растолкуй|что|как|кто) ?(что|как|кто)? ?(это|эта|такой|такое|такие)? (.*)/i
         m = text.clean.scan(/(объясни|разъясни|растолкуй|что|как|кто) ?(что|как|кто)? ?(это|эта|такой|такое|такие)? (.*)/im)
         if m && m[0] && m[0][3]
@@ -106,12 +103,20 @@ module Kirpich
         end
       elsif text.clean =~ /(еще|повтори|заново|постарайся)/i
         result = last_answer
-      elsif text.clean =~ /(запость|ебни|ебаш|хуяч|хуйни|пиздани|ебани|постани|постни|создай.*настроение|делай красиво|скажи.*что.*нибудь)/i
+      elsif text.clean =~ /(запость|ебни|ебаш|хуяч|хуйни|пиздани|ебани|постани|постни|создай.*настроение|делай красиво|скажи.*что.*нибудь|удиви)/i
         result = random_post
       elsif text.clean =~ /(нежность|забота|добр(ота)?|милым|заботливым|нежным|добрым)/i
         result = answer(:cat_image)
       elsif text.clean =~ /(правила)/i
         result = answer(:rules_text)
+      elsif text.clean =~ /(.*?,)?(.*?)\sили\s(.*?)$/i
+        options_match = text.clean.scan(/(.*?,)?(.*?)\sили\s(.*?)$/)
+        result = if options_match.any?
+                   options = options_match.first.map { |t| t.gsub(/[?. ,]/, '') }
+                   answer(:choose_text, options)
+                 else
+                   HZ.sample
+                 end
       elsif text.clean =~ /(погода)/i
         result = answer(:poh_text)
       elsif text.clean =~ /(найди|поищи|загугли|погугли|по шурши|че там)\s(.*?)$/i
@@ -121,6 +126,8 @@ module Kirpich
         end
       elsif text.clean =~ /(ет)$/i
         result = answer(:pidor_text)
+      elsif text.clean =~ /.*\?$/i
+        result = answer(:choose_text, Kirpich::YES_NO)
       elsif text.clean =~ /выполни.*\(.*?\)/i
         m = text.clean.scan(/выполни.*\((.*)\)/i)
         if m && m[0][0]
@@ -157,19 +164,14 @@ module Kirpich
     end
 
     def answer(method, *args)
-      if method == :xxx_image
-        @fap_count += 1
-        if @fap_count > 10
-          @fap_count = 0
-          return @answers.no_fap
-        end
-      else
-        @fap_count = 0
-      end
-
       p "Respond with #{method}"
       @last_method = method
       @last_args = args
+
+      if method == :search_xxx_image || method == :search_image
+        args[1] = true
+      end
+
       method_object = @answers.method(method)
       method_object.call(*args)
     end

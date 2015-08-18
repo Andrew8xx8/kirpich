@@ -2,6 +2,8 @@ require 'nokogiri'
 require 'open-uri'
 require 'json'
 
+require 'kirpich/providers/google_image'
+
 module Kirpich
   class Answers
     def no_fap
@@ -66,28 +68,19 @@ module Kirpich
       end
     end
 
-    def xxx_image(q = 'девушки', r = true)
-      q = q.gsub(/покажи/, '')
-      params = { q: q, rsz: '8', v: '1.0', as_filetype: 'jpg', imgsz: 'large' }
-      params[:start] = rand(20) if r
+    def search_image(q, random)
+      img = Kirpich::Providers::GoogleImage.search(q, random)
+      img || NO_GIRLS.sample
+    end
 
-      if q =~ /(gif|гиф|гифку)/i
-        params[:as_filetype] = 'gif'
-        params[:q] = params[:q].gsub(/(gif|гиф|гифку)/i, '')
-      end
+    def search_xxx_image(q, random)
+      img = Kirpich::Providers::GoogleImage.search_xxx(q, random)
+      img || NO_GIRLS.sample
+    end
 
-      response = Faraday.get('http://ajax.googleapis.com/ajax/services/search/images', params)
-      result = JSON.parse response.body
-
-      if result.key?("responseData") && result["responseData"].key?("results")
-        result["responseData"]["results"].sample["unescapedUrl"]
-      else
-        NO_GIRLS.sample
-      end
-    rescue NoMethodError
-      NO_GIRLS.sample
-    rescue RuntimeError
-      NO_GIRLS.sample
+    def choose_text(options)
+      options.sample
+      appeal_text(text, 4)
     end
 
     def den_text
@@ -212,11 +205,6 @@ module Kirpich
     def ok_text
       text = Kirpich::ZBS.sample
       appeal_text(text, 2)
-    end
-
-    def yes_no_text
-      text = YES_NO.sample
-      appeal_text(text, 4)
     end
 
     def sin_text

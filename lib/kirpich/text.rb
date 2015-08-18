@@ -1,8 +1,8 @@
-require 'kirpich/stem'
-
 module Kirpich
   class Text
-    APPEAL_REGEX = /^(паштет|пашок|пашка|кирпич|паш|пацантре|народ|кто-нибудь|kirpich)/i
+    APPEAL_REGEX = /(паштет|пашок|пашка|кирпич|паш|пацантре|народ|кто-нибудь|kirpich),?\s*/i
+    FAP_REGEX = /(сиськи|сисяндры|сисяндра|титьки|письки|секс|эротика|титьк|грудь|сисек|сиська|сиськи|сиську|сосок|жоп|задниц|попец|голую|телку|сисечки|голая|обнаженная)/i
+
     attr_reader :clean, :original
 
     def initialize(text)
@@ -18,5 +18,8 @@ module Kirpich
       @original =~ APPEAL_REGEX
     end
 
+    def fap?
+      @original =~ FAP_REGEX
+    end
   end
 end
