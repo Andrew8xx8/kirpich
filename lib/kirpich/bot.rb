@@ -89,7 +89,7 @@ module Kirpich
         result = answer(:developerslife_image)
       elsif text.clean =~ /(картинку|смехуечек|пикчу)/i
         result = answer(:pikabu_image)
-      elsif text.clean =~ /(посоветуй|дай совет|как жить|как быть|как стать)/i
+      elsif text.clean =~ /(посоветуй|дай совет|кака надо|как жить|как быть|как стать)/i
         result = answer(:fga_random)
       elsif text.clean =~ /(пятница)/i
         result = answer(:brakingmad_text)
