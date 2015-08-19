@@ -76,7 +76,7 @@ module Kirpich
       elsif text.clean =~ /курс/i
         result = answer(:currency)
       elsif text.fap?
-        if text.clean =~ /(жопа|задница|попка|попец|булки|ноги)/i
+        if text.clean =~ /(жопа|задница|попка|попец|булки|ноги|жопу)/i
           result = answer(:random_ass_image)
         elsif text.clean =~ /(сись|тить|грудь|буфер)/i
           result = answer(:random_boobs_image)
