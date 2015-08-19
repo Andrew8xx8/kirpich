@@ -60,3 +60,8 @@ docker-compose run pashok
 
 ![Паша любит женщин](https://dl.dropboxusercontent.com/u/4256669/kirpich5.png)
 
+### ...может показать хороший пример
+
+![Паша показывает хороший пример](https://dl.dropboxusercontent.com/u/4256669/kirpich6.png)
+
+
