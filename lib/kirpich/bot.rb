@@ -16,7 +16,7 @@ module Kirpich
     end
 
     def on_message(data)
-      return if data['subtype'] == 'bot_message' || data['subtype'] == 'message_changed' || data['user'] == 'U081B2XCP'
+      return if data['subtype'] == 'bot_message' || data['subtype'] == 'message_changed' || data['user'] == 'U081B2XCP' || data['text'].empty?
       p "Recived: [" + data['text'] + "]"
 
       result = select_text(data)
