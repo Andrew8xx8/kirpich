@@ -6,6 +6,7 @@ require 'kirpich/providers/google_image'
 require 'kirpich/providers/lurk'
 require 'kirpich/providers/text'
 require 'kirpich/providers/image'
+require 'kirpich/providers/fga'
 
 module Kirpich
   class Answers
@@ -195,6 +196,10 @@ module Kirpich
       else
         result
       end
+    end
+
+    def fga_random
+      Kirpich::Providers::Fga.random
     end
 
     def lurk_random
