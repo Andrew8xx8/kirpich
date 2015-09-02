@@ -68,8 +68,6 @@ module Kirpich
         result = answer(:sin_text)
       elsif text.clean =~ /(пошли|пошел)/i
         result = answer(:nah_text)
-      elsif text.clean =~ /(здорово|лох|черт|пидо?р|гей|хуйло|сука|бля|петух)/i
-        result = answer(:nah_text)
       elsif text.clean =~ /^(зда?о?ров|привет)/i
         result = answer(:hello_text)
       elsif text.clean =~ /(танцуй|исполни|пацандобль|танец)/i
@@ -96,6 +94,8 @@ module Kirpich
         result = answer(:search_image, text.clean, false)
       elsif text.clean =~ /(посоветуй|дай совет|как надо|как жить|как быть|как стать)/i
         result = answer(:fga_random)
+      elsif text.clean =~ /(лох|черт|пидо?р|гей|хуйло|сука|бля|петух|уебок)/i
+        result = answer(:nah_text)
       elsif text.clean =~ /(пятница)/i
         result = answer(:brakingmad_text)
       elsif text.clean =~ /где это/i
