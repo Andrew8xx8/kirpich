@@ -17,6 +17,7 @@ module Kirpich
       if user
         name = user['real_name']
         name = user['name'] if name.empty?
+        name = "@#{name}"
         appeal_text(name, 0)
       end
     end
