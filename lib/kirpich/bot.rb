@@ -1,6 +1,7 @@
 require 'slack'
 require 'kirpich/answers'
 require 'kirpich/text'
+require 'slack'
 
 module Kirpich
   class Bot
@@ -15,8 +16,12 @@ module Kirpich
     rescue RuntimeError
     end
 
+    def can_respond?(data)
+      data['subtype'] != 'bot_message' && data['subtype'] != 'message_changed' && data['user'] != 'U081B2XCP' && data.key?('text') && !data['text'].empty?
+    end
+
     def on_message(data)
-      return if data['subtype'] == 'bot_message' || data['subtype'] == 'message_changed' || data['user'] == 'U081B2XCP' || data['text'].empty?
+      return unless can_respond?(data)
       p "Recived: [" + data['text'] + "]"
 
       result = select_text(data)
@@ -42,7 +47,7 @@ module Kirpich
         @fap_count -= 1
       end
 
-      if @fap_count > 10
+      if @fap_count > 7
         result = @answers.no_fap
         @fap_count = 0
       elsif text.clean =~ /(сред|^(ну и|да и|и) ?похуй)/i
@@ -52,13 +57,13 @@ module Kirpich
       elsif text.clean =~ /(как дела|что.*?как|чо.*?каво)/i
         result = answer(:news_text)
       elsif text.appeal? || data['channel'] == 'D081AUUHW'
-        result = on_call(text)
+        result = on_call(text, data['channel'])
       end
 
       result
     end
 
-    def on_call(text)
+    def on_call(text, channel)
       if text.clean =~ /(синька)/i
         result = answer(:sin_text)
       elsif text.clean =~ /(пошли|пошел)/i
@@ -67,8 +72,6 @@ module Kirpich
         result = answer(:nah_text)
       elsif text.clean =~ /^(зда?о?ров|привет)/i
         result = answer(:hello_text)
-      elsif text.clean =~ /(спасибо|збсь?|красава|молодчик|красавчик|от души|по красоте|зацени|норм)/i
-        result = answer(:ok_text)
       elsif text.clean =~ /(танцуй|исполни|пацандобль|танец)/i
         result = answer(:dance_text)
       elsif text.clean =~ /^материализуй.*/i
@@ -101,6 +104,12 @@ module Kirpich
         result = answer(:geo_search, q)
       elsif text.clean =~ /(умеешь|можешь)/i
         result = Kirpich::HELP
+      elsif text.clean =~ /(запость|ебни|ебаш|хуяч|хуйни|пиздани|ебани|постани|постни|создай.*настроение|делай красиво|скажи.*что.*нибудь|удиви)/i
+        result = random_post
+      elsif text.clean =~ /кто.*(охуел|заебал|доебал|надоел|должен|молодец|красавчик)/i
+        result = @answers.random_user(channel)
+      elsif text.clean =~ /(спасибо|збсь?|красава|молодчик|красавчик|от души|по красоте|зацени|норм)/i
+        result = answer(:ok_text)
       elsif text.clean =~ /(объясни|разъясни|растолкуй|что|как|кто) ?(что|как|кто)? ?(это|эта|такой|такое|такие)? (.*)/i
         m = text.clean.scan(/(объясни|разъясни|растолкуй|что|как|кто) ?(что|как|кто)? ?(это|эта|такой|такое|такие)? (.*)/im)
         if m && m[0] && m[0][3]
@@ -111,8 +120,6 @@ module Kirpich
         end
       elsif text.clean =~ /(еще|повтори|заново|постарайся)/i
         result = last_answer
-      elsif text.clean =~ /(запость|ебни|ебаш|хуяч|хуйни|пиздани|ебани|постани|постни|создай.*настроение|делай красиво|скажи.*что.*нибудь|удиви)/i
-        result = random_post
       elsif text.clean =~ /(нежность|забота|добр(ота)?|милым|заботливым|нежным|добрым)/i
         result = answer(:cat_image)
       elsif text.clean =~ /(правила)/i
@@ -158,7 +165,8 @@ module Kirpich
 
     def random_post
       methods = [:cat_image, :lurk_random, :brakingmad_text, :pikabu_image, :news_text, :currency, :developerslife_image]
-      @answers.method(methods.sample)
+      method_object = @answers.method(methods.sample)
+      method_object.call
     end
 
     def random_post_timer

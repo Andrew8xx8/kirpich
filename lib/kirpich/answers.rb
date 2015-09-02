@@ -7,9 +7,20 @@ require 'kirpich/providers/lurk'
 require 'kirpich/providers/text'
 require 'kirpich/providers/image'
 require 'kirpich/providers/fga'
+require 'kirpich/providers/slack_user'
 
 module Kirpich
   class Answers
+    def random_user(channel)
+      user = Kirpich::Providers::SlackUser.random(channel)
+
+      if user
+        name = user['real_name']
+        name = user['name'] if name.empty?
+        appeal_text(name, 0)
+      end
+    end
+
     def no_fap
       Kirpich::NO_FAP.sample
     end
@@ -155,8 +166,8 @@ module Kirpich
       Kirpich::HZ.sample
     end
 
-    def appeal_text(text, rand)
-      if rand(rand) === 0 && !(text =~ /[,.:;!?'\"\/#$%^&*()]/)
+    def appeal_text(text, r)
+      if rand(r) === 0 && !(text =~ /[,.:;!?'\"\/#$%^&*()]/) || r === 0
         text + ", #{Kirpich::APPEAL.sample}"
       else
         text
