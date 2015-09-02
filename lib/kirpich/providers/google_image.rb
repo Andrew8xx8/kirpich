@@ -8,7 +8,6 @@ module Kirpich::Providers
       def search_xxx(q, random = false)
         q ||= 'girls'
         q += [' soft', ' softcore', ' sensuality'].sample
-        q += 'site: http://les400culs.com/'
 
         _search(q, random)
       end
@@ -32,8 +31,10 @@ module Kirpich::Providers
         end
       rescue NoMethodError => e
         p e
+        ''
       rescue RuntimeError => e
         p e
+        ''
       end
 
 
