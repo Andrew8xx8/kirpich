@@ -79,7 +79,7 @@ module Kirpich
       elsif text.fap?
         if text.clean =~ /(жопа|задница|попка|попец|булки|ноги|жопу)/i
           result = answer(:random_ass_image)
-        elsif text.clean =~ /(сись|тить|грудь|буфер)/i
+        elsif text.clean =~ /(соски|сися|сись|тить|грудь|буфер|груди)/i
           result = answer(:random_boobs_image)
         else
           result = answer(:search_xxx_image, text.clean, false)
