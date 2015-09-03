@@ -7,4 +7,3 @@ require "dante"
 Dante.run('kirpich') do |opts|
   Kirpich.run
 end
-

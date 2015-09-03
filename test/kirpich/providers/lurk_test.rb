@@ -21,7 +21,6 @@ class Kirpich::Providers::LurkTest < Minitest::Test
         )
 
     img = Kirpich::Providers::Lurk.search('боб марли')
-    p img
     assert { img.any? }
   end
 

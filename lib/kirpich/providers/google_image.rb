@@ -18,7 +18,7 @@ module Kirpich::Providers
         params = _search_params(q, random)
         response = Faraday.get('http://ajax.googleapis.com/ajax/services/search/images', params)
         result = JSON.parse response.body
-        p result
+        Kirpich.logger.info result
 
         if result.key?("responseData") && result["responseData"].key?("results")
           img = if random
@@ -30,10 +30,10 @@ module Kirpich::Providers
           "#{img}?#{Time.now.to_i}"
         end
       rescue NoMethodError => e
-        p e
+        Kirpich.logger.error e
         ''
       rescue RuntimeError => e
-        p e
+        Kirpich.logger.error e
         ''
       end
 

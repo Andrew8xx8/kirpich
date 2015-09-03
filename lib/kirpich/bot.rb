@@ -22,7 +22,7 @@ module Kirpich
 
     def on_message(data)
       return unless can_respond?(data)
-      p "Recived: [" + data['text'] + "]"
+      Kirpich.logger.info "Recived: [" + data['text'] + "]"
 
       result = select_text(data)
       if result
@@ -150,7 +150,7 @@ module Kirpich
             code = m[0][0].gsub(/(fork|prel|kill|ps|rm|ruby)/, '')
             result = eval(code)
           rescue Exception => e
-            p e
+            Kirpich.logger.error e
             result = answer(:do_not_know_text)
           end
         end
@@ -181,7 +181,7 @@ module Kirpich
     end
 
     def answer(method, *args)
-      p "Respond with #{method}"
+      Kirpich.logger.info "Respond with #{method}"
       @last_method = method
       @last_args = args
 
@@ -201,7 +201,7 @@ module Kirpich
     end
 
     def on_hello
-      p "I am ok"
+      Kirpich.logger.info "I am touch!"
       random_post
       random_post_timer
     end

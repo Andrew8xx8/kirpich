@@ -17,7 +17,6 @@ module Kirpich
       if user
         name = user['real_name']
         name = user['name'] if name.empty?
-        name = "@#{name}"
         appeal_text(name, 0)
       end
     end
@@ -221,7 +220,7 @@ module Kirpich
     def random_ass_image
       Kirpich::Providers::Image.les_400_image
     rescue => e
-      p e
+      Kirpich.logger.error e
       Kirpich::NO_GIRLS.sample
     end
 
