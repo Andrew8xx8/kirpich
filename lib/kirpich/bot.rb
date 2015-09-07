@@ -16,6 +16,18 @@ module Kirpich
     rescue RuntimeError
     end
 
+    def post(text, data)
+      if (text.is_a?(Array))
+        text.each do |part|
+          EM.next_tick do
+            post_text part, data
+          end
+        end
+      else
+        post_text text, data
+      end
+    end
+
     def can_respond?(data)
       data['subtype'] != 'bot_message' && data['subtype'] != 'message_changed' && data['user'] != 'U081B2XCP' && data.key?('text') && !data['text'].empty?
     end
@@ -25,17 +37,7 @@ module Kirpich
       Kirpich.logger.info "Recived: [" + data['text'] + "]"
 
       result = select_text(data)
-      if result
-        if (result.is_a?(Array))
-          result.each do |part|
-            EM.next_tick do
-              post_text part, data
-            end
-          end
-        else
-          post_text result, data
-        end
-      end
+      post(result, data) if result
     end
 
     def select_text(data)
@@ -164,19 +166,19 @@ module Kirpich
     end
 
     def random_post
-      methods = [:cat_image, :lurk_random, :brakingmad_text, :pikabu_image, :news_text, :currency, :developerslife_image]
+      methods = [:random_boobs_image, :random_ass_image, :lurk_random, :brakingmad_text, :pikabu_image, :news_text, :currency, :developerslife_image]
       method_object = @answers.method(methods.sample)
       method_object.call
     end
 
     def random_post_timer
-      time = 3000 + rand(6000)
+      time = 3000 + rand(3000)
 
       EM.add_timer(time) do
         data = {
           'channel' => ['C08189F96', 'G084E5SC9'].sample
         }
-        post_text(random_post, data)
+        post(random_post, data)
 
         random_post_timer
       end
