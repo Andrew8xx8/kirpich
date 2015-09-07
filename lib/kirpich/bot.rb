@@ -173,7 +173,9 @@ module Kirpich
       time = 3000 + rand(6000)
 
       EM.add_timer(time) do
-        data['channel'] = ['C08189F96', 'G084E5SC9'].sample
+        data = {
+          'channel' => ['C08189F96', 'G084E5SC9'].sample
+        }
         post_text(random_post, data)
 
         random_post_timer
