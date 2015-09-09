@@ -11,6 +11,10 @@ require 'kirpich/providers/slack_user'
 
 module Kirpich
   class Answers
+    def initialize
+      @prev_currency = {}
+    end
+
     def random_user(channel)
       user = Kirpich::Providers::SlackUser.random(channel)
 
@@ -140,7 +144,25 @@ module Kirpich
       result = JSON.parse response.body
 
       text = result["query"]["results"]["rate"].map do |rate|
-        "#{rate["Name"]}: #{rate["Rate"]}"
+        name = rate["Name"]
+        rate = rate["Rate"]
+        name_emoji = if name =~ /USD/
+                       ":dollar:"
+                     else
+                       ":euro:"
+                     end
+        dynamic = ''
+
+        if @prev_currency[name]
+          if rate > @prev_currency[name]
+            dynamic = ':chart_with_upwards_trend:'
+          elsif rate < @prev_currency[name]
+            dynamic = ':chart_with_downwards_trend:'
+          end
+        end
+        @prev_currency[name] = rate
+
+        "#{dynamic} #{rate} #{name_emoji}"
       end
 
       text.join("\n")
