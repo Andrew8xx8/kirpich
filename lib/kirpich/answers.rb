@@ -139,6 +139,10 @@ module Kirpich
       materialize text
     end
 
+    def currency_diff(a, b)
+      format('%.4f', a.to_f - b.to_f)
+    end
+
     def currency
       response = Faraday.get "https://query.yahooapis.com/v1/public/yql?q=select+*+from+yahoo.finance.xchange+where+pair+=+%22USDRUB,EURRUB%22&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys&callback="
       result = JSON.parse response.body
@@ -155,14 +159,14 @@ module Kirpich
 
         if @prev_currency[name]
           if rate > @prev_currency[name]
-            dynamic = ':chart_with_upwards_trend:'
+            dynamic = "(#{currency_diff(rate, @prev_currency[name])} :chart_with_upwards_trend:)"
           elsif rate < @prev_currency[name]
-            dynamic = ':chart_with_downwards_trend:'
+            dynamic = "(#{currency_diff(rate, @prev_currency[name])} :chart_with_downwards_trend:)"
           end
         end
         @prev_currency[name] = rate
 
-        "#{dynamic} #{rate} #{name_emoji}"
+        "#{rate} #{name_emoji} #{dynamic}"
       end
 
       text.join("\n")
