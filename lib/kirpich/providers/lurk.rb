@@ -1,7 +1,6 @@
 module Kirpich::Providers
   class Lurk
     class << self
-
       def search(text)
         return unless text
 
@@ -28,11 +27,9 @@ module Kirpich::Providers
         result = []
 
         images = node.css('img.thumbimage').map { |e| e['src'] }
-        if images.any?
-          result << "#{images.sample.gsub(/^\/\//, 'http://')}\n"
-        end
+        result << "#{images.sample.gsub(/^\/\//, 'http://')}\n" if images.any?
 
-        texts = node.css('#bodyContent>p').map { |e| e.text }
+        texts = node.css('#bodyContent>p').map(&:text)
 
         if texts.any?
           result << "#{texts[0]}"
@@ -48,22 +45,18 @@ module Kirpich::Providers
           response = Faraday.get response.headers[:location]
         end
 
-        if response.body && !response.body.empty?
-          response.body
-        end
+        response.body if response.body && !response.body.empty?
       end
 
       def _redirect_path(text)
         response = Faraday.get "http://lurkmore.to/index.php?title=#{text}"
         md = response.body.scan(/Please.*?\/(.*?)$/im)
 
-        if md && md[0] && md[0][0]
-          md[0][0]
-        end
+        md[0][0] if md && md[0] && md[0][0]
       end
 
       def _clean(text)
-        text.strip.gsub(/ /, '_')
+        text.strip.tr(' ', '_')
       end
     end
   end

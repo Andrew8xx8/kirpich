@@ -1,9 +1,9 @@
 #!/usr/bin/env ruby
 
-require "bundler/setup"
-require "kirpich"
-require "dante"
+require 'bundler/setup'
+require 'kirpich'
+require 'dante'
 
-Dante.run('kirpich') do |opts|
+Dante.run('kirpich') do |_opts|
   Kirpich.run
 end

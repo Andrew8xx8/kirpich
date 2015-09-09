@@ -4,7 +4,7 @@ module Kirpich::Providers
       def random(channel)
         channel = _channel_info(channel)
 
-        return unless channel && channel.key?("members") && channel['members'].any?
+        return unless channel && channel.key?('members') && channel['members'].any?
 
         member_id = channel['members'].sample
         user_info = Slack.users_info(user: member_id)

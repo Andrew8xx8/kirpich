@@ -1,10 +1,16 @@
+require 'kirpich/version'
 require 'logstash-logger'
-require "kirpich/version"
-require "kirpich/dict"
-require "kirpich/bot"
 require 'slack'
+require 'nokogiri'
+require 'open-uri'
+require 'json'
 
 module Kirpich
+  autoload 'Dict',    'kirpich/dict'
+  autoload 'Bot',     'kirpich/bot'
+  autoload 'Answers', 'kirpich/answers'
+  autoload 'Text',    'kirpich/text'
+
   class << self
     def run
       Slack.configure do |config|
@@ -16,10 +22,8 @@ module Kirpich
 
       client = Slack.realtime
 
-      bot = Kirpich::Bot.new({
-        answers: Kirpich::Answers.new,
-        client: client
-      })
+      bot = Kirpich::Bot.new(answers: Kirpich::Answers.new,
+                             client: client)
 
       client.on :message do |data|
         bot.on_message(data)
@@ -36,8 +40,6 @@ module Kirpich
       @logger ||= LogStashLogger.new(type: :stdout)
     end
 
-    def logger=(logger)
-      @logger = logger
-    end
+    attr_writer :logger
   end
 end

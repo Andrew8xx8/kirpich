@@ -1,8 +1,3 @@
-require 'slack'
-require 'kirpich/answers'
-require 'kirpich/text'
-require 'slack'
-
 module Kirpich
   class Bot
     def initialize(config)
@@ -17,7 +12,7 @@ module Kirpich
     end
 
     def post(text, data)
-      if (text.is_a?(Array))
+      if text.is_a?(Array)
         text.each do |part|
           EM.next_tick do
             post_text part, data
@@ -34,7 +29,7 @@ module Kirpich
 
     def on_message(data)
       return unless can_respond?(data)
-      Kirpich.logger.info "Recived: [" + data['text'] + "]"
+      Kirpich.logger.info 'Recived: [' + data['text'] + ']'
 
       result = select_text(data)
       post(result, data) if result
@@ -138,13 +133,11 @@ module Kirpich
         result = answer(:poh_text)
       elsif text.clean =~ /(найди|поищи|загугли|погугли|по шурши|че там)\s(.*?)$/i
         md = text.clean.scan(/.*?(найди|поищи|загугли|погугли|по шурши|че там)\s(.*?)$/i)
-        if md && md[0] && md[0][1]
-          result = answer(:google_search, md[0][1])
-        end
+        result = answer(:google_search, md[0][1]) if md && md[0] && md[0][1]
       elsif text.clean =~ /(ет)$/i
         result = answer(:pidor_text)
       elsif text.clean =~ /.*\?$/i
-        result = answer(:choose_text, Kirpich::YES_NO)
+        result = answer(:choose_text, Kirpich::Dict::YES_NO)
       elsif text.clean =~ /выполни.*\(.*?\)/i
         m = text.clean.scan(/выполни.*\((.*)\)/i)
         if m && m[0][0]
@@ -158,9 +151,7 @@ module Kirpich
         end
       end
 
-      if rand(5) == 0
-        result ||= answer(:response_text, text.clean)
-      end
+      result ||= answer(:response_text, text.clean) if rand(5) == 0
 
       result || answer(:call_text)
     end
@@ -176,7 +167,7 @@ module Kirpich
 
       EM.add_timer(time) do
         data = {
-          'channel' => ['C08189F96', 'G084E5SC9'].sample
+          'channel' => %w(C08189F96 G084E5SC9).sample
         }
         post(random_post, data)
 
@@ -205,7 +196,7 @@ module Kirpich
     end
 
     def on_hello
-      Kirpich.logger.info "I am touch!"
+      Kirpich.logger.info 'I am touch!'
       random_post
       random_post_timer
     end

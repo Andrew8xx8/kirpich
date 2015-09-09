@@ -20,11 +20,11 @@ module Kirpich::Providers
         result = JSON.parse response.body
         Kirpich.logger.info result
 
-        if result.key?("responseData") && result["responseData"].key?("results")
+        if result.key?('responseData') && result['responseData'].key?('results')
           img = if random
-            result["responseData"]["results"].sample["unescapedUrl"]
-          else
-            result["responseData"]["results"].first["unescapedUrl"]
+                  result['responseData']['results'].sample['unescapedUrl']
+                else
+                  result['responseData']['results'].first['unescapedUrl']
           end
 
           "#{img}?#{Time.now.to_i}"
@@ -36,7 +36,6 @@ module Kirpich::Providers
         Kirpich.logger.error e
         ''
       end
-
 
       def _search_params(q, random)
         params = { q: q, rsz: '8', v: '1.0', as_filetype: 'jpg', imgsz: 'large' }
