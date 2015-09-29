@@ -5,7 +5,9 @@ PATH
       activesupport
       dante
       json
+      logstash-logger
       nokogiri
+      rake
       slack-api
 
 GEM
@@ -43,6 +45,7 @@ GEM
     nokogiri (1.6.6.2)
       mini_portile (~> 0.6.0)
     predicated (0.2.6)
+    rake (10.4.2)
     ruby2ruby (2.2.0)
       ruby_parser (~> 3.1)
       sexp_processor (~> 4.0)

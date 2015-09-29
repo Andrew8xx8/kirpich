@@ -27,5 +27,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'nokogiri'
   spec.add_dependency 'json'
   spec.add_dependency 'dante'
+  spec.add_dependency 'logstash-logger'
   spec.add_dependency 'activesupport'
+  spec.add_dependency 'rake'
 end
