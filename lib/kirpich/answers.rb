@@ -38,7 +38,11 @@ module Kirpich
     end
 
     def pidor_text
-      'пидора ответ'
+      'да' if rand(2)
+    end
+
+    def pidor_text
+      'пидора ответ' if rand(2)
     end
 
     def cat_image

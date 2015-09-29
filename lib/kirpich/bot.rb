@@ -136,6 +136,8 @@ module Kirpich
         result = answer(:google_search, md[0][1]) if md && md[0] && md[0][1]
       elsif text.clean =~ /(ет)$/i
         result = answer(:pidor_text)
+      elsif text.clean =~ /(да)$/i
+        result = answer(:na_text)
       elsif text.clean =~ /.*\?$/i
         result = answer(:choose_text, Kirpich::Dict::YES_NO)
       elsif text.clean =~ /выполни.*\(.*?\)/i
