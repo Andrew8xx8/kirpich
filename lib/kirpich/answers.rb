@@ -118,7 +118,7 @@ module Kirpich
     end
 
     def news_text
-      text = if rand(1) == 0
+      text = if rand(2) == 0
                Kirpich::Providers::Text.interfax
              else
                Kirpich::Providers::Text.ria
