@@ -1,27 +1,27 @@
 module Kirpich::Providers
   class GoogleImage
     class << self
-      def search(q, random = false)
-        _search(q, random)
+      def search(q, repeat = false)
+        _search(q, repeat)
       end
 
-      def search_xxx(q, random = false)
+      def search_xxx(q, repeat = false)
         q ||= 'girls'
         q += [' soft', ' softcore', ' sensuality'].sample
 
-        _search(q, random)
+        _search(q, repeat)
       end
 
-      def _search(q, random)
+      def _search(q, repeat)
         q = _clean(q)
 
-        params = _search_params(q, random)
+        params = _search_params(q, repeat)
         response = Faraday.get('http://ajax.googleapis.com/ajax/services/search/images', params)
         result = JSON.parse response.body
         Kirpich.logger.info result
 
         if result.key?('responseData') && result['responseData'].key?('results')
-          img = if random
+          img = if repeat
                   result['responseData']['results'].sample['unescapedUrl']
                 else
                   result['responseData']['results'].first['unescapedUrl']
@@ -37,9 +37,9 @@ module Kirpich::Providers
         ''
       end
 
-      def _search_params(q, random)
+      def _search_params(q, repeat)
         params = { q: q, rsz: '8', v: '1.0', as_filetype: 'jpg', imgsz: 'large' }
-        params[:start] = rand(50) if random
+        params[:start] = rand(50) if repeat
 
         if q =~ /(gif|гиф|гифку)/i
           params[:as_filetype] = 'gif'

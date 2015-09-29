@@ -157,13 +157,13 @@ module Kirpich
     end
 
     def random_post
-      methods = [:random_boobs_image, :random_ass_image, :lurk_random, :brakingmad_text, :pikabu_image, :news_text, :currency, :developerslife_image]
+      methods = [:random_boobs_image, :random_ass_image, :news_text, :currency]
       method_object = @answers.method(methods.sample)
       method_object.call
     end
 
     def random_post_timer
-      time = 3000 + rand(3000)
+      time = 5000 + rand(8000)
 
       EM.add_timer(time) do
         data = {
