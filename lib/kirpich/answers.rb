@@ -37,8 +37,8 @@ module Kirpich
       "http://lmgtfy.com/?q=#{URI.encode(text)}"
     end
 
-    def pidor_text
-      'да' if rand(2)
+    def na_text
+      'хуй на' if rand(2)
     end
 
     def pidor_text
@@ -217,7 +217,7 @@ module Kirpich
     end
 
     def lurk_search(text)
-      result = Kirpich::Dict::Providers::Lurk.search(text)
+      result = Kirpich::Providers::Lurk.search(text)
 
       if result.empty?
         do_not_know_text

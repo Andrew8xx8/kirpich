@@ -63,7 +63,7 @@ module Kirpich
     def on_call(text, channel)
       if text.clean =~ /(синька)/i
         result = answer(:sin_text)
-      elsif text.clean =~ /(пошли|пошел)/i
+      elsif text.clean =~ /(быстра|пошел ты|в жопу раз|вилкой в глаз|тебе в жопу)/i
         result = answer(:nah_text)
       elsif text.clean =~ /^(зда?о?ров|привет)/i
         result = answer(:hello_text)
@@ -139,7 +139,11 @@ module Kirpich
       elsif text.clean =~ /(да)$/i
         result = answer(:na_text)
       elsif text.clean =~ /.*\?$/i
-        result = answer(:choose_text, Kirpich::Dict::YES_NO)
+        if text.clean =~ /да\?$/i && rand(4) == 1
+          result = answer(:na_text)
+        else
+          result = answer(:choose_text, Kirpich::Dict::YES_NO)
+        end
       elsif text.clean =~ /выполни.*\(.*?\)/i
         m = text.clean.scan(/выполни.*\((.*)\)/i)
         if m && m[0][0]

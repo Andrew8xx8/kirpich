@@ -6,10 +6,11 @@ require 'open-uri'
 require 'json'
 
 module Kirpich
-  autoload 'Dict',    'kirpich/dict'
-  autoload 'Bot',     'kirpich/bot'
-  autoload 'Answers', 'kirpich/answers'
-  autoload 'Text',    'kirpich/text'
+  autoload 'Dict',      'kirpich/dict'
+  autoload 'Bot',       'kirpich/bot'
+  autoload 'Answers',   'kirpich/answers'
+  autoload 'Text',      'kirpich/text'
+  autoload 'Providers', 'kirpich/providers'
 
   class << self
     def run
