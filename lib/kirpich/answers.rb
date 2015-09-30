@@ -38,11 +38,11 @@ module Kirpich
     end
 
     def na_text
-      'хуй на' if rand(2)
+      'хуй на' if rand(2) == 0
     end
 
     def pidor_text
-      'пидора ответ' if rand(2)
+      'пидора ответ' if rand(2) == 0
     end
 
     def cat_image
@@ -176,7 +176,8 @@ module Kirpich
     end
 
     def poh_text
-      Kirpich::Dict::POX.sample
+      text = Kirpich::Dict::POX.sample
+      appeal_text(text, 4)
     end
 
     def kak_dela_text
