@@ -39,7 +39,7 @@ module Kirpich
       text = Kirpich::Text.new(data['text'] || '')
 
       if data['user'] == 'U08AT5SP6'
-        return answers(:poh_text)
+        return answer(:poh_text)
       end
 
       if text.fap?
