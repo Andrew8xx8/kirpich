@@ -38,10 +38,6 @@ module Kirpich
     def select_text(data)
       text = Kirpich::Text.new(data['text'] || '')
 
-      if data['user'] == 'U08AT5SP6'
-        return answer(:poh_text)
-      end
-
       if text.fap?
         @fap_count += 1
       elsif @fap_count > 0
