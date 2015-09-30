@@ -179,6 +179,10 @@ module Kirpich
       Kirpich::Dict::POX.sample
     end
 
+    def kak_dela_text
+      Kirpich::Dict::KAK_DELA.sample
+    end
+
     def do_not_know_text
       Kirpich::Dict::HZ.sample
     end

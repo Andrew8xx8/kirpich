@@ -51,8 +51,10 @@ module Kirpich
         result = answer(:poh_text)
       elsif text.clean =~ /(зда?о?ров|привет|вечер в хату)/i
         result = answer(:hello_text)
-      elsif text.clean =~ /(как дела|что.*?как|чо.*?каво)/i
+      elsif text.clean =~ /(что.*?как|чо.*?каво)/i
         result = answer(:news_text)
+      elsif text.clean =~ /как дела/i
+        result = answer(:kak_dela_text)
       elsif text.appeal? || data['channel'] == 'D081AUUHW'
         result = on_call(text, data['channel'])
       end
