@@ -4,4 +4,4 @@ ruby '2.2.1'
 # Specify your gem's dependencies in kirpich.gemspec
 gemspec
 
-gem 'logstash-logger'
+gem 'coveralls', require: false

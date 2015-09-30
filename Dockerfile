@@ -11,6 +11,7 @@ RUN dpkg-reconfigure -fnoninteractive locales
 ENV LC_ALL=ru_RU.utf8
 ENV LANGUAGE=ru_RU.utf8
 RUN update-locale LC_ALL="ru_RU.utf8" LANG="ru_RU.utf8" LANGUAGE="ru_RU"
+RUN apt-get install -y vim
 
 COPY lib/kirpich/version.rb /usr/src/app/lib/kirpich/
 COPY kirpich.gemspec /usr/src/app/
