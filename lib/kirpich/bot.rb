@@ -133,8 +133,8 @@ module Kirpich
                  end
       elsif text.clean =~ /(погода)/i
         result = answer(:poh_text)
-      elsif text.clean =~ /(найди|поищи|загугли|погугли|по шурши|че там)\s(.*?)$/i
-        md = text.clean.scan(/.*?(найди|поищи|загугли|погугли|по шурши|че там)\s(.*?)$/i)
+      elsif text.clean =~ /(найди|поищи|загугли|погугли|пошурши|че там)\s(.*?)$/i
+        md = text.clean.scan(/.*?(найди|поищи|загугли|погугли|пошурши|че там)\s(.*?)$/i)
         result = answer(:google_search, md[0][1]) if md && md[0] && md[0][1]
       elsif text.clean =~ /(ет)$/i
         result = answer(:pidor_text)
