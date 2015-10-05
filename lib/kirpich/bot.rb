@@ -13,6 +13,8 @@ module Kirpich
 
       state[request.channel] ||= {}
       answer = Kirpich::Brain.respond_on(request)
+
+      return unless answer
       response = eval_answer(answer, request, state[request.channel])
 
       return unless response
@@ -37,8 +39,6 @@ module Kirpich
     end
 
     def eval_answer(answer, request, state)
-      return unless answer
-
       Kirpich.logger.info "Respond with #{answer.type}"
 
       if answer.type == :last_answer
