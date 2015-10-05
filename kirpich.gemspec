@@ -26,6 +26,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'webmock'
   spec.add_development_dependency 'wrong'
 
+  spec.add_dependency 'virtus'
   spec.add_dependency 'slack-api'
   spec.add_dependency 'nokogiri'
   spec.add_dependency 'json'

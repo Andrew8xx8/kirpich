@@ -2,113 +2,36 @@
 
 require 'test_helper'
 
-class AnswersStub
-  def method(method)
-    proc do |*args|
-      {
-        method: method,
-        args: args
-      }
-    end
+class ClientStub
+  attr_reader :post_called
+  attr_reader :post_after_called
+
+  def post(params, _)
+    @post_called = true
+    params
   end
 
-  def method_missing(method_name, *_args)
-    method_name
+  def post_after(time)
+    @post_after_called = true
+    time
   end
 end
 
 class Kirpich::BotTest < Minitest::Test
   def setup
-    @bot = Kirpich::Bot.new(answers: AnswersStub.new,
-                            client: nil)
+    @client = ClientStub.new
+    @bot = Kirpich::Bot.new(client: @client, self_id: 'test')
   end
 
-  def test_replay
-    answer = @bot.select_text('text' => 'КиРпиЧ, РазЪясни что', 'channel' => 'test')
-    assert_answer(answer, :lurk_search)
+  def test_on_message
+    slack_message = { 'type' => 'message', 'user' => 'U081B2XCP', 'text' => 'а?', 'channel' => 'D081AUUHW', 'ts' => '1443994452.000009' }
+    @bot.on_message(slack_message)
 
-    answer = @bot.select_text('text' => 'кирпич, разъясни что', 'channel' => 'test')
-    assert_answer(answer, :lurk_search)
-
-    answer = @bot.select_text('text' => 'кирпич, еще раз', 'channel' => 'test')
-    assert_answer(answer, :lurk_search)
-
-    answer = @bot.select_text('text' => 'кирпич, повторика', 'channel' => 'test')
-    assert_answer(answer, :lurk_search)
+    assert @client.post_called
   end
 
-  def test_explain
-    answer = @bot.select_text('text' => 'кирпич, разъясни что', 'channel' => 'test')
-    assert_answer(answer, :lurk_search)
-
-    answer = @bot.select_text('text' => 'кирпич, разъясни что такое гопник', 'channel' => 'test')
-    assert_answer(answer, :lurk_search)
-
-    answer = @bot.select_text('text' => 'кирпич, что такое гопник', 'channel' => 'test')
-    assert_answer(answer, :lurk_search)
-  end
-
-  def test_boobs
-    answer = @bot.select_text('text' => 'кирпич, покажи сиськи', 'channel' => 'test')
-    assert_answer(answer, :random_boobs_image)
-  end
-
-  def test_poh
-    answer = @bot.select_text('text' => 'среда', 'channel' => 'test')
-    assert_answer(answer, :poh_text)
-  end
-
-  def test_hello
-    answer = @bot.select_text('text' => 'Кипич, привет', 'channel' => 'test')
-    assert_answer(answer, :hello_text)
-  end
-
-  def test_currency
-    answer = @bot.select_text({ 'text' => 'Паш, курс', 'channel' => 'test' })
-    assert_answer(answer, :currency)
-  end
-
-  def test_main
-    answer = @bot.select_text('text' => 'Паш, кто главный', 'channel' => 'test')
-    assert_answer(answer, :chef_text)
-  end
-
-  def test_good
-    answer = @bot.select_text('text' => 'паша красава', 'channel' => 'test')
-    assert_answer(answer, :ok_text)
-
-    answer = @bot.select_text('text' => 'пашок красавчик', 'channel' => 'test')
-    assert_answer(answer, :ok_text)
-
-    answer = @bot.select_text('text' => 'пашок молодчик', 'channel' => 'test')
-    assert_answer(answer, :ok_text)
-  end
-
-  def test_choose
-    answer = @bot.select_text('text' => 'пашок, красное, синее или зеленое?', 'channel' => 'test')
-    assert_answer(answer, :choose_text, [%w(красное синее зеленое)])
-  end
-
-  def test_call
-    answer = @bot.select_text({ 'text' => 'пашок ты не приуныл ли случаем?', 'channel' => 'test' })
-    assert_answer(answer, :choose_text)
-
-    answer = @bot.select_text('text' => 'пашок ты сидел?', 'channel' => 'test')
-    assert_answer(answer, :choose_text)
-
-    answer = @bot.select_text({ 'text' => 'Паш, цены на нефть поднимутся?', 'channel' => 'test' })
-    assert_answer(answer, :choose_text)
-
-    answer = @bot.select_text({ 'text' => 'Паш, нет?', 'channel' => 'test' })
-    assert_answer(answer, :choose_text)
-  end
-
-  def assert_answer(answer, method, args = [])
-    assert { method == answer[:method] }
-    if args.any?
-      args.each_with_index do |arg, i|
-        assert { arg == answer[:args][i] }
-      end
-    end
+  def test_on_hello
+    @bot.on_hello
+    assert @client.post_after_called
   end
 end

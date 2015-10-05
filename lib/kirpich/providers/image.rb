@@ -16,6 +16,20 @@ module Kirpich::Providers
           i['src']
         end.sample + "?#{Time.now.to_i}"
       end
+
+      def developerslife_image
+        response = Faraday.get 'http://developerslife.ru/random'
+        link = response.headers['location']
+
+        return unless link
+
+        response = Faraday.get link
+        page = Nokogiri::HTML(response.body)
+        image = page.css('.entry .gif img')
+        text = page.css('.entry .code .value')
+
+        [image.first['src'], text.first.text.delete("'")] if image && text
+      end
     end
   end
 end

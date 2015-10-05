@@ -5,20 +5,6 @@ module Kirpich
       нет
       возможно)
 
-    NO_FAP = [
-      'http://www.youtube.com/watch?v=WMkPIz1y1LY',
-      'http://www.youtube.com/watch?v=si0eDvtcIik',
-      'http://www.youtube.com/watch?v=y4CluS1fs7g',
-      'http://zhizn-bez-onanizma.ru/index.php/poshagovaia-metodika'
-    ]
-
-    DEN = [
-      'нету его',
-      'я за него',
-      'он мне не отчитывается',
-      'а ты с какой целью интересуешься?'
-    ]
-
     NO_GIRLS = [
       'чет там нет нихуя',
       'ПОТРАЧЕНО',
@@ -146,7 +132,7 @@ module Kirpich
       'да ну и похуй, чего там'
     ]
 
-    KAK_DELA =[
+    KAK_DELA = [
       'дела, как в польше: тот прав, у кого хер больше',
       'кaк сажа бела',
       'как кило говна',

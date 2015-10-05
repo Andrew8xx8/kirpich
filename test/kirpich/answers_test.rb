@@ -2,24 +2,30 @@ require 'test_helper'
 
 class Kirpich::AnswersTest < Minitest::Test
   def setup
-    @answers = Kirpich::Answers.new
+    @answers = Kirpich::Answers
   end
 
-  def test_materialize
-    source = 'Lorem Ipsum - это текст-"рыба", часто используемый в печати и вэб-дизайне. Lorem Ipsum является стандартной "рыбой" для текстов на латинице с начала XVI века. В то время некий безымянный печатник создал большую коллекцию размеров и форм шрифтов, используя Lorem Ipsum для распечатки образцов. Lorem Ipsum не только успешно пережил без заметных изменений пять веков, но и перешагнул в электронный дизайн. Его популяризации в новое время послужили публикация листов Letraset с образцами Lorem Ipsum в 60-х годах и, в более недавнее время, программы электронной вёрстки типа Aldus PageMaker, в шаблонах которых используется Lorem Ipsum.'
-    text = @answers.materialize(source)
-    assert { text.length > source.length }
+  def test_currency
+    stub_request(:get, /query.yahooapis.com/)
+      .to_return(status: 200, body: load_fixture('yahoo.json'), headers: {})
+    request = Kirpich::Request.new
+    response = @answers.currency(request, {})
+    assert { response.body.first.include?('dollar') }
   end
 
-  def test_developerslife_image
-    stub_request(:get, 'http://developerslife.ru/random')
-      .with(headers: { 'Accept' => '*/*', 'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'User-Agent' => 'Faraday v0.9.1' })
-      .to_return(status: 200, body: '', headers: { location: '//developerslife.ru/1' })
+  def test_currency_up
+    stub_request(:get, /query.yahooapis.com/)
+      .to_return(status: 200, body: load_fixture('yahoo.json'), headers: {})
+    request = Kirpich::Request.new
+    response = @answers.currency(request, pc: { 'USD/RUB' => '66.0545', 'EUR/RUB' => '74.0279' })
+    assert { response.body.first.include?('chart_with_upwards_trend') }
+  end
 
-    stub_request(:get, 'http://developerslife.ru/1')
-      .with(headers: { 'Accept' => '*/*', 'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'User-Agent' => 'Faraday v0.9.1' })
-      .to_return(status: 200, body: load_fixture('developerslife.html'), headers: {})
-
-    assert { @answers.developerslife_image.is_a?(Array) }
+  def test_currency_down
+    stub_request(:get, /query.yahooapis.com/)
+      .to_return(status: 200, body: load_fixture('yahoo.json'), headers: {})
+    request = Kirpich::Request.new
+    response = @answers.currency(request, pc: { 'USD/RUB' => '66.3545', 'EUR/RUB' => '74.4279' })
+    assert { response.body.first.include?('chart_with_downwards_trend') }
   end
 end

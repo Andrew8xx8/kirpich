@@ -1,3 +1,4 @@
+require 'virtus'
 require 'kirpich/version'
 require 'logstash-logger'
 require 'slack'
@@ -8,9 +9,14 @@ require 'json'
 module Kirpich
   autoload 'Dict',      'kirpich/dict'
   autoload 'Bot',       'kirpich/bot'
+  autoload 'Answer',    'kirpich/answer'
+  autoload 'Client',    'kirpich/client'
+  autoload 'Brain',     'kirpich/brain'
   autoload 'Answers',   'kirpich/answers'
   autoload 'Text',      'kirpich/text'
   autoload 'Providers', 'kirpich/providers'
+  autoload 'Request',   'kirpich/request'
+  autoload 'Response',  'kirpich/response'
 
   class << self
     def run
@@ -23,8 +29,7 @@ module Kirpich
 
       client = Slack.realtime
 
-      bot = Kirpich::Bot.new(answers: Kirpich::Answers.new,
-                             client: client)
+      bot = Kirpich::Bot.new(client: Kirpich::Client.new, self_id: auth['user_id'])
 
       client.on :message do |data|
         bot.on_message(data)

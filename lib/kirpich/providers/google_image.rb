@@ -1,45 +1,47 @@
 module Kirpich::Providers
   class GoogleImage
     class << self
-      def search(q, repeat = false)
-        _search(q, repeat)
+      def search(q, page = 0)
+        _search(q, page)
       end
 
-      def search_xxx(q, repeat = false)
+      def search_xxx(q, page = 0)
         q ||= 'girls'
         q += [' soft', ' softcore', ' sensuality'].sample
 
-        _search(q, repeat)
+        _search(q, page)
       end
 
-      def _search(q, repeat)
+      def _search(q, page)
         q = _clean(q)
 
-        params = _search_params(q, repeat)
+        params = _search_params(q, page)
+        result = _send_request(params)
+
+        return unless _result_valid?(result)
+
+        img = result['responseData']['results'].first['unescapedUrl']
+        "#{img}?#{Time.now.to_i}"
+      end
+
+      def _send_request(params)
         response = Faraday.get('http://ajax.googleapis.com/ajax/services/search/images', params)
         result = JSON.parse response.body
         Kirpich.logger.info result
 
-        if result.key?('responseData') && result['responseData'].key?('results')
-          img = if repeat
-                  result['responseData']['results'].sample['unescapedUrl']
-                else
-                  result['responseData']['results'].first['unescapedUrl']
-          end
-
-          "#{img}?#{Time.now.to_i}"
-        end
-      rescue NoMethodError => e
-        Kirpich.logger.error e
-        ''
+        result
       rescue RuntimeError => e
         Kirpich.logger.error e
-        ''
+        nil
       end
 
-      def _search_params(q, repeat)
-        params = { q: q, rsz: '8', v: '1.0', as_filetype: 'jpg', imgsz: 'large' }
-        params[:start] = rand(50) if repeat
+      def _result_valid?(result)
+        result.key?('responseData') && result['responseData'].key?('results') && result['responseData']['results'].any?
+      end
+
+      def _search_params(q, page)
+        params = { q: q, rsz: '1', v: '1.0', as_filetype: 'jpg', imgsz: 'large' }
+        params[:start] = page if page > 0
 
         if q =~ /(gif|гиф|гифку)/i
           params[:as_filetype] = 'gif'
