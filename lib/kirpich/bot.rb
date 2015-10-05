@@ -41,7 +41,7 @@ module Kirpich
 
       Kirpich.logger.info "Respond with #{answer.type}"
 
-      if answer.type == :last_answer && state[:last_answer].is_a?(Kirpich::Answer)
+      if answer.type == :last_answer
         answer = state[:last_answer]
       else
         state[:last_answer] = answer
