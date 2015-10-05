@@ -40,7 +40,6 @@ module Kirpich
         if state[:last_search] && state[:last_search][:q] == q
           page = state[:last_search][:page] + 1
         end
-        p state, q, page
 
         img = Kirpich::Providers::GoogleImage.search(q, page)
         body = img || Kirpich::Dict::NO_GIRLS.sample
