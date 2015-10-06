@@ -26,7 +26,9 @@ module Kirpich
       end
 
       def on_call(text, channel)
-        if text.clean =~ /(синька)/i
+        if text.clean =~ /(расскажи о себе|ты кто)/i
+          answer = Kirpich::Answer.new(:about)
+        elsif text.clean =~ /(синька)/i
           answer = Kirpich::Answer.new(:appeal_text, Kirpich::Dict::SIN.sample, 1)
         elsif text.clean =~ /(быстра|пошел ты|в жопу раз|вилкой в глаз|тебе в жопу)/i
           answer = Kirpich::Answer.new(:appeal_text, Kirpich::Dict::NAX.sample, 2)

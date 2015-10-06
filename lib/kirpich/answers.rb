@@ -1,6 +1,10 @@
 module Kirpich
   class Answers
     class << self
+      def about(_, _)
+        build_response Kirpich::Dict::ABOUT
+      end
+
       def random_user(r, s, channel)
         user = Kirpich::Providers::SlackUser.random(channel)
 
