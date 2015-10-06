@@ -65,7 +65,7 @@ module Kirpich
         elsif text.clean =~ /(запость|ебни|ебаш|хуяч|хуйни|пиздани|ебани|постани|постни|создай.*настроение|делай красиво|скажи.*что.*нибудь|удиви)/i
           answer = random_post
         elsif text.clean =~ /кто.*(охуел|заебал|доебал|надоел|должен|молодец|красавчик)/i
-          answer = @answers.random_user(channel)
+          answer = Kirpich::Answer.new(:random_user, channel)
         elsif text.clean =~ /(спасибо|збсь?|красава|молодчик|красавчик|от души|по красоте|зацени|норм)/i
           answer = Kirpich::Answer.new(:appeal_text, Kirpich::Dict::ZBS.sample, 2)
         elsif text.clean =~ /(объясни|разъясни|растолкуй|что|как|кто) ?(что|как|кто)? ?(это|эта|такой|такое|такие)? (.*)/i

@@ -7,6 +7,10 @@ class Kirpich::BrainTest < Minitest::Test
     @brain = Kirpich::Brain
   end
 
+  def test_random_user
+    assert_answer('кирпич, кто охуел?', :random_user)
+  end
+
   def test_again
     assert_answer('кирпич, еще раз', :last_answer)
     assert_answer('кирпич, повторика', :last_answer)
