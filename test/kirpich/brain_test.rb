@@ -12,12 +12,8 @@ class Kirpich::BrainTest < Minitest::Test
     assert_answer('кирпич, повторика', :last_answer)
   end
 
-  def test_replay
-    assert_answer('КиРпиЧ, РазЪясни что', :lurk_search)
-    assert_answer('кирпич, разъясни что', :lurk_search)
-  end
-
   def test_explain
+    assert_answer('КиРпиЧ, РазЪясни что', :lurk_search)
     assert_answer('кирпич, разъясни что', :lurk_search)
     assert_answer('кирпич, разъясни что такое гопник', :lurk_search)
     assert_answer('кирпич, что такое гопник', :lurk_search)
@@ -28,11 +24,11 @@ class Kirpich::BrainTest < Minitest::Test
   end
 
   def test_poh
-    assert_answer('среда', :poh_text)
+    assert_answer('среда', :appeal_text)
   end
 
   def test_hello
-    assert_answer('Кипич, привет', :hello_text)
+    assert_answer('Кипич, привет', :appeal_text)
   end
 
   def test_currency
@@ -40,13 +36,13 @@ class Kirpich::BrainTest < Minitest::Test
   end
 
   def test_main
-    assert_answer('Паш, кто главный', :chef_text)
+    assert_answer('Паш, кто главный', :appeal_text)
   end
 
   def test_good
-    assert_answer('паша красава', :ok_text)
-    assert_answer('пашок красавчик', :ok_text)
-    assert_answer('пашок молодчик', :ok_text)
+    assert_answer('паша красава', :appeal_text)
+    assert_answer('пашок красавчик', :appeal_text)
+    assert_answer('пашок молодчик', :appeal_text)
   end
 
   def test_choose
@@ -57,7 +53,6 @@ class Kirpich::BrainTest < Minitest::Test
     assert_answer('пашок ты не приуныл ли случаем?', :choose_text)
     assert_answer('пашок ты сидел?', :choose_text)
     assert_answer('Паш, цены на нефть поднимутся?', :choose_text)
-    assert_answer('Паш, нет?', :choose_text)
   end
 
   def assert_answer(text, method, args = [])

@@ -23,6 +23,16 @@ module Kirpich
         build_response "http://lmgtfy.com/?q=#{URI.encode(text)}"
       end
 
+      def a_or_b_text(_, _, a, b, r)
+        text = if rand(r) == 0
+                 a.sample
+               else
+                 b.sample
+               end
+
+        build_response(text)
+      end
+
       def text(_, _, text, rand = 2)
         build_response(text) if rand(rand) == 0
       end

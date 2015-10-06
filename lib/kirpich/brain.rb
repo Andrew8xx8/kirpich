@@ -9,9 +9,9 @@ module Kirpich
         if text.clean =~ /(^|\s)я($|,|\.|\?)/i
           Kirpich::Answer.new(:text, Kirpich::Dict::I.sample)
         elsif text.clean =~ /(^|\s)да($|,|\.|\?)/i
-          Kirpich::Answer.new(:text, Kirpich::Dict::YES.sample)
+          Kirpich::Answer.new(:a_or_b_text, Kirpich::Dict::YES, Kirpich::Dict::YES_NO, 6)
         elsif text.clean =~ /(^|\s)нет($|,|\.|\?)/i
-          Kirpich::Answer.new(:text, Kirpich::Dict::PID.sample)
+          Kirpich::Answer.new(:a_or_b_text, Kirpich::Dict::PID, Kirpich::Dict::YES_NO, 6)
         elsif text.clean =~ /(сред|^(ну и|да и|и) ?похуй)/i
           Kirpich::Answer.new(:appeal_text, Kirpich::Dict::POX.sample, 2)
         elsif text.clean =~ /(зда?о?ров|привет|вечер в хату)/i
@@ -96,11 +96,7 @@ module Kirpich
           md = text.clean.scan(/.*?(найди|поищи|загугли|погугли|пошурши|че там)\s(.*?)$/i)
           answer = Kirpich::Answer.new(:google_search, md[0][1]) if md && md[0] && md[0][1]
         elsif text.clean =~ /.*\?$/i
-          if text.clean =~ /да\?$/i && rand(4) == 1
-            answer = Kirpich::Answer.new(:na_text)
-          else
-            answer = Kirpich::Answer.new(:choose_text, Kirpich::Dict::YES_NO)
-          end
+          answer = Kirpich::Answer.new(:choose_text, Kirpich::Dict::YES_NO)
         end
 
         answer || Kirpich::Answer.new(:appeal_text, Kirpich::Dict::CALL.sample, 3)
