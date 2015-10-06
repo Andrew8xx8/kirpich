@@ -6,14 +6,20 @@ module Kirpich
 
         text = Kirpich::Text.new(request.text || '')
 
-        if text.clean =~ /(сред|^(ну и|да и|и) ?похуй)/i
-          Kirpich::Answer.new(:poh_text)
+        if text.clean =~ /(^|\s)я($|,|\.|\?)/i
+          Kirpich::Answer.new(:text, Kirpich::Dict::I.sample)
+        elsif text.clean =~ /(^|\s)да($|,|\.|\?)/i
+          Kirpich::Answer.new(:text, Kirpich::Dict::YES.sample)
+        elsif text.clean =~ /(^|\s)нет($|,|\.|\?)/i
+          Kirpich::Answer.new(:text, Kirpich::Dict::PID.sample)
+        elsif text.clean =~ /(сред|^(ну и|да и|и) ?похуй)/i
+          Kirpich::Answer.new(:appeal_text, Kirpich::Dict::POX.sample, 2)
         elsif text.clean =~ /(зда?о?ров|привет|вечер в хату)/i
-          Kirpich::Answer.new(:hello_text)
+          Kirpich::Answer.new(:appeal_text, Kirpich::Dict::HELLO.sample, 3)
         elsif text.clean =~ /(что.*?как|чо.*?каво)/i
           Kirpich::Answer.new(:news_text)
         elsif text.clean =~ /как дела/i
-          Kirpich::Answer.new(:kak_dela_text)
+          Kirpich::Answer.new(:appeal_text, Kirpich::Dict::KAK_DELA.sample, 4)
         elsif text.appeal? || request.channel == 'D081AUUHW'
           on_call(text, request.channel)
         end
@@ -21,11 +27,9 @@ module Kirpich
 
       def on_call(text, channel)
         if text.clean =~ /(синька)/i
-          answer = Kirpich::Answer.new(:sin_text)
+          answer = Kirpich::Answer.new(:appeal_text, Kirpich::Dict::SIN.sample, 1)
         elsif text.clean =~ /(быстра|пошел ты|в жопу раз|вилкой в глаз|тебе в жопу)/i
-          answer = Kirpich::Answer.new(:nah_text)
-        elsif text.clean =~ /^(зда?о?ров|привет)/i
-          answer = Kirpich::Answer.new(:hello_text)
+          answer = Kirpich::Answer.new(:appeal_text, Kirpich::Dict::NAX.sample, 2)
         elsif text.clean =~ /(танцуй|исполни|пацандобль|танец)/i
           answer = Kirpich::Answer.new(:dance_text)
         elsif text.clean =~ /^материализуй.*/i
@@ -41,7 +45,7 @@ module Kirpich
             answer = Kirpich::Answer.new(:search_image, text.clean)
           end
         elsif text.clean =~ /(кто.*главный)/i
-          answer = Kirpich::Answer.new(:chef_text)
+          answer = Kirpich::Answer.new(:appeal_text, Kirpich::Dict::GLAV.sample, 2)
         elsif text.clean =~ /(программист|девелопер|программер)/i
           answer = Kirpich::Answer.new(:developerslife_image)
         elsif text.clean =~ /(покажи|как выглядит|фотограф|фотку|фотка|изображение)/i
@@ -61,14 +65,14 @@ module Kirpich
         elsif text.clean =~ /кто.*(охуел|заебал|доебал|надоел|должен|молодец|красавчик)/i
           answer = @answers.random_user(channel)
         elsif text.clean =~ /(спасибо|збсь?|красава|молодчик|красавчик|от души|по красоте|зацени|норм)/i
-          answer = Kirpich::Answer.new(:ok_text)
+          answer = Kirpich::Answer.new(:appeal_text, Kirpich::Dict::ZBS.sample, 2)
         elsif text.clean =~ /(объясни|разъясни|растолкуй|что|как|кто) ?(что|как|кто)? ?(это|эта|такой|такое|такие)? (.*)/i
           m = text.clean.scan(/(объясни|разъясни|растолкуй|что|как|кто) ?(что|как|кто)? ?(это|эта|такой|такое|такие)? (.*)/im)
           if m && m[0] && m[0][3]
             q = m[0][3]
             answer = Kirpich::Answer.new(:lurk_search, q)
           else
-            answer = Kirpich::Answer.new(:do_not_know_text)
+            answer = Kirpich::Answer.new(:appeal_text, Kirpich::Dict::HZ.sample, 2)
           end
         elsif text.clean =~ /(еще|повтори|заново|постарайся)/i
           answer = Kirpich::Answer.new(:last_answer)
@@ -85,14 +89,10 @@ module Kirpich
                      HZ.sample
                    end
         elsif text.clean =~ /(погода)/i
-          answer = Kirpich::Answer.new(:poh_text)
+          answer = Kirpich::Answer.new(:appeal_text, Kirpich::Dict::POX.sample, 3)
         elsif text.clean =~ /(найди|поищи|загугли|погугли|пошурши|че там)\s(.*?)$/i
           md = text.clean.scan(/.*?(найди|поищи|загугли|погугли|пошурши|че там)\s(.*?)$/i)
           answer = Kirpich::Answer.new(:google_search, md[0][1]) if md && md[0] && md[0][1]
-        elsif text.clean =~ /(ет)$/i
-          answer = Kirpich::Answer.new(:pidor_text)
-        elsif text.clean =~ /(да)$/i
-          answer = Kirpich::Answer.new(:na_text)
         elsif text.clean =~ /.*\?$/i
           if text.clean =~ /да\?$/i && rand(4) == 1
             answer = Kirpich::Answer.new(:na_text)
@@ -101,7 +101,7 @@ module Kirpich
           end
         end
 
-        answer || Kirpich::Answer.new(:call_text)
+        answer || Kirpich::Answer.new(:appeal_text, Kirpich::Dict::CALL.sample, 3)
       end
     end
   end

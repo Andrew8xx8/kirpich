@@ -1,14 +1,14 @@
 module Kirpich
   class Answers
     class << self
-      def random_user(_, _, channel)
+      def random_user(r, s, channel)
         user = Kirpich::Providers::SlackUser.random(channel)
 
         return unless user
 
         name = user['real_name']
         name = user['name'] if name.empty?
-        appeal_text(name, 4)
+        appeal_text(r, s, name, 4)
       end
 
       def materialize(_, _, text)
@@ -19,12 +19,8 @@ module Kirpich
         build_response "http://lmgtfy.com/?q=#{URI.encode(text)}"
       end
 
-      def na_text(_, _)
-        build_response('хуй на') if rand(2) == 0
-      end
-
-      def pidor_text(_, _)
-        build_response('пидора ответ') if rand(2) == 0
+      def text(_, _, text, rand = 2)
+        build_response(text) if rand(rand) == 0
       end
 
       def cat_image(_, _)
@@ -47,9 +43,9 @@ module Kirpich
         build_response(body, last_search: { page: page, q: q })
       end
 
-      def choose_text(_, _, options)
+      def choose_text(r, s, options)
         text = options.sample
-        appeal_text(text, 4)
+        appeal_text(r, s, text, 4)
       end
 
       def dance_text(_, _)
@@ -96,30 +92,11 @@ module Kirpich
         build_response("https://www.google.ru/maps/search/#{q}")
       end
 
-      def chef_text(_, _)
-        build_response(Kirpich::Dict::GLAV.sample)
-      end
-
       def rules_text(_, _)
         build_response(Kirpich::Dict::RULES)
       end
 
-      def poh_text(_, _)
-        text = Kirpich::Dict::POX.sample
-        appeal_text(text, 4)
-      end
-
-      def kak_dela_text(_, _)
-        text = Kirpich::Dict::KAK_DELA.sample
-        appeal_text(text, 4)
-      end
-
-      def do_not_know_text(_, _)
-        text = Kirpich::Dict::HZ.sample
-        appeal_text(text, 4)
-      end
-
-      def appeal_text(text, r = 0)
+      def appeal_text(_, _, text, r = 0)
         if rand(r) == 1 && !(text =~ %r{[,.:;!?'\"\/#$%^&*()]})
           text + ", #{Kirpich::Dict::APPEAL.sample}"
         end
@@ -127,36 +104,11 @@ module Kirpich
         build_response(text)
       end
 
-      def hello_text(_, _)
-        text = Kirpich::Dict::HELLO.sample
-        appeal_text(text, 3)
-      end
-
-      def ok_text(_, _)
-        text = Kirpich::Dict::ZBS.sample
-        appeal_text(text, 2)
-      end
-
-      def sin_text(_, _)
-        text = Kirpich::Dict::SIN.sample
-        appeal_text(text, 2)
-      end
-
-      def nah_text(_, _)
-        text = Kirpich::Dict::NAX.sample
-        appeal_text(text, 2)
-      end
-
-      def call_text(_, _)
-        text = Kirpich::Dict::CALL.sample
-        appeal_text(text, 4)
-      end
-
-      def lurk_search(_, _, text)
+      def lurk_search(request, state, text)
         result = Kirpich::Providers::Lurk.search(text)
 
         if result.empty?
-          do_not_know_text(_, _)
+          appeal_text(request, state, Kirpich::Dict::HZ.sample, 2)
         else
           build_response(result)
         end
