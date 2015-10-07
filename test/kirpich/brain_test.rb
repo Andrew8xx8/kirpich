@@ -7,6 +7,10 @@ class Kirpich::BrainTest < Minitest::Test
     @brain = Kirpich::Brain
   end
 
+  def test_uebyvay_v_svoy_chat
+    assert_answer('паш, что нужно делать если чат заебал?', :text)
+  end
+
   def test_random_user
     assert_answer('кирпич, кто охуел?', :random_user)
   end
