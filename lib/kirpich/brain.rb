@@ -55,7 +55,7 @@ module Kirpich
         elsif text.clean =~ /(посоветуй|дай совет|как надо|как жить|как быть|как стать)/i
           answer = Kirpich::Answer.new(:fga_random)
         elsif text.clean =~ /(лох|черт|пидо?р|гей|хуйло|сука|бля|петух|уебок)/i
-          answer = Kirpich::Answer.new(:nah_text)
+          answer = Kirpich::Answer.new(:appeal_text, Kirpich::Dict::NAX.sample, 0)
         elsif text.clean =~ /где это/i
           m = text.clean.scan(/где это (.*)/im)
           q = m[0][0]
