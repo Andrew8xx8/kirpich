@@ -63,9 +63,7 @@ module Kirpich
 
     def random_response
       methods = [:random_boobs_image, :random_ass_image, :news_text, :currency]
-      method_object = @answers.method(methods.sample)
-
-      Kirpich::Response.new body: method_object.call
+      eval_answer(Kirpich::Answer.new(methods.sample))
     end
 
     def random_post_timer
