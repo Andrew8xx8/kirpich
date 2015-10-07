@@ -6,11 +6,11 @@ module Kirpich
 
         text = Kirpich::Text.new(request.text || '')
 
-        if text.clean =~ /(^|\s)я($|,|\.|\?)/i
+        if text.clean =~ /(^|\s)я($|\.|\?)/i
           Kirpich::Answer.new(:text, Kirpich::Dict::I.sample)
-        elsif text.clean =~ /(^|\s)да($|,|\.|\?)/i
+        elsif text.clean =~ /(^|\s)да($|\.|\?)/i
           Kirpich::Answer.new(:a_or_b_text, Kirpich::Dict::YES, Kirpich::Dict::YES_NO, 6)
-        elsif text.clean =~ /(^|\s)нет($|,|\.|\?)/i
+        elsif text.clean =~ /(^|\s)нет($|\.|\?)/i
           Kirpich::Answer.new(:a_or_b_text, Kirpich::Dict::PID, Kirpich::Dict::YES_NO, 6)
         elsif text.clean =~ /(сред|^(ну и|да и|и) ?похуй)/i
           Kirpich::Answer.new(:appeal_text, Kirpich::Dict::POX.sample, 2)
