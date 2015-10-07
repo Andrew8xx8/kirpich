@@ -8,7 +8,7 @@ class Kirpich::BrainTest < Minitest::Test
   end
 
   def test_uebyvay_v_svoy_chat
-    assert_answer('паш, что нужно делать если чат заебал?', :text)
+    assert_answer('паш, что нужно делать если чат заебал?', :appeal_text)
   end
 
   def test_random_user
