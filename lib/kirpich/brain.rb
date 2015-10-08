@@ -12,7 +12,7 @@ module Kirpich
           Kirpich::Answer.new(:a_or_b_text, Kirpich::Dict::YES, Kirpich::Dict::YES_NO, 6)
         elsif text.clean =~ /(^|\s)нет($|\.|\?)/i
           Kirpich::Answer.new(:a_or_b_text, Kirpich::Dict::PID, Kirpich::Dict::YES_NO, 6)
-        elsif text.clean =~ /(сред|^(ну и|да и|и) ?похуй)/i
+        elsif text.clean =~ /(среда|^(ну и|да и|и) ?похуй)/i
           Kirpich::Answer.new(:appeal_text, Kirpich::Dict::POX.sample, 2)
         elsif text.clean =~ /(зда?о?ров|привет|вечер в хату)/i
           Kirpich::Answer.new(:appeal_text, Kirpich::Dict::HELLO.sample, 3)
