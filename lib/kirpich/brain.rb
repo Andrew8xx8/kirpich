@@ -12,14 +12,12 @@ module Kirpich
           Kirpich::Answer.new(:a_or_b_text, Kirpich::Dict::YES, Kirpich::Dict::YES_NO, 6)
         elsif text.clean =~ /(^|\s)нет($|\.|\?)/i
           Kirpich::Answer.new(:a_or_b_text, Kirpich::Dict::PID, Kirpich::Dict::YES_NO, 6)
-        elsif text.clean =~ /(среда|^(ну и|да и|и) ?похуй)/i
+        elsif text.clean =~ /\b(среда|^(ну и|да и|и) ?похуй)\b/i
           Kirpich::Answer.new(:appeal_text, Kirpich::Dict::POX.sample, 2)
-        elsif text.clean =~ /(зда?о?ров|привет|вечер в хату)/i
+        elsif text.clean =~ /\b(зда?о?ров|привет|вечер в хату)\b/i
           Kirpich::Answer.new(:appeal_text, Kirpich::Dict::HELLO.sample, 3)
         elsif text.clean =~ /(что.*?как|чо.*?каво)/i
           Kirpich::Answer.new(:news_text)
-        elsif text.clean =~ /как дела/i
-          Kirpich::Answer.new(:appeal_text, Kirpich::Dict::KAK_DELA.sample, 4)
         elsif text.appeal? || request.channel == 'D081AUUHW'
           on_call(text, request.channel)
         end
@@ -28,29 +26,31 @@ module Kirpich
       def on_call(text, channel)
         if text.clean =~ /что.*?(надо|нужно|стоит).*?(делать|сделать).*если.*(не нравит|заебал|надоел|не устраивает)/i
           answer = Kirpich::Answer.new(:appeal_text, Kirpich::Dict::SVCHAT, 10)
+        elsif text.clean =~ /\bкак дела\b/i
+          Kirpich::Answer.new(:appeal_text, Kirpich::Dict::KAK_DELA.sample, 4)
         elsif text.clean =~ /(расскажи о себе|ты кто)/i
           answer = Kirpich::Answer.new(:about)
         elsif text.clean =~ /(синька)/i
           answer = Kirpich::Answer.new(:appeal_text, Kirpich::Dict::SIN.sample, 1)
         elsif text.clean =~ /(быстра|пошел ты|в жопу раз|вилкой в глаз|тебе в жопу)/i
           answer = Kirpich::Answer.new(:appeal_text, Kirpich::Dict::NAX.sample, 2)
-        elsif text.clean =~ /(танцуй|исполни|пацандобль|танец)/i
+        elsif text.clean =~ /\b(танцуй|исполни|пацандобль|танец)\b/i
           answer = Kirpich::Answer.new(:dance_text)
         elsif text.clean =~ /^материализуй.*/i
           answer = Kirpich::Answer.new(:materialize, text.clean)
         elsif text.clean =~ /курс/i
           answer = Kirpich::Answer.new(:currency)
         elsif text.fap?
-          if text.clean =~ /(жопа|задница|попка|попец|булки|ноги|жопу)/i
+          if text.clean =~ /\b(жопа|задница|попка|попец|булки|ноги|жопу)\b/i
             answer = Kirpich::Answer.new(:random_ass_image)
-          elsif text.clean =~ /(соски|сися|сись|тить|грудь|буфер|груди)/i
+          elsif text.clean =~ /\b(соски|сися|сись|тить|грудь|буфер|груди)/i
             answer = Kirpich::Answer.new(:random_boobs_image)
           else
             answer = Kirpich::Answer.new(:search_image, text.clean)
           end
         elsif text.clean =~ /(кто.*главный)/i
           answer = Kirpich::Answer.new(:appeal_text, Kirpich::Dict::GLAV.sample, 2)
-        elsif text.clean =~ /(программист|девелопер|программер)/i
+        elsif text.clean =~ /\b(программист|девелопер|программер)\b/i
           answer = Kirpich::Answer.new(:developerslife_image)
         elsif text.clean =~ /(покажи|как выглядит|фотограф|фотку|фотка|изображение)/i
           answer = Kirpich::Answer.new(:search_image, text.clean)

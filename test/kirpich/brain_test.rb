@@ -48,7 +48,7 @@ class Kirpich::BrainTest < Minitest::Test
   end
 
   def test_good
-    assert_answer('паша красава', :appeal_text)
+    assert_answer('паштет красава', :appeal_text)
     assert_answer('пашок красавчик', :appeal_text)
     assert_answer('пашок молодчик', :appeal_text)
   end
