@@ -63,7 +63,7 @@ module Kirpich
           q = m[0][0]
           answer = Kirpich::Answer.new(:geo_search, q)
         elsif text.clean =~ /(умеешь|можешь)/i
-          answer = Kirpich::HELP
+          answer = Kirpich::Answer.new(:appeal_text, Kirpich::Dict::HELP, 0)
         elsif text.clean =~ /(запость|ебни|ебаш|хуяч|хуйни|пиздани|ебани|постани|постни|создай.*настроение|делай красиво|скажи.*что.*нибудь|удиви)/i
           answer = random_post
         elsif text.clean =~ /кто.*(охуел|заебал|доебал|надоел|должен|молодец|красавчик)/i
