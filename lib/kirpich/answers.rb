@@ -106,6 +106,11 @@ module Kirpich
         build_response("https://www.google.ru/maps/search/#{q}")
       end
 
+      def random_phrase(_, _)
+        phrase = Kirpich::Dict::RANDOM.sample
+        build_response(phrase)
+      end
+
       def rules_text(_, _)
         build_response(Kirpich::Dict::RULES)
       end
