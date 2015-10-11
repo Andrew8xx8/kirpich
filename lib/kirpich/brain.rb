@@ -16,7 +16,7 @@ module Kirpich
           Kirpich::Answer.new(:appeal_text, Kirpich::Dict::POX.sample, 2)
         elsif text.clean =~ /(зда?о?ров|привет|вечер в хату)/i
           Kirpich::Answer.new(:appeal_text, Kirpich::Dict::HELLO.sample, 3)
-        elsif text.clean =~ /(что.*?как|чо.*?каво)/i
+        elsif text.clean =~ /(что.*?как|ч(о|е|ё).*?каво)/i
           Kirpich::Answer.new(:news_text)
         elsif text.clean =~ /как дела/i
           Kirpich::Answer.new(:appeal_text, Kirpich::Dict::KAK_DELA.sample, 4)
