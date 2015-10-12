@@ -62,7 +62,12 @@ module Kirpich
     end
 
     def random_response
-      methods = [:random_boobs_image, :random_ass_image, :news_text, :currency]
+      methods = [
+        :random_boobs_image,
+        :random_ass_image,
+        :currency,
+        :random_phrase
+      ]
       eval_answer(Kirpich::Answer.new(methods.sample))
     end
 

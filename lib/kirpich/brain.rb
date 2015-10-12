@@ -16,7 +16,7 @@ module Kirpich
           Kirpich::Answer.new(:appeal_text, Kirpich::Dict::POX.sample, 2)
         elsif text.clean =~ /\b(зда?о?ров|привет|вечер в хату)\b/i
           Kirpich::Answer.new(:appeal_text, Kirpich::Dict::HELLO.sample, 3)
-        elsif text.clean =~ /(что.*?как|чо.*?каво)/i
+        elsif text.clean =~ /(что.*?как|ч(о|е|ё).*?каво)/i
           Kirpich::Answer.new(:news_text)
         elsif text.appeal? || request.channel == 'D081AUUHW'
           on_call(text, request.channel)
@@ -56,7 +56,7 @@ module Kirpich
           answer = Kirpich::Answer.new(:search_image, text.clean)
         elsif text.clean =~ /(посоветуй|дай совет|как надо|как жить|как быть|как стать)/i
           answer = Kirpich::Answer.new(:fga_random)
-        elsif text.clean =~ /(лох|черт|пидо?р|гей|хуйло|сука|бля|петух|уебок)/i
+        elsif text.clean =~ /(лох|черт|пидо?р|гей|хуйло|сука|бля|петух|уебок|заебал)/i
           answer = Kirpich::Answer.new(:appeal_text, Kirpich::Dict::NAX.sample, 0)
         elsif text.clean =~ /где это/i
           m = text.clean.scan(/где это (.*)/im)
@@ -78,7 +78,7 @@ module Kirpich
           else
             answer = Kirpich::Answer.new(:appeal_text, Kirpich::Dict::HZ.sample, 2)
           end
-        elsif text.clean =~ /(еще|повтори|заново|постарайся)/i
+        elsif text.clean =~ /(еще|повтори|заново|постарайся|продолжай)/i
           answer = Kirpich::Answer.new(:last_answer)
         elsif text.clean =~ /(нежность|забота|добр(ота)?|милым|заботливым|нежным|добрым)/i
           answer = Kirpich::Answer.new(:cat_image)
