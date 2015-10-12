@@ -66,13 +66,13 @@ module Kirpich
         build_response("#{Kirpich::Dict::DANCE.sample}?#{Time.now.to_i}")
       end
 
-      def news_text(_, _)
+      def news_text(r, s)
         text = if rand(2) == 0
                  Kirpich::Providers::Text.interfax
                else
                  Kirpich::Providers::Text.ria
                end
-        materialize text
+        materialize r, s, text
       end
 
       def currency_diff(a, b)
