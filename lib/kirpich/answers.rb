@@ -52,7 +52,19 @@ module Kirpich
         end
 
         img = Kirpich::Providers::GoogleImage.search(q, page)
-        body = img || Kirpich::Dict::NO_GIRLS.sample
+        body = img || Kirpich::Dict::NO_CONTENT.sample
+
+        build_response(body, last_search: { page: page, q: q })
+      end
+
+      def search_video(_, state, q)
+        page = 0
+        if state[:last_search] && state[:last_search][:q] == q
+          page = state[:last_search][:page] + 1
+        end
+
+        img = Kirpich::Providers::GoogleVideo.search(q, page)
+        body = img || Kirpich::Dict::NO_CONTENT.sample
 
         build_response(body, last_search: { page: page, q: q })
       end
@@ -145,7 +157,7 @@ module Kirpich
         build_response(Kirpich::Providers::Image.les_400_image)
       rescue => e
         Kirpich.logger.error e
-        build_response(Kirpich::Dict::NO_GIRLS.sample)
+        build_response(Kirpich::Dict::NO_CONTENT.sample)
       end
 
       def random_boobs_image(_, _)

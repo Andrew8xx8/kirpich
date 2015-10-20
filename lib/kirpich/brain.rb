@@ -52,6 +52,8 @@ module Kirpich
           answer = Kirpich::Answer.new(:appeal_text, Kirpich::Dict::GLAV.sample, 2)
         elsif text.clean =~ /(программист|девелопер|программер)/i
           answer = Kirpich::Answer.new(:developerslife_image)
+        elsif text.clean =~ /(видео|видос)/i
+          answer = Kirpich::Answer.new(:search_video, text.clean)
         elsif text.clean =~ /(покажи|как выглядит|фотограф|фотку|фотка|изображение)/i
           answer = Kirpich::Answer.new(:search_image, text.clean)
         elsif text.clean =~ /(посоветуй|дай совет|как надо|как жить|как быть|как стать)/i
