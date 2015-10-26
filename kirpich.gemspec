@@ -25,6 +25,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'minitest'
   spec.add_development_dependency 'webmock'
   spec.add_development_dependency 'wrong'
+  spec.add_development_dependency 'awesome_print'
 
   spec.add_dependency 'virtus'
   spec.add_dependency 'slack-api'
@@ -34,4 +35,5 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'logstash-logger'
   spec.add_dependency 'activesupport'
   spec.add_dependency 'rake'
+  spec.add_dependency 'twitter'
 end
