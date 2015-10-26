@@ -5,8 +5,9 @@ module Kirpich
     class << self
       def add(message)
         count = calc_reactions(message)
+
         Kirpich.logger.info "Reaction with #{count} good slmiles added."
-        return unless count > 2
+        return unless count == 3
 
         EM.defer do
           update(message)
