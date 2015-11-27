@@ -5,7 +5,7 @@ module Kirpich
     attribute :subtype, String
     attribute :type, String
     attribute :user, String
-    attribute :text, String
+    attribute :text, String, default: ''
     attribute :channel, String
     attribute :ts, String
 
