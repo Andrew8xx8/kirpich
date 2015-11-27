@@ -30,6 +30,20 @@ class Kirpich::BotTest < Minitest::Test
     assert @client.post_called
   end
 
+  def test_on_message_when_text_is_absent
+    slack_message = {
+      'type' => 'message',
+      'subtype' => 'message_deleted',
+      'hidden' => true,
+      'channel' => 'C024BE91L',
+      'ts' => '1358878755.000001',
+      'deleted_ts' => '1358878749.000002',
+      'event_ts' => '1358878755.000002',
+    }
+
+    assert_nil @bot.on_message(slack_message)
+  end
+
   def test_on_hello
     @bot.on_hello
     assert @client.post_after_called
