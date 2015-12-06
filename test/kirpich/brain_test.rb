@@ -31,6 +31,18 @@ class Kirpich::BrainTest < Minitest::Test
     assert_answer('кирпич, покажи сиськи', :random_boobs_image)
   end
 
+  def test_ass
+    ass_requests = [
+      "паш, покажи жопу",
+      "паш, покажи классный попец",
+      "паш, жопу",
+    ]
+
+    ass_requests.each do |ass_request|
+      assert_answer(ass_request, :random_ass_image)
+    end
+  end
+
   def test_poh
     assert_answer('среда', :appeal_text)
   end
