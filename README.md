@@ -41,6 +41,13 @@ https://developers.openshift.com/en/managing-environment-variables.html
 docker-compose run pashok
 ```
 
+### Поиск картинок и видео
+
+Пашка работает через Google Custom Search API. Чтобы все завелось нужно определить
+две переменные окружения `GSE_API_KEY` и `GSE_CX`.
+
+Процесс не простой, описан тут: http://stackoverflow.com/questions/34035422/google-image-search-says-api-no-longer-available/34062436#34062436. Удачи в общем =)
+
 ## Паша...
 
 ### ...знает мемы
