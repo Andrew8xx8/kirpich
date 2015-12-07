@@ -15,4 +15,15 @@ class Kirpich::Providers::GoogleImageTest < Minitest::Test
     img = Kirpich::Providers::GoogleImage.search('покажи боба марли')
     assert { img =~ /jpg/ }
   end
+
+  def test_search_with_deprecated_response
+    stub_request(:get, /ajax.googleapis.com.*/)
+      .to_return(status: 200,
+                 body: load_fixture('google_images_deprecated.json'),
+                 headers: {}
+                )
+
+    img = Kirpich::Providers::GoogleImage.search('покажи боба марли')
+    assert_nil img
+  end
 end
