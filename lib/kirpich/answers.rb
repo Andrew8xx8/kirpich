@@ -51,7 +51,9 @@ module Kirpich
           page = state[:last_search][:page] + 1
         end
 
-        img = Kirpich::Providers::GoogleImage.search(q, page)
+        Kirpich.logger.info("image_search_provider is [#{image_search_provider}]")
+
+        img = image_search_provider.search(q, page)
         body = img || Kirpich::Dict::NO_CONTENT.sample
 
         build_response(body, last_search: { page: page, q: q })
@@ -166,6 +168,16 @@ module Kirpich
 
       def build_response(body, state = {})
         Kirpich::Response.new(body: body, state: state)
+      end
+
+      private
+
+      def image_search_provider
+        @image_search_provider ||= if Kirpich::Providers::GoogleImageCustomSearch.configured?
+          Kirpich::Providers::GoogleImageCustomSearch
+        else
+          Kirpich::Providers::GoogleImage
+        end
       end
     end
   end

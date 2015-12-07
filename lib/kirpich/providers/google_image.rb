@@ -36,7 +36,11 @@ module Kirpich::Providers
       end
 
       def _result_valid?(result)
-        result && result.key?('responseData') && result['responseData'] && result['responseData'].key?('results') && result['responseData']['results'].any?
+        result.respond_to?(:key?) && \
+          result.key?('responseData') && \
+          result['responseData'].respond_to?(:key?) && \
+          result['responseData'].key?('results') && \
+          result['responseData']['results'].any?
       end
 
       def _search_params(q, page)
