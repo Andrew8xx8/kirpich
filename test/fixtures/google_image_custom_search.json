@@ -1,0 +1,71 @@
+{
+ "kind": "customsearch#search",
+ "url": {
+  "type": "application/json",
+  "template": "https://www.googleapis.com/customsearch/v1?q={searchTerms}&num={count?}&start={startIndex?}&lr={language?}&safe={safe?}&cx={cx?}&cref={cref?}&sort={sort?}&filter={filter?}&gl={gl?}&cr={cr?}&googlehost={googleHost?}&c2coff={disableCnTwTranslation?}&hq={hq?}&hl={hl?}&siteSearch={siteSearch?}&siteSearchFilter={siteSearchFilter?}&exactTerms={exactTerms?}&excludeTerms={excludeTerms?}&linkSite={linkSite?}&orTerms={orTerms?}&relatedSite={relatedSite?}&dateRestrict={dateRestrict?}&lowRange={lowRange?}&highRange={highRange?}&searchType={searchType}&fileType={fileType?}&rights={rights?}&imgSize={imgSize?}&imgType={imgType?}&imgColorType={imgColorType?}&imgDominantColor={imgDominantColor?}&alt=json"
+ },
+ "queries": {
+  "nextPage": [
+   {
+    "title": "Google Custom Search - дилдо",
+    "totalResults": "2230000",
+    "searchTerms": "дилдо",
+    "count": 1,
+    "startIndex": 2,
+    "inputEncoding": "utf8",
+    "outputEncoding": "utf8",
+    "safe": "off",
+    "cx": "test:cx",
+    "fileType": "jpg",
+    "searchType": "image",
+    "imgSize": "large"
+   }
+  ],
+  "request": [
+   {
+    "title": "Google Custom Search - дилдо",
+    "totalResults": "2230000",
+    "searchTerms": "дилдо",
+    "count": 1,
+    "startIndex": 1,
+    "inputEncoding": "utf8",
+    "outputEncoding": "utf8",
+    "safe": "off",
+    "cx": "test:cx",
+    "fileType": "jpg",
+    "searchType": "image",
+    "imgSize": "large"
+   }
+  ]
+ },
+ "context": {
+  "title": "KirpichImageSearch"
+ },
+ "searchInformation": {
+  "searchTime": 0.137348,
+  "formattedSearchTime": "0,14",
+  "totalResults": "2230000",
+  "formattedTotalResults": "2 230 000"
+ },
+ "items": [
+  {
+   "kind": "customsearch#result",
+   "title": "На YouTube появилась видеопрезентация дилдо-селфи-палки : Вещи: Из ...",
+   "htmlTitle": "На YouTube появилась видеопрезентация \u003cb\u003eдилдо\u003c/b\u003e-селфи-палки : Вещи: Из \u003cb\u003e...\u003c/b\u003e",
+   "link": "http://icdn.lenta.ru/images/2015/10/07/16/20151007161023399/pic_9c7529a98638c77a601d9c85fa94ee99.jpg",
+   "displayLink": "lenta.ru",
+   "snippet": "дилдо-селфи-палки",
+   "htmlSnippet": "\u003cb\u003eдилдо\u003c/b\u003e-селфи-палки",
+   "mime": "image/jpeg",
+   "image": {
+    "contextLink": "http://lenta.ru/news/2015/10/07/weirdselfiestick/",
+    "height": 280,
+    "width": 420,
+    "byteSize": 31934,
+    "thumbnailLink": "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcRDDaPDWCFtWITRGmlbtzJDODzSdZ9MNroqZadcq8lAMpxvNcyzcdh1wJ0",
+    "thumbnailHeight": 83,
+    "thumbnailWidth": 125
+   }
+  }
+ ]
+}

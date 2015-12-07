@@ -53,6 +53,8 @@ module Kirpich
         end
       end
 
+      configure_custom_search
+
       client.start
     end
 
@@ -70,6 +72,13 @@ module Kirpich
         config.consumer_secret     = ENV['CONSUMER_SECRET']
         config.access_token        = ENV['ACCESS_TOKEN']
         config.access_token_secret = ENV['ACCESS_SECRET']
+      end
+    end
+
+    def configure_custom_search
+      if ENV.key?('GSE_API_KEY') && ENV.key?('GSE_CX')
+        Kirpich::Providers::GoogleImageCustomSearch.api_key = ENV['GSE_API_KEY']
+        Kirpich::Providers::GoogleImageCustomSearch.cx = ENV['GSE_CX']
       end
     end
 
