@@ -69,7 +69,7 @@ module Kirpich
         elsif text.clean =~ /(умеешь|можешь)/i
           answer = Kirpich::Answer.new(:appeal_text, Kirpich::Dict::HELP, 0)
         elsif text.clean =~ /(запость|ебни|ебаш|хуяч|хуйни|пиздани|ебани|постани|постни|создай.*настроение|делай красиво|скажи.*что.*нибудь|удиви)/i
-          answer = random_post
+          answer = random_response
         elsif text.clean =~ /кто.*(охуел|заебал|доебал|надоел|должен|молодец|красавчик)/i
           answer = Kirpich::Answer.new(:random_user, channel)
         elsif text.clean =~ /(спасибо|збсь?|красава|молодчик|красавчик|от души|по красоте|зацени|норм)/i
@@ -106,6 +106,15 @@ module Kirpich
         end
 
         answer || Kirpich::Answer.new(:appeal_text, Kirpich::Dict::CALL.sample, 3)
+      end
+
+      def random_response
+        methods = [
+          :random_boobs_image, :random_ass_image, :currency, :developerslife_image,
+          :fga_random, :news_text, :random_phrase, :lurk_random
+        ]
+
+        Kirpich::Answer.new(methods.sample)
       end
     end
   end

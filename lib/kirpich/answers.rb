@@ -46,7 +46,7 @@ module Kirpich
       end
 
       def search_image(_, state, q)
-        page = 0
+        page = 1
         if state[:last_search] && state[:last_search][:q] == q
           page = state[:last_search][:page] + 1
         end
@@ -60,7 +60,7 @@ module Kirpich
       end
 
       def search_video(_, state, q)
-        page = 0
+        page = 1
         if state[:last_search] && state[:last_search][:q] == q
           page = state[:last_search][:page] + 1
         end

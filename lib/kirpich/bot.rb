@@ -61,22 +61,13 @@ module Kirpich
       end
     end
 
-    def random_response
-      methods = [
-        :random_boobs_image,
-        :random_ass_image,
-        :currency,
-        :random_phrase
-      ]
-      eval_answer(Kirpich::Answer.new(methods.sample))
-    end
-
     def random_post_timer
       time = 5000 + rand(8000)
 
       client.post_after(time) do
         request = Kirpich::Request.new channel: %w(C08189F96 G084E5SC9).sample
-        send_response(random_response, request)
+        answer = eval_answer(Kirpich::Brain.random_response)
+        send_response(answer, request)
 
         random_post_timer
       end
