@@ -62,8 +62,10 @@ module Kirpich
           answer = Kirpich::Answer.new(:appeal_text, Kirpich::Dict::NAX.sample, 0)
         elsif text.clean =~ /где это/i
           m = text.clean.scan(/где это (.*)/im)
-          q = m[0][0]
-          answer = Kirpich::Answer.new(:geo_search, q)
+          if m && m[0] && m[0][0]
+            q = m[0][0]
+            answer = Kirpich::Answer.new(:geo_search, q)
+          end
         elsif text.clean =~ /(умеешь|можешь)/i
           answer = Kirpich::Answer.new(:appeal_text, Kirpich::Dict::HELP, 0)
         elsif text.clean =~ /(запость|ебни|ебаш|хуяч|хуйни|пиздани|ебани|постани|постни|создай.*настроение|делай красиво|скажи.*что.*нибудь|удиви)/i
