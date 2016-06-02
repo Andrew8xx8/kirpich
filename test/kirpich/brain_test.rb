@@ -11,6 +11,13 @@ class Kirpich::BrainTest < Minitest::Test
     assert_answer('паш, что нужно делать если чат заебал?', :appeal_text)
   end
 
+  def test_kak_dela
+    request = build_request('паш как дела?')
+    answer = @brain.respond_on(request)
+    assert_equal(:appeal_text, answer.type)
+    assert { Kirpich::Dict::KAK_DELA.include?(answer.args.first) }
+  end
+
   def test_random_user
     assert_answer('кирпич, кто охуел?', :random_user)
     assert_answer('кирпич, кто тут всех заебал?', :random_user)
@@ -81,8 +88,7 @@ class Kirpich::BrainTest < Minitest::Test
   end
 
   def assert_answer(text, method, args = [])
-    request = Kirpich::Request.new(text: text,
-                                   channel: 'test')
+    request = build_request(text)
     answer = @brain.respond_on(request)
 
     assert { method == answer.type }
@@ -91,5 +97,9 @@ class Kirpich::BrainTest < Minitest::Test
         assert { arg == answer.args[i] }
       end
     end
+  end
+
+  def build_request(text)
+    Kirpich::Request.new(text: text, channel: 'test')
   end
 end

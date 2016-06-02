@@ -27,7 +27,7 @@ module Kirpich
         if text.clean =~ /что.*?(надо|нужно|стоит).*?(делать|сделать).*если.*(не нравит|заебал|надоел|не устраивает)/i
           answer = Kirpich::Answer.new(:appeal_text, Kirpich::Dict::SVCHAT, 10)
         elsif text.clean =~ /\bкак дела\b/i
-          Kirpich::Answer.new(:appeal_text, Kirpich::Dict::KAK_DELA.sample, 4)
+          answer = Kirpich::Answer.new(:appeal_text, Kirpich::Dict::KAK_DELA.sample, 4)
         elsif text.clean =~ /(расскажи о себе|ты кто)/i
           answer = Kirpich::Answer.new(:about)
         elsif text.clean =~ /(синька)/i
