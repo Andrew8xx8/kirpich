@@ -13,6 +13,7 @@ class Kirpich::BrainTest < Minitest::Test
 
   def test_random_user
     assert_answer('кирпич, кто охуел?', :random_user)
+    assert_answer('кирпич, кто тут всех заебал?', :random_user)
   end
 
   def test_again
