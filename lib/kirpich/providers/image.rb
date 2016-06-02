@@ -14,7 +14,7 @@ module Kirpich::Providers
 
         Nokogiri::HTML(response.body).css('.post.photo > a img').map do |i|
           i['src']
-        end.sample + "?#{Time.now.to_i}"
+        end.sample
       end
 
       def developerslife_image
