@@ -8,9 +8,9 @@ class Kirpich::Providers::LurkTest < Minitest::Test
   def test_search_image
     stub_request(:get, 'http://lurkmore.to/index.php')
       .with(query: hash_including('title' => /.*/))
-      .to_return(status: 200,
+      .to_return(status: 307,
                  body: 'Please follow the redirect to /%D0%B1%D0%BE%D0%B1_%D0%BC%D0%B0%D1%80%D0%BB%D0%B8root@2071a2f83909',
-                 headers: {}
+                 headers: {Location: '/%D0%B1%D0%BE%D0%B1_%D0%BC%D0%B0%D1%80%D0%BB%D0%B8root@2071a2f83909'}
                 )
 
     stub_request(:get, 'http://lurkmore.to/%D0%B1%D0%BE%D0%B1_%D0%BC%D0%B0%D1%80%D0%BB%D0%B8root@2071a2f83909')

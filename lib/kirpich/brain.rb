@@ -27,7 +27,7 @@ module Kirpich
         if text.clean =~ /что.*?(надо|нужно|стоит).*?(делать|сделать).*если.*(не нравит|заебал|надоел|не устраивает)/i
           answer = Kirpich::Answer.new(:appeal_text, Kirpich::Dict::SVCHAT, 10)
         elsif text.clean =~ /\bкак дела\b/i
-          Kirpich::Answer.new(:appeal_text, Kirpich::Dict::KAK_DELA.sample, 4)
+          answer = Kirpich::Answer.new(:appeal_text, Kirpich::Dict::KAK_DELA.sample, 4)
         elsif text.clean =~ /(расскажи о себе|ты кто)/i
           answer = Kirpich::Answer.new(:about)
         elsif text.clean =~ /(синька)/i
@@ -58,6 +58,8 @@ module Kirpich
           answer = Kirpich::Answer.new(:search_image, text.clean)
         elsif text.clean =~ /(посоветуй|дай совет|как надо|как жить|как быть|как стать)/i
           answer = Kirpich::Answer.new(:fga_random)
+        elsif text.clean =~ /кто.*(охуел|заебал|доебал|надоел|должен|молодец|красавчик)/i
+          answer = Kirpich::Answer.new(:random_user, channel)
         elsif text.clean =~ /(лох|черт|пидо?р|гей|хуйло|сука|бля|петух|уебок|заебал)/i
           answer = Kirpich::Answer.new(:appeal_text, Kirpich::Dict::NAX.sample, 0)
         elsif text.clean =~ /где это/i
@@ -70,8 +72,6 @@ module Kirpich
           answer = Kirpich::Answer.new(:appeal_text, Kirpich::Dict::HELP, 0)
         elsif text.clean =~ /(запость|ебни|ебаш|хуяч|хуйни|пиздани|ебани|постани|постни|создай.*настроение|делай красиво|скажи.*что.*нибудь|удиви)/i
           answer = random_response
-        elsif text.clean =~ /кто.*(охуел|заебал|доебал|надоел|должен|молодец|красавчик)/i
-          answer = Kirpich::Answer.new(:random_user, channel)
         elsif text.clean =~ /(спасибо|збсь?|красава|молодчик|красавчик|от души|по красоте|зацени|норм)/i
           answer = Kirpich::Answer.new(:appeal_text, Kirpich::Dict::ZBS.sample, 2)
         elsif text.clean =~ /(объясни|разъясни|растолкуй|что|как|кто) ?(что|как|кто)? ?(это|эта|такой|такое|такие)? (.*)/i
