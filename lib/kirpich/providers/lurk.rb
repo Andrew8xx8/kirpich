@@ -1,14 +1,12 @@
 module Kirpich::Providers
   class Lurk
     class << self
+      LURK_URL = 'http://lurkmore.to'.freeze
+
       def search(text)
         return unless text
 
-        text = _clean(text)
-        path = _redirect_path(text)
-        return unless path
-
-        html = _load(path)
+        html = _load(text)
         return unless html
 
         page = Nokogiri::HTML(html)
@@ -39,20 +37,13 @@ module Kirpich::Providers
         result
       end
 
-      def _load(path)
-        response = Faraday.get "http://lurkmore.to/#{path}"
-        if response.headers[:location]
-          response = Faraday.get response.headers[:location]
+      def _load(text)
+        connection = Faraday.new(url: LURK_URL) do |faraday|
+           faraday.use FaradayMiddleware::FollowRedirects, limit: 5
+           faraday.adapter Faraday.default_adapter
         end
-
+        response = connection.get('index.php', title: text)
         response.body if response.body && !response.body.empty?
-      end
-
-      def _redirect_path(text)
-        response = Faraday.get "http://lurkmore.to/index.php?title=#{text}"
-        md = response.body.scan(/Please.*?\/(.*?)$/im)
-
-        md[0][0] if md && md[0] && md[0][0]
       end
 
       def _clean(text)
