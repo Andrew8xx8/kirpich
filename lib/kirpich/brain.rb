@@ -88,6 +88,8 @@ module Kirpich
           answer = Kirpich::Answer.new(:cat_image)
         elsif text.clean =~ /(правила)/i
           answer = Kirpich::Answer.new(:rules_text)
+        elsif text.clean =~ /мудростью?/i
+          answer = Kirpich::Answer.new(:wisdom)
         elsif text.clean =~ /(.*?,)?(.*?)\sили\s(.*?)$/i
           options_match = text.clean.scan(/(.*?,)?(.*?)\sили\s(.*?)$/)
           answer = if options_match.any?

@@ -75,6 +75,10 @@ class Kirpich::BrainTest < Minitest::Test
     assert_answer('Паш, цены на нефть поднимутся?', :choose_text)
   end
 
+  def test_wisdom
+    assert_answer('паш мудрость', :wisdom)
+  end
+
   def assert_answer(text, method, args = [])
     request = Kirpich::Request.new(text: text,
                                    channel: 'test')

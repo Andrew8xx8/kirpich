@@ -120,6 +120,11 @@ module Kirpich
         build_response("https://www.google.ru/maps/search/#{q}")
       end
 
+      def wisdom(_, _)
+        wisdom = Kirpich::Providers::Ololo.wisdom
+        build_response(wisdom)
+      end
+
       def random_phrase(_, _)
         phrase = Kirpich::Dict::RANDOM.sample
         build_response(phrase)
