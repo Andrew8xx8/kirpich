@@ -75,8 +75,8 @@ class Kirpich::BrainTest < Minitest::Test
     assert_answer('Паш, цены на нефть поднимутся?', :choose_text)
   end
 
-  def test_wisdom
-    assert_answer('паш мудрость', :wisdom)
+  def test_aphorism
+    assert_answer('паш афоризм', :aphorism)
   end
 
   def assert_answer(text, method, args = [])
