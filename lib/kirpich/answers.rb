@@ -120,6 +120,11 @@ module Kirpich
         build_response("https://www.google.ru/maps/search/#{q}")
       end
 
+      def aphorism(_, _)
+        aphorism = Kirpich::Providers::Ololo.aphorism
+        build_response(aphorism)
+      end
+
       def random_phrase(_, _)
         phrase = Kirpich::Dict::RANDOM.sample
         build_response(phrase)
