@@ -39,4 +39,15 @@ class Kirpich::Providers::ImageTest < Minitest::Test
     img = Kirpich::Providers::Image.developerslife_image
     assert { !img.empty? }
   end
+
+  def test_devopsreactions_image
+    stub_request(:get, 'http://devopsreactions.tumblr.com/random')
+      .to_return(status: 302, body: '', headers: { location: 'http://devopsreactions.tumblr.com/post/130607786417/sales-people-looking-for-someone-to-help-them' })
+
+    stub_request(:get, 'http://devopsreactions.tumblr.com/post/130607786417/sales-people-looking-for-someone-to-help-them')
+      .to_return(status: 200, body: load_fixture('devopsreactions.html'), headers: {})
+
+    img = Kirpich::Providers::Image.devopsreactions_image
+    assert { !img.empty? }
+  end
 end

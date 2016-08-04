@@ -28,7 +28,21 @@ module Kirpich::Providers
         image = page.css('.entry .image .gif video source')
         text = page.css('.entry .code .value')
 
-        [image.first['src'], text.first.text.delete("'")] if image.any? && text
+        [image.first['src'], text.first.text.delete("'")] if image.any? && text.any?
+      end
+
+      def devopsreactions_image
+        connection = Faraday.new(url: 'http://devopsreactions.tumblr.com/random'.freeze) do |faraday|
+           faraday.use FaradayMiddleware::FollowRedirects, limit: 5
+           faraday.adapter Faraday.default_adapter
+        end
+        response = connection.get
+
+        page = Nokogiri::HTML(response.body)
+        image = page.css('#content .item.text .middle .item_content figure img'.freeze)
+        text = page.css('#content .item.text .middle .item_content .post_title a'.freeze)
+
+        [image.first['src'], text.first.text] if image.any? && text.any?
       end
     end
   end
