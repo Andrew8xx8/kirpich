@@ -28,7 +28,7 @@ module Kirpich::Providers
         image = page.css('.entry .gif img')
         text = page.css('.entry .code .value')
 
-        [image.first['src'], text.first.text.delete("'")] if image && text
+        [image.first['src'], text.first.text.delete("'")] if image.any? && text
       end
     end
   end
