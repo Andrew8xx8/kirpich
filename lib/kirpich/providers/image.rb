@@ -33,15 +33,7 @@ module Kirpich::Providers
 
       def devopsreactions_image
         response = Faraday.get('http://devopsreactions.tumblr.com/random'.freeze)
-        link = response.headers['location'.freeze]
-
-        response = Faraday.get link
-        page = Nokogiri::HTML(response.body)
-
-        image = page.css('#content .item.text .middle .item_content figure img'.freeze)
-        text = page.css('#content .item.text .middle .item_content .post_title a'.freeze)
-
-        [image.first['src'], text.first.text] if image.any? && text.any?
+        response.headers['location'.freeze]
       end
     end
   end
