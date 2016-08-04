@@ -31,7 +31,7 @@ class Kirpich::Providers::ImageTest < Minitest::Test
 
   def test_developerslife_image
     stub_request(:get, 'http://developerslife.ru/random')
-      .to_return(status: 200, body: '', headers: { location: '//developerslife.ru/1' })
+      .to_return(status: 302, body: '', headers: { location: '//developerslife.ru/1' })
 
     stub_request(:get, 'http://developerslife.ru/1')
       .to_return(status: 200, body: load_fixture('developerslife.html'), headers: {})
