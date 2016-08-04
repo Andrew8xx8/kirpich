@@ -45,6 +45,10 @@ module Kirpich
         build_response(Kirpich::Providers::Image.developerslife_image)
       end
 
+      def devopsreactions_image(_, _)
+        build_response(Kirpich::Providers::Image.devopsreactions_image)
+      end
+
       def search_image(_, state, q)
         page = 1
         if state[:last_search] && state[:last_search][:q] == q

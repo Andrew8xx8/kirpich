@@ -87,6 +87,10 @@ class Kirpich::BrainTest < Minitest::Test
     assert_answer('паш афоризм', :aphorism)
   end
 
+  def test_admin
+    assert_answer('паш про админов давай', :devopsreactions_image)
+  end
+
   def assert_answer(text, method, args = [])
     request = build_request(text)
     answer = @brain.respond_on(request)

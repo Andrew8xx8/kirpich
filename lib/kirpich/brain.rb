@@ -50,8 +50,10 @@ module Kirpich
           end
         elsif text.clean =~ /(кто.*главный)/i
           answer = Kirpich::Answer.new(:appeal_text, Kirpich::Dict::GLAV.sample, 2)
-        elsif text.clean =~ /\b(программист|девелопер|программер)\b/i
+        elsif text.clean =~ /\b(программист|девелопер|программер)(?:ов)?\b/i
           answer = Kirpich::Answer.new(:developerslife_image)
+        elsif text.clean =~ /\bадмин(?:ов|ах)?\b/i
+          answer = Kirpich::Answer.new(:devopsreactions_image)
         elsif text.clean =~ /(видео|видос)/i
           answer = Kirpich::Answer.new(:search_video, text.clean)
         elsif text.clean =~ /(покажи|как выглядит|фотограф|фотку|фотка|изображение)/i
