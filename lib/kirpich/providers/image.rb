@@ -32,13 +32,12 @@ module Kirpich::Providers
       end
 
       def devopsreactions_image
-        connection = Faraday.new(url: 'http://devopsreactions.tumblr.com/random'.freeze) do |faraday|
-           faraday.use FaradayMiddleware::FollowRedirects, limit: 5
-           faraday.adapter Faraday.default_adapter
-        end
-        response = connection.get
+        response = Faraday.get('http://devopsreactions.tumblr.com/random'.freeze)
+        link = response.headers['location'.freeze]
 
+        response = Faraday.get link
         page = Nokogiri::HTML(response.body)
+
         image = page.css('#content .item.text .middle .item_content figure img'.freeze)
         text = page.css('#content .item.text .middle .item_content .post_title a'.freeze)
 
