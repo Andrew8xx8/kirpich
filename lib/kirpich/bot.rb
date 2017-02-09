@@ -66,7 +66,7 @@ module Kirpich
 
       client.post_after(time) do
         request = Kirpich::Request.new channel: %w(C08189F96 G084E5SC9).sample
-        answer = eval_answer(Kirpich::Brain.random_response)
+        answer = eval_answer(Kirpich::Brain.random_response, request, {})
         send_response(answer, request)
 
         random_post_timer

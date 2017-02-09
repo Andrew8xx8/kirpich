@@ -41,13 +41,7 @@ module Kirpich
         elsif text.clean =~ /курс/i
           answer = Kirpich::Answer.new(:currency)
         elsif text.fap?
-          if text.clean =~ /\b(жопа|задница|попка|попец|булки|ноги|жопу)\b/i
-            answer = Kirpich::Answer.new(:random_ass_image)
-          elsif text.clean =~ /\b(соски|сися|сись|тить|грудь|буфер|груди)/i
-            answer = Kirpich::Answer.new(:random_boobs_image)
-          else
-            answer = Kirpich::Answer.new(:search_image, text.clean)
-          end
+          answer = Kirpich::Answer.new(:search_image, text.clean)
         elsif text.clean =~ /(кто.*главный)/i
           answer = Kirpich::Answer.new(:appeal_text, Kirpich::Dict::GLAV.sample, 2)
         elsif text.clean =~ /\b(программист|девелопер|программер)(?:ов)?\b/i
@@ -115,7 +109,7 @@ module Kirpich
       def random_response
         methods = [
           :random_boobs_image, :random_ass_image, :currency, :developerslife_image,
-          :fga_random, :news_text, :random_phrase, :lurk_random
+          :fga_random,
         ]
 
         Kirpich::Answer.new(methods.sample)
