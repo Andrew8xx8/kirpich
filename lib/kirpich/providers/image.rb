@@ -1,12 +1,16 @@
 module Kirpich::Providers
   class Image
     class << self
-      def les_400_image
-        _extract_tumblr("http://les400culs.com/page/#{rand(200)}")
+      def ass_image
+        _extract_tumblr("http://hellasweetass.tumblr.com/page/#{rand(200)}")
       end
 
-      def lesaintdesseins_image
-        _extract_tumblr("http://lesaintdesseins.fr/page/#{rand(200)}")
+      def boobs_image
+        _extract_tumblr("http://boobsarethegreatest.tumblr.com/page/#{rand(200)}")
+      end
+
+      def ass_perfection
+        _extract_tumblr("http://ass-perfection-blog.tumblr.com/page/#{rand(200)}")
       end
 
       def _extract_tumblr(url)
