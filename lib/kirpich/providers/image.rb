@@ -16,7 +16,7 @@ module Kirpich::Providers
       def _extract_tumblr(url)
         response = Faraday.get url
 
-        Nokogiri::HTML(response.body).css('.post.photo > a img').map do |i|
+        Nokogiri::HTML(response.body).css('.photo img').map do |i|
           i['src']
         end.sample
       end
