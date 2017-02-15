@@ -1,6 +1,10 @@
 module Kirpich
   class Answers
     class << self
+      def denchik(_, _)
+        build_response((rand(4) == 0) ? 'https://puu.sh/u4g4k/b1885a0740.png' : 'Охуенчик')
+      end
+
       def about(_, _)
         build_response Kirpich::Dict::ABOUT
       end

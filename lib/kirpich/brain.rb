@@ -18,6 +18,10 @@ module Kirpich
           Kirpich::Answer.new(:appeal_text, Kirpich::Dict::HELLO.sample, 3)
         elsif text.clean =~ /(что.*?как|ч(о|е|ё).*?каво)/i
           Kirpich::Answer.new(:news_text)
+        elsif text.clean =~ /(денчик)/i
+          if (rand(5) == 0)
+            Kirpich::Answer.new(:denchik)
+          end
         elsif text.appeal? || request.channel == 'D081AUUHW'
           on_call(text, request.channel)
         end
