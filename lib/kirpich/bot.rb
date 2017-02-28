@@ -62,7 +62,7 @@ module Kirpich
     end
 
     def random_post_timer
-      time = 5000 + rand(8000)
+      time = 10000 + rand(1000)
 
       client.post_after(time) do
         request = Kirpich::Request.new channel: %w(C08189F96 G084E5SC9).sample
