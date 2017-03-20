@@ -118,7 +118,7 @@ module Kirpich
 
       def random_response
         methods = [
-          :random_boobs_image, :random_ass_image, :random_phrase
+          :random_boobs_image, :random_ass_image
         ]
 
         Kirpich::Answer.new(methods.sample)
