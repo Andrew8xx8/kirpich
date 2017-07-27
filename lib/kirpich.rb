@@ -22,6 +22,11 @@ module Kirpich
   autoload 'Twitter',   'kirpich/twitter'
 
   class << self
+    def random_channels
+      return [] unless ENV['RANDOM_CHANNELS']
+      ENV['RANDOM_CHANNELS'].split(',').map(&:strip)
+    end
+
     def run
       Slack.configure do |config|
         config.token = ENV['TOKEN']
@@ -32,7 +37,7 @@ module Kirpich
 
       client = Slack.realtime
 
-      bot = Kirpich::Bot.new(client: Kirpich::Client.new, self_id: auth['user_id'])
+      bot = Kirpich::Bot.new(client: Kirpich::Client.new, self_id: auth['user_id'], random_channels: random_channels)
 
       client.on :message do |data|
         bot.on_message(data)
