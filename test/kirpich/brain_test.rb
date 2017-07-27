@@ -55,6 +55,15 @@ class Kirpich::BrainTest < Minitest::Test
     assert_answer('среда', :appeal_text)
   end
 
+  def test_ladno
+    assert_answer('да ладно', :text)
+  end
+
+  def test_trista
+    assert_answer('использовали константу - 300', :text)
+    assert_answer('делали так раз триста', :text)
+  end
+
   def test_hello
     assert_answer('Кипич, привет', :appeal_text)
   end
