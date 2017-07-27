@@ -161,7 +161,7 @@ module Kirpich
       end
 
       def clarifai_image(_, state)
-        if state[:last_image_url]
+        if state[:last_image_url] && state[:last_image_url] =~ /(jpg|png|jpeg)/i
           build_response(Kirpich::Providers::Clarifai.clarifai_image(state[:last_image_url]))
         else
           build_response(Kirpich::Dict::HZ.sample)

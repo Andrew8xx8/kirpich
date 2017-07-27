@@ -12,7 +12,10 @@ module Kirpich
 
       return unless can_respond?(request)
 
-      state[request.channel] ||= { last_image_url: '' }
+      state[request.channel] ||= {}
+
+      image = extract_image(request)
+      state[request.channel][:last_image_url] = image if image
       answer = Kirpich::Brain.respond_on(request)
 
       return unless answer
@@ -47,9 +50,6 @@ module Kirpich
       else
         state[:last_answer] = answer
       end
-
-      image = extract_image(request)
-      state[:last_image_url] = image if image
 
       return unless answer
 
