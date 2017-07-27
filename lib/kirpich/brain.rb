@@ -22,6 +22,10 @@ module Kirpich
           Kirpich::Answer.new(:text, Kirpich::Dict::LADNO.sample)
         elsif text.clean =~ /(^|\s)(300|триста)($|\.|\?)/i
           Kirpich::Answer.new(:text, Kirpich::Dict::TRISTA.sample)
+        elsif text.clean =~ /(денчик)/i
+          if (rand(5) == 0)
+            Kirpich::Answer.new(:denchik)
+          end
         elsif text.appeal? || request.channel == 'D081AUUHW'
           on_call(text, request.channel)
         end
@@ -118,8 +122,7 @@ module Kirpich
 
       def random_response
         methods = [
-          :random_boobs_image, :random_ass_image, :currency, :developerslife_image,
-          :fga_random, :news_text, :random_phrase, :lurk_random
+          :random_boobs_image, :random_ass_image
         ]
 
         Kirpich::Answer.new(methods.sample)

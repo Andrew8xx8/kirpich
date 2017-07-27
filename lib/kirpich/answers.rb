@@ -1,6 +1,10 @@
 module Kirpich
   class Answers
     class << self
+      def denchik(_, _)
+        build_response((rand(4) == 0) ? 'https://puu.sh/u4g4k/b1885a0740.png' : 'Охуенчик')
+      end
+
       def about(_, _)
         build_response Kirpich::Dict::ABOUT
       end
@@ -165,14 +169,17 @@ module Kirpich
       end
 
       def random_ass_image(_, _)
-        build_response(Kirpich::Providers::Image.les_400_image)
+        build_response(Kirpich::Providers::Image.ass_perfection)
       rescue => e
         Kirpich.logger.error e
         build_response(Kirpich::Dict::NO_CONTENT.sample)
       end
 
       def random_boobs_image(_, _)
-        build_response(Kirpich::Providers::Image.lesaintdesseins_image)
+        build_response(Kirpich::Providers::Image.boobs_image)
+      rescue => e
+        Kirpich.logger.error e
+        build_response(Kirpich::Dict::NO_CONTENT.sample)
       end
 
       def build_response(body, state = {})
