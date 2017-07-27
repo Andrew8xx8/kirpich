@@ -43,9 +43,4 @@ class Kirpich::BotTest < Minitest::Test
 
     assert_nil @bot.on_message(slack_message)
   end
-
-  def test_on_hello
-    @bot.on_hello
-    assert @client.post_after_called
-  end
 end
