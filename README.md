@@ -52,26 +52,26 @@ docker-compose run pashok
 
 ### ...знает мемы
 
-![Паша кирпич объясняет суть мема](https://dl.dropboxusercontent.com/u/4256669/kirpich.png)
+![Паша кирпич объясняет суть мема](http://8xx8.ru/kirpich/assets/kirpich.png)
 
 ### ...в курсе дел
 
-![Паша отвечает за дела](https://dl.dropboxusercontent.com/u/4256669/kirpich2.png)
+![Паша отвечает за дела](http://8xx8.ru/kirpich/assets/kirpich2.png)
 
 ### ...любит пироги
 
-![Паша любит пироги](https://dl.dropboxusercontent.com/u/4256669/kirpich3.png)
+![Паша любит пироги](http://8xx8.ru/kirpich/assets/kirpich3.png)
 
 ### ...следит за финансами
 
-![Паша любит следит за финансами](https://dl.dropboxusercontent.com/u/4256669/kirpich4.png)
+![Паша любит следит за финансами](http://8xx8.ru/kirpich/assets/kirpich4.png)
 
 ### ...знает толк в женщинах
 
-![Паша любит женщин](https://dl.dropboxusercontent.com/u/4256669/kirpich5.png)
+![Паша любит женщин](http://8xx8.ru/kirpich/assets/kirpich5.png)
 
 ### ...может показать хороший пример
 
-![Паша показывает хороший пример](https://dl.dropboxusercontent.com/u/4256669/kirpich6.png)
+![Паша показывает хороший пример](http://8xx8.ru/kirpich/assets/kirpich6.png)
 
 
