@@ -160,6 +160,14 @@ module Kirpich
         end
       end
 
+      def clarifai_image(_, state)
+        if state[:last_image_url]
+          build_response(Kirpich::Providers::Clarifai.clarifai_image(state[:last_image_url]))
+        else
+          build_response(Kirpich::Dict::HZ.sample)
+        end
+      end
+
       def fga_random(_, _)
         build_response(Kirpich::Providers::Fga.random)
       end

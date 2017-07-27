@@ -5,14 +5,14 @@ module Kirpich
     attribute :client
     attribute :self_id, String
     attribute :random_channels, Array
-    attribute :state,   Hash, default: {}
+    attribute :state, Hash, default: {}
 
     def on_message(data)
       request = Kirpich::Request.new(data)
 
       return unless can_respond?(request)
 
-      state[request.channel] ||= {}
+      state[request.channel] ||= { last_image_url: '' }
       answer = Kirpich::Brain.respond_on(request)
 
       return unless answer
@@ -48,10 +48,19 @@ module Kirpich
         state[:last_answer] = answer
       end
 
+      image = extract_image(request)
+      state[:last_image_url] = image if image
+
       return unless answer
 
       method_object = Kirpich::Answers.method(answer.type)
       method_object.call(request, state, *answer.args)
+    end
+
+    def extract_image(request)
+      match = request.text.match(/(https?:\/\/.*\.(?:png|jpg))/i)
+      return unless match && match[0]
+      match[0]
     end
 
     def send_response(response, request)

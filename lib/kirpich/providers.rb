@@ -1,6 +1,7 @@
 module Kirpich
   module Providers
     autoload 'Currency', 'kirpich/providers/currency'
+    autoload 'Clarifai', 'kirpich/providers/clarifai'
     autoload 'GoogleImage', 'kirpich/providers/google_image'
     autoload 'GoogleImageCustomSearch', 'kirpich/providers/google_image_custom_search'
     autoload 'GoogleVideo', 'kirpich/providers/google_video'
