@@ -2,23 +2,15 @@ module Kirpich::Providers
   class Image
     class << self
       def ass_image
-        _extract_tumblr("http://hellasweetass.tumblr.com/page/#{rand(200)}")
+        response = Faraday.get 'http://rails.gusar.1cb9d70e.svc.dockerapp.io/api/images/random?tag_id=2'
+        json = JSON.parse(response.body)
+        json['picture_url']
       end
 
       def boobs_image
-        _extract_tumblr("http://boobsarethegreatest.tumblr.com/page/#{rand(200)}")
-      end
-
-      def ass_perfection
-        _extract_tumblr("http://ass-perfection-blog.tumblr.com/page/#{rand(200)}")
-      end
-
-      def _extract_tumblr(url)
-        response = Faraday.get url
-
-        Nokogiri::HTML(response.body).css('.photo img').map do |i|
-          i['src']
-        end.sample
+        response = Faraday.get 'http://rails.gusar.1cb9d70e.svc.dockerapp.io/api/images/random?tag_id=2'
+        json = JSON.parse(response.body)
+        json['picture_url']
       end
 
       def developerslife_image

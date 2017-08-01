@@ -177,7 +177,7 @@ module Kirpich
       end
 
       def random_ass_image(_, _)
-        build_response(Kirpich::Providers::Image.ass_perfection)
+        build_response(Kirpich::Providers::Image.ass_image)
       rescue => e
         Kirpich.logger.error e
         build_response(Kirpich::Dict::NO_CONTENT.sample)
