@@ -2,13 +2,13 @@ module Kirpich::Providers
   class Image
     class << self
       def ass_image
-        response = Faraday.get 'http://rails.gusar.1cb9d70e.svc.dockerapp.io/api/images/random'
+        response = Faraday.get 'http://rails.gusar.1cb9d70e.svc.dockerapp.io/api/images/random?q[nsfw_lt]=0.6'
         json = JSON.parse(response.body)
         json['picture_url']
       end
 
       def boobs_image
-        response = Faraday.get 'http://rails.gusar.1cb9d70e.svc.dockerapp.io/api/images/random'
+        response = Faraday.get 'http://rails.gusar.1cb9d70e.svc.dockerapp.io/api/images/random?q[nsfw_lt]=0.6'
         json = JSON.parse(response.body)
         json['picture_url']
       end
