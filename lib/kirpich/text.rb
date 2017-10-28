@@ -1,7 +1,6 @@
 module Kirpich
   class Text
     APPEAL_REGEX = /\s*\b(паштет|пашок|пашка|кирпич|паш|пацантре|народ|кто-нибудь|kirpich)\b,?\s*/i
-    FAP_REGEX = /(сиськи|сисяндры|сисяндра|титьки|письки|секс|эротика|титьк|грудь|сисек|сиська|сиську|сосок|жоп|задниц|попец|голую|телку|сисечки|голая|обнаженная|буфер)/i
 
     attr_reader :clean, :original
 
@@ -19,7 +18,8 @@ module Kirpich
     end
 
     def fap?
-      @original =~ FAP_REGEX
+      words = Kirpich::Dict::BUTTS.keys.join('|')
+      @original =~ /(#{words})/i
     end
   end
 end

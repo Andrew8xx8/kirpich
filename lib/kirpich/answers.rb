@@ -176,15 +176,8 @@ module Kirpich
         build_response(Kirpich::Providers::Lurk.random)
       end
 
-      def random_ass_image(_, _)
-        build_response(Kirpich::Providers::Image.ass_image)
-      rescue => e
-        Kirpich.logger.error e
-        build_response(Kirpich::Dict::NO_CONTENT.sample)
-      end
-
-      def random_boobs_image(_, _)
-        build_response(Kirpich::Providers::Image.boobs_image)
+      def gusar_image(_, _, from = 0.4, to = 0.5)
+        build_response(Kirpich::Providers::Image.gusar_image(from, to))
       rescue => e
         Kirpich.logger.error e
         build_response(Kirpich::Dict::NO_CONTENT.sample)
