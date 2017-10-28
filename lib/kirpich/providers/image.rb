@@ -2,7 +2,6 @@ module Kirpich::Providers
   class Image
     class << self
       def gusar_image(from, to)
-        p from, to
         response = Faraday.get "http://rails.gusar.1cb9d70e.svc.dockerapp.io/api/images/random?q[nsfw_lt]=#{to}&q[nsfw_gt]=#{from}"
         json = JSON.parse(response.body)
         json['picture_url']

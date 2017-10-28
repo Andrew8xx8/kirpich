@@ -53,7 +53,6 @@ module Kirpich
         elsif text.fap?
           range = Kirpich::Dict::BUTTS.find { |word, v| text.clean =~ /#{word}/ }
           range ||= ['', [0.5, 0.6]]
-          p range
           answer = Kirpich::Answer.new(:gusar_image, range[1][0], range[1][1])
         elsif text.clean =~ /(кто.*главный)/i
           answer = Kirpich::Answer.new(:appeal_text, Kirpich::Dict::GLAV.sample, 2)
