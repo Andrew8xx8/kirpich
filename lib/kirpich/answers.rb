@@ -176,8 +176,9 @@ module Kirpich
         build_response(Kirpich::Providers::Lurk.random)
       end
 
-      def gusar_image(_, _, from = 0.4, to = 0.5)
-        build_response(Kirpich::Providers::Image.gusar_image(from, to))
+      def gusar_image(_, _, from = 0.4, to = 0.5, boobs = false, butt = false)
+        p from, to, boobs, butt
+        build_response(Kirpich::Providers::Image.gusar_image(from, to, boobs, butt))
       rescue => e
         Kirpich.logger.error e
         build_response(Kirpich::Dict::NO_CONTENT.sample)

@@ -51,9 +51,11 @@ module Kirpich
         elsif text.clean =~ /курс/i
           answer = Kirpich::Answer.new(:currency)
         elsif text.fap?
-          range = Kirpich::Dict::BUTTS.find { |word, v| text.clean =~ /#{word}/ }
-          range ||= ['', [0.5, 0.6]]
-          answer = Kirpich::Answer.new(:gusar_image, range[1][0], range[1][1])
+          butt_range = Kirpich::Dict::BUTT.find { |word, v| text.clean =~ /#{word}/ }
+          boobs_range = Kirpich::Dict::BOOBS.find { |word, v| text.clean =~ /#{word}/ }
+          range = butt_range || boobs_range || ['', [0.5, 0.6]]
+
+          answer = Kirpich::Answer.new(:gusar_image, range[1][0], range[1][1], !!boobs_range, !!butt_range)
         elsif text.clean =~ /(кто.*главный)/i
           answer = Kirpich::Answer.new(:appeal_text, Kirpich::Dict::GLAV.sample, 2)
         elsif text.clean =~ /\b(программист|девелопер|программер)(?:ов)?\b/i

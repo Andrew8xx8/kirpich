@@ -18,7 +18,8 @@ module Kirpich
     end
 
     def fap?
-      words = Kirpich::Dict::BUTTS.keys.join('|')
+      arrays = Kirpich::Dict::BUTT.keys + Kirpich::Dict::BOOBS.keys
+      words = arrays.join('|')
       @original =~ /(#{words})/i
     end
   end
