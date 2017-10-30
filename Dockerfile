@@ -1,17 +1,11 @@
-FROM ruby:2.2.5
+FROM ruby:2.4.2-alpine3.6
+
+RUN apk update && apk upgrade
+RUN apk add bash
+RUN apk add curl-dev ruby-dev build-base git ruby-json
 
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
-
-RUN apt-get update
-RUN apt-get install locales
-RUN echo 'ru_RU.UTF-8 UTF-8' >> /etc/locale.gen
-RUN locale-gen ru_RU.UTF-8
-RUN dpkg-reconfigure -fnoninteractive locales
-ENV LC_ALL=ru_RU.utf8
-ENV LANGUAGE=ru_RU.utf8
-RUN update-locale LC_ALL="ru_RU.utf8" LANG="ru_RU.utf8" LANGUAGE="ru_RU"
-RUN apt-get install -y vim
 
 COPY lib/kirpich/version.rb /usr/src/app/lib/kirpich/
 COPY kirpich.gemspec /usr/src/app/
