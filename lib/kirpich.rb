@@ -14,10 +14,6 @@ ActiveSupport::Dependencies.autoload_paths = ['lib/']
 
 module Kirpich
   class << self
-    def random_channels
-      return [] unless ENV['RANDOM_CHANNELS']
-      ENV['RANDOM_CHANNELS'].split(',').map(&:strip)
-    end
 
     def run
       config = Kirpich::Config.new_from_env(ENV)

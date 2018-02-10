@@ -10,7 +10,6 @@ module Kirpich
     attribute :twitter_consumer_secret, String
     attribute :gse_api_key, String
     attribute :gse_cx, String
-    attribute :random_channels, String
 
     def gse_enabled?
       gse_api_key.present? && gse_cx.present?
@@ -39,7 +38,6 @@ module Kirpich
           twitter_consumer_secret: env['TWITTER_CONSUMER_SECRET'],
           gse_api_key:             env['GSE_API_KEY'],
           gse_cx:                  env['GSE_CX'],
-          random_channels:         env['RANDOM_CHANNELS'],
         )
       end
     end
