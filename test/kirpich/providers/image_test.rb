@@ -5,27 +5,11 @@ class Kirpich::Providers::ImageTest < Minitest::Test
   def setup
   end
 
-  def test_ass_image
-    stub_request(:get, /hellasweetass.tumblr.com.*/)
-      .to_return(
-        status: 200,
-        body: load_fixture('les_400.html'),
-        headers: {}
-      )
+  def test_gusar_image
+    stub_request(:get, /gusar/)
+      .to_return(status: 200, body: load_fixture('gusar_random.json'), headers: {})
 
-    img = Kirpich::Providers::Image.ass_image
-    assert { !img.empty? }
-  end
-
-  def test_boobs_image
-    stub_request(:get, /boobsarethegreatest.*/)
-      .to_return(
-        status: 200,
-        body: load_fixture('lesaintdesseins.html'),
-        headers: {}
-      )
-
-    img = Kirpich::Providers::Image.boobs_image
+    img = Kirpich::Providers::Image.gusar_image(0.5, 1, true, false)
     assert { !img.empty? }
   end
 

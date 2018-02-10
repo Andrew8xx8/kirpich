@@ -3,4 +3,5 @@ pashok:
   volumes:
     - ./:/usr/src/app
   environment:
+    LANG: en_US.UTF-8
     TOKEN: YOUR_TOKEN

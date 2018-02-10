@@ -1,10 +1,6 @@
 module Kirpich
   class Answers
     class << self
-      def denchik(_, _)
-        build_response((rand(4) == 0) ? 'https://puu.sh/u4g4k/b1885a0740.png' : 'Охуенчик')
-      end
-
       def about(_, _)
         build_response Kirpich::Dict::ABOUT
       end
@@ -102,7 +98,7 @@ module Kirpich
       end
 
       def currency(_, state)
-        rates = Kirpich::Providers::Currency.usd_rub_eur_rub
+        rates = Kirpich::Providers::Currency.usd_rub_eur_rub_btc
         pc = state[:pc] || {}
 
         text = rates.map do |currency|
@@ -111,9 +107,9 @@ module Kirpich
           rate = currency[:rate]
           if pc.key?(name)
             if rate > pc[name]
-              dynamic = "(#{currency_diff(rate, pc[name])} :chart_with_upwards_trend:)"
+              dynamic = "(#{currency_diff(rate, pc[name])} 📈)"
             elsif rate < pc[name]
-              dynamic = "(#{currency_diff(rate, pc[name])} :chart_with_downwards_trend:)"
+              dynamic = "(#{currency_diff(rate, pc[name])} 📉)"
             end
           end
           pc[name] = rate
@@ -157,14 +153,6 @@ module Kirpich
           appeal_text(request, state, Kirpich::Dict::HZ.sample, 2)
         else
           build_response(result)
-        end
-      end
-
-      def clarifai_image(_, state)
-        if state[:last_image_url] && state[:last_image_url] =~ /(jpg|png|jpeg)/i
-          build_response(Kirpich::Providers::Clarifai.clarifai_image(state[:last_image_url]))
-        else
-          build_response(Kirpich::Dict::HZ.sample)
         end
       end
 

@@ -5,22 +5,15 @@ require 'slack'
 require 'nokogiri'
 require 'open-uri'
 require 'logstash-logger'
-require 'active_support/core_ext/string/filters'
+require 'active_support'
+require 'active_support/core_ext'
 require 'kirpich/version'
+require 'telegram/bot'
+require "awesome_print"
+
+ActiveSupport::Dependencies.autoload_paths = ['lib/']
 
 module Kirpich
-  autoload 'Dict',      'kirpich/dict'
-  autoload 'Bot',       'kirpich/bot'
-  autoload 'Answer',    'kirpich/answer'
-  autoload 'Client',    'kirpich/client'
-  autoload 'Brain',     'kirpich/brain'
-  autoload 'Answers',   'kirpich/answers'
-  autoload 'Text',      'kirpich/text'
-  autoload 'Providers', 'kirpich/providers'
-  autoload 'Request',   'kirpich/request'
-  autoload 'Response',  'kirpich/response'
-  autoload 'Twitter',   'kirpich/twitter'
-
   class << self
     def random_channels
       return [] unless ENV['RANDOM_CHANNELS']
@@ -28,62 +21,40 @@ module Kirpich
     end
 
     def run
-      Slack.configure do |config|
-        config.token = ENV['TOKEN']
+      config = Kirpich::Config.new_from_env(ENV)
+
+      if config.gse_enabled?
+        Kirpich::Providers::GoogleImageCustomSearch.api_key = config.gse_api_key
+        Kirpich::Providers::GoogleImageCustomSearch.cx = config.gse_cx
+      else
+        Kirpich.logger.info 'Search via Google API is disabled. To enable it provide GSE_API_KEY and GSE_CX in env'
       end
 
-      auth = Slack.auth_test
-      fail auth['error'] unless auth['ok']
-
-      client = Slack.realtime
-
-      bot = Kirpich::Bot.new(client: Kirpich::Client.new, self_id: auth['user_id'], random_channels: random_channels)
-
-      client.on :message do |data|
-        bot.on_message(data)
+      if config.telegram_enabled?
+        messaging = Kirpich::Messaging::Telegram.new(token: config.telegram_token)
+        messaging.start
+      else
+        Kirpich.logger.info 'Telegram is disabled. To enable it provide TELEGRAM_TOKEN in env'
       end
 
-      client.on :hello do
-        bot.on_hello
+      if config.slack_enabled?
+        messaging = Kirpich::Messaging::Slack.new(token: config.slack_token)
+        messaging.start
+      else
+        Kirpich.logger.info 'Slack is disabled. To enable it provide SLACK_TOKEN in env'
       end
-
-      client.on :reaction_added do |data|
-        member_id = data['user']
-        reactions = Slack.post('reactions.list', user: member_id, count: 1)
-        if reactions.key?('ok')
-          reaction = reactions['items'].first
-          if reaction['message']['ts'] == data['item']['ts']
-            Kirpich::Twitter.add(reaction['message'])
-          end
-        end
-      end
-
-      configure_custom_search
-
-      client.start
     end
 
     def logger
       @logger ||= LogStashLogger.new(type: :stdout)
     end
 
-    def twitter_enabled?
-      ENV.key?('CONSUMER_KEY') && ENV.key?('CONSUMER_SECRET') && ENV.key?('ACCESS_TOKEN') && ENV.key?('ACCESS_SECRET')
-    end
-
     def twitter
       @twitter ||= ::Twitter::REST::Client.new do |config|
-        config.consumer_key        = ENV['CONSUMER_KEY']
-        config.consumer_secret     = ENV['CONSUMER_SECRET']
-        config.access_token        = ENV['ACCESS_TOKEN']
-        config.access_token_secret = ENV['ACCESS_SECRET']
-      end
-    end
-
-    def configure_custom_search
-      if ENV.key?('GSE_API_KEY') && ENV.key?('GSE_CX')
-        Kirpich::Providers::GoogleImageCustomSearch.api_key = ENV['GSE_API_KEY']
-        Kirpich::Providers::GoogleImageCustomSearch.cx = ENV['GSE_CX']
+        config.consumer_key        = config.twitter_consumer_key
+        config.consumer_secret     = config.twitter_consumer_secret
+        config.access_token        = config.twitter_access_token
+        config.access_token_secret = config.twitter_access_secret
       end
     end
 

@@ -1,26 +1,42 @@
 module Kirpich::Providers
   class Currency
     class << self
-      def usd_rub_eur_rub
-        response = Faraday.get 'https://query.yahooapis.com/v1/public/yql?q=select+*+from+yahoo.finance.xchange+where+pair+=+%22USDRUB,EURRUB%22&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys&callback='
-        result = JSON.parse response.body
-
-        rates = []
-        result['query']['results']['rate'].each do |rate|
-          name = rate['Name']
-          rate = rate['Rate']
-          rates << { name: name, rate: rate, emoji: _emoji(name) }
-        end
-
-        rates
+      def usd_rub
+        url = 'https://quote.rbc.ru/data/simple/delay/ticker/selt.0/59109'
+        currency = ''
+        response = Faraday.get(url)
+        parsed_json = JSON.parse(response.body)
+        data = parsed_json['result']['data']
+        currency = data[0][7] if data
+        { name: 'USD', rate: currency, emoji: '💵' }
       end
 
-      def _emoji(name)
-        if name =~ /USD/
-          ':dollar:'
-        else
-          ':euro:'
-        end
+      def btc_usd
+        url = 'https://quote.rbc.ru/data/simple/delay/ticker/crypto.0/157694'
+        currency = ''
+        response = Faraday.get(url)
+        parsed_json = JSON.parse(response.body)
+        data = parsed_json['result']['data']
+        currency = data[0][7] if data
+        { name: 'BTC', rate: currency, emoji: '₿' }
+      end
+
+      def eur_usd
+        url = 'https://quote.rbc.ru/data/simple/delay/ticker/selt.0/59089'
+        currency = ''
+        response = Faraday.get(url)
+        parsed_json = JSON.parse(response.body)
+        data = parsed_json['result']['data']
+        currency = data[0][7] if data
+        { name: 'EUR', rate: currency, emoji: '💶' }
+      end
+
+      def usd_rub_eur_rub_btc
+        rates = []
+        rates << usd_rub
+        rates << btc_usd
+        rates << eur_usd
+        rates
       end
     end
   end

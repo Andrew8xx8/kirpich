@@ -1,4 +1,4 @@
-# Паша Кирпич. Slack-бот
+# Паша Кирпич. Бот
 
 [![Build Status](https://travis-ci.org/Andrew8xx8/kirpich.svg)](https://travis-ci.org/Andrew8xx8/kirpich)
 [![Coverage Status](https://coveralls.io/repos/Andrew8xx8/kirpich/badge.svg?branch=master&service=github)](https://coveralls.io/github/Andrew8xx8/kirpich?branch=master)

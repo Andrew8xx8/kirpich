@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    kirpich (0.1.0)
+    kirpich (1.0.0)
       activesupport
       dante
       json
@@ -9,6 +9,7 @@ PATH
       nokogiri
       rake
       slack-api
+      telegram-bot-ruby
       twitter
       virtus
 
@@ -50,7 +51,7 @@ GEM
       unf (>= 0.0.5, < 1.0.0)
     equalizer (0.0.11)
     eventmachine (1.2.5)
-    faraday (0.11.0)
+    faraday (0.14.0)
       multipart-post (>= 1.2, < 3)
     faraday_middleware (0.10.1)
       faraday (>= 0.7.4, < 1.0)
@@ -58,31 +59,32 @@ GEM
       eventmachine (>= 0.12.0)
       websocket-driver (>= 0.5.1)
     hashdiff (0.3.7)
-    http (2.2.2)
+    http (3.0.0)
       addressable (~> 2.3)
       http-cookie (~> 1.0)
-      http-form_data (~> 1.0.1)
+      http-form_data (>= 2.0.0.pre.pre2, < 3)
       http_parser.rb (~> 0.6.0)
     http-cookie (1.0.3)
       domain_name (~> 0.5)
-    http-form_data (1.0.3)
+    http-form_data (2.0.0)
     http_parser.rb (0.6.0)
-    i18n (0.9.0)
+    i18n (0.9.4)
       concurrent-ruby (~> 1.0)
     ice_nine (0.11.2)
+    inflecto (0.0.2)
     json (2.1.0)
     logstash-event (1.2.02)
-    logstash-logger (0.25.1)
+    logstash-logger (0.26.0)
       logstash-event (~> 1.2)
     memoizable (0.4.2)
       thread_safe (~> 0.3, >= 0.3.1)
     method_source (0.9.0)
     mini_portile2 (2.3.0)
     minitest (5.10.3)
-    multi_json (1.12.2)
+    multi_json (1.13.1)
     multipart-post (2.0.0)
     naught (1.1.0)
-    nokogiri (1.8.1)
+    nokogiri (1.8.2)
       mini_portile2 (~> 2.3.0)
     predicated (0.2.6)
     pry (0.11.2)
@@ -95,7 +97,7 @@ GEM
       pry (> 0.10.0, < 0.12.0)
       unicode (~> 0.4.4)
     public_suffix (3.0.0)
-    rake (12.2.1)
+    rake (12.3.0)
     ruby2ruby (2.4.0)
       ruby_parser (~> 3.1)
       sexp_processor (~> 4.6)
@@ -109,31 +111,36 @@ GEM
       json (>= 1.8, < 3)
       simplecov-html (~> 0.10.0)
     simplecov-html (0.10.2)
-    slack-api (1.6.0)
+    slack-api (1.6.1)
       faraday (~> 0.11)
       faraday_middleware (~> 0.10.0)
       faye-websocket (~> 0.10.6)
       multi_json (~> 1.0, >= 1.0.3)
+    telegram-bot-ruby (0.8.6.1)
+      faraday
+      inflecto
+      virtus
     term-ansicolor (1.6.0)
       tins (~> 1.0)
     thor (0.19.4)
     thread_safe (0.3.6)
     tins (1.15.0)
-    twitter (6.1.0)
-      addressable (~> 2.5)
+    twitter (6.2.0)
+      addressable (~> 2.3)
       buftok (~> 0.2.0)
-      equalizer (= 0.0.11)
-      faraday (~> 0.11.0)
-      http (~> 2.1)
+      equalizer (~> 0.0.11)
+      http (~> 3.0)
+      http-form_data (~> 2.0)
       http_parser.rb (~> 0.6.0)
-      memoizable (~> 0.4.2)
-      naught (~> 1.1)
-      simple_oauth (~> 0.3.1)
-    tzinfo (1.2.4)
+      memoizable (~> 0.4.0)
+      multipart-post (~> 2.0)
+      naught (~> 1.0)
+      simple_oauth (~> 0.3.0)
+    tzinfo (1.2.5)
       thread_safe (~> 0.1)
     unf (0.1.4)
       unf_ext
-    unf_ext (0.0.7.4)
+    unf_ext (0.0.7.5)
     unicode (0.4.4.4)
     virtus (1.0.5)
       axiom-types (~> 0.1)
@@ -146,7 +153,7 @@ GEM
       hashdiff
     websocket-driver (0.7.0)
       websocket-extensions (>= 0.1.0)
-    websocket-extensions (0.1.2)
+    websocket-extensions (0.1.3)
     wrong (0.7.1)
       diff-lcs (~> 1.2.5)
       predicated (~> 0.2.6)
@@ -172,4 +179,4 @@ RUBY VERSION
    ruby 2.4.2p198
 
 BUNDLED WITH
-   1.15.4
+   1.16.0

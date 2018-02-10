@@ -1,6 +1,5 @@
 module Kirpich::Providers
   class GoogleImageCustomSearch
-
     BASE_URL = 'https://www.googleapis.com/customsearch/v1'.freeze
 
     class << self

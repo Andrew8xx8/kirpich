@@ -22,10 +22,6 @@ module Kirpich
           Kirpich::Answer.new(:text, Kirpich::Dict::LADNO.sample)
         elsif text.clean =~ /(^|\s)(300|триста)($|\.|\?)/i
           Kirpich::Answer.new(:text, Kirpich::Dict::TRISTA.sample)
-        elsif text.clean =~ /(денчик)/i
-          if (rand(5) == 0)
-            Kirpich::Answer.new(:denchik)
-          end
         elsif text.appeal? || request.channel == 'D081AUUHW'
           on_call(text, request.channel)
         end
@@ -36,8 +32,6 @@ module Kirpich
           answer = Kirpich::Answer.new(:appeal_text, Kirpich::Dict::SVCHAT, 10)
         elsif text.clean =~ /\bкак дела\b/i
           answer = Kirpich::Answer.new(:appeal_text, Kirpich::Dict::KAK_DELA.sample, 4)
-        elsif text.clean =~ /\bкак тебе\b/i
-          answer = Kirpich::Answer.new(:clarifai_image)
         elsif text.clean =~ /(расскажи о себе|ты кто)/i
           answer = Kirpich::Answer.new(:about)
         elsif text.clean =~ /(синька)/i
@@ -88,7 +82,6 @@ module Kirpich
           m = text.clean.scan(/(объясни|разъясни|растолкуй|что|как|кто) ?(что|как|кто)? ?(это|эта|такой|такое|такие)? (.*)/im)
           if m && m[0] && m[0][3]
             q = m[0][3]
-            q
             answer = Kirpich::Answer.new(:lurk_search, q)
           else
             answer = Kirpich::Answer.new(:appeal_text, Kirpich::Dict::HZ.sample, 2)

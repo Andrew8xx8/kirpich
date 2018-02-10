@@ -2,45 +2,46 @@
 
 require 'test_helper'
 
-class ClientStub
-  attr_reader :post_called
-  attr_reader :post_after_called
+class RequestStub
+  include Virtus.model
 
-  def post(params, _)
-    @post_called = true
-    params
-  end
+  attribute :respondable, Boolean
+  attribute :channel, String
+  attribute :text, String
 
-  def post_after(time)
-    @post_after_called = true
-    time
+  def respondable?
+    respondable
   end
 end
 
 class Kirpich::BotTest < Minitest::Test
   def setup
-    @client = ClientStub.new
-    @bot = Kirpich::Bot.new(client: @client, self_id: 'test')
-  end
-
-  def test_on_message
-    slack_message = { 'type' => 'message', 'user' => 'U081B2XCP', 'text' => 'а?', 'channel' => 'D081AUUHW', 'ts' => '1443994452.000009' }
-    @bot.on_message(slack_message)
-
-    assert @client.post_called
-  end
-
-  def test_on_message_when_text_is_absent
-    slack_message = {
-      'type' => 'message',
-      'subtype' => 'message_deleted',
-      'hidden' => true,
-      'channel' => 'C024BE91L',
-      'ts' => '1358878755.000001',
-      'deleted_ts' => '1358878749.000002',
-      'event_ts' => '1358878755.000002',
+    @posts = []
+    on_post = -> (_, text) {
+      @posts << [text]
     }
-
-    assert_nil @bot.on_message(slack_message)
+    @bot = Kirpich::Bot.new(on_post: on_post)
   end
+
+  def test_no_respond_for_empty_request
+    request = RequestStub.new(respondable: true, text: '')
+    @bot.on_message(request)
+    assert @posts.empty?
+  end
+
+  def test_respond_on_hello
+    request = RequestStub.new(respondable: true, text: 'Привет!')
+    @bot.on_message(request)
+    assert @posts.any?
+  end
+
+  def test_respond_with_last_answer
+    request = RequestStub.new(respondable: true, text: 'паш, как дела')
+    @bot.on_message(request)
+
+    request = RequestStub.new(respondable: true, text: 'паш, еще')
+    @bot.on_message(request)
+    assert @posts.count == 2
+  end
+
 end

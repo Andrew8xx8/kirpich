@@ -36,4 +36,5 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'activesupport'
   spec.add_dependency 'rake'
   spec.add_dependency 'twitter'
+  spec.add_dependency 'telegram-bot-ruby'
 end
