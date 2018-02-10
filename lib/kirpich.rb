@@ -9,7 +9,6 @@ require 'active_support'
 require 'active_support/core_ext'
 require 'kirpich/version'
 require 'telegram/bot'
-require "awesome_print"
 
 ActiveSupport::Dependencies.autoload_paths = ['lib/']
 
