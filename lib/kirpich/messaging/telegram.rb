@@ -14,7 +14,6 @@ module Kirpich::Messaging
         @bot = Kirpich::Bot.new(on_post: on_post)
 
         tbot.listen do |message|
-          ap message
           on_message(message)
         end
       end

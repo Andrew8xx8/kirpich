@@ -19,15 +19,8 @@ module Kirpich::Messaging
     end
 
     def respondable?
-      p channel, user, text, ts
-    end
-
-    def bot_message?
-      subtype == 'bot_message'
-    end
-
-    def changed_message?
-      subtype == 'message_changed'
+      return false if text.empty?
+      true
     end
 
     def to_s

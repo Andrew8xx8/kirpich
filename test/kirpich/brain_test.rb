@@ -7,6 +7,12 @@ class Kirpich::BrainTest < Minitest::Test
     @brain = Kirpich::Brain
   end
 
+  def test_texts
+    assert_answer('паш, 300', :text)
+    assert_answer('паш, триста', :text)
+    assert_answer('паш, ладно', :text)
+  end
+
   def test_uebyvay_v_svoy_chat
     assert_answer('паш, что нужно делать если чат заебал?', :appeal_text)
   end

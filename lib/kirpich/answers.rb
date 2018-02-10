@@ -165,7 +165,6 @@ module Kirpich
       end
 
       def gusar_image(_, _, from = 0.4, to = 0.5, boobs = false, butt = false)
-        p from, to, boobs, butt
         build_response(Kirpich::Providers::Image.gusar_image(from, to, boobs, butt))
       rescue => e
         Kirpich.logger.error e
