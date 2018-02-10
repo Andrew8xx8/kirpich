@@ -19,7 +19,7 @@ module Kirpich::Messaging
     end
 
     def respondable?
-      return false if text.empty?
+      return false if text && text.empty?
       true
     end
 
