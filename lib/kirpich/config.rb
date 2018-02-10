@@ -21,7 +21,7 @@ module Kirpich
     end
 
     def telegram_enabled?
-      slack_token.present?
+      telegram_token.present?
     end
 
     def slack_enabled?
