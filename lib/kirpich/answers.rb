@@ -5,6 +5,19 @@ module Kirpich
         build_response Kirpich::Dict::ABOUT
       end
 
+      def slots(request, state)
+        slots_state = state[:slots] || {}
+        score = slots_state[request.user] || 100
+
+        build_response('Ты проигрался, браток!', slots_state) if score <= 0
+
+        slots = Kirpich::Providers::Slots.spin
+        score = score - 10 + slots[1]
+        texts = slots[0] + ["Поднял: #{slots[1]}, счет: #{score}"]
+        slots_state[request.user] = score
+        build_response(texts, slots: slots_state)
+      end
+
       def random_user(r, s, channel)
         user = Kirpich::Providers::SlackUser.random(channel)
 
