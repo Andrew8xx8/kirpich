@@ -20,13 +20,6 @@ module Kirpich::Providers
         "#{img}?#{Time.now.to_i}"
       end
 
-      def search_xxx(q, page = 0)
-        q ||= 'girls'
-        q += [' soft', ' softcore', ' sensuality'].sample
-
-        search(q, page)
-      end
-
       def api_key=(key)
         @api_key = key
       end

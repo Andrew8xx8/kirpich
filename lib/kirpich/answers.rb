@@ -76,18 +76,6 @@ module Kirpich
         build_response(body, last_search: { page: page, q: q })
       end
 
-      def search_video(_, state, q)
-        page = 1
-        if state[:last_search] && state[:last_search][:q] == q
-          page = state[:last_search][:page] + 1
-        end
-
-        img = Kirpich::Providers::GoogleVideo.search(q, page)
-        body = img || Kirpich::Dict::NO_CONTENT.sample
-
-        build_response(body, last_search: { page: page, q: q })
-      end
-
       def choose_text(r, s, options)
         text = options.sample
         appeal_text(r, s, text, 4)
