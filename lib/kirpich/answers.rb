@@ -180,8 +180,6 @@ module Kirpich
       def image_search_provider
         @image_search_provider ||= if Kirpich::Providers::GoogleImageCustomSearch.configured?
           Kirpich::Providers::GoogleImageCustomSearch
-        else
-          Kirpich::Providers::GoogleImage
         end
       end
     end

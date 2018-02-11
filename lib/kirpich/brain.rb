@@ -58,7 +58,7 @@ module Kirpich
           answer = Kirpich::Answer.new(:devopsreactions_image)
         elsif text.clean =~ /(видео|видос)/i
           answer = Kirpich::Answer.new(:search_video, text.clean)
-        elsif text.clean =~ /(покажи|как выглядит|фотограф|фотку|фотка|изображение)/i
+        elsif text.clean =~ /(покажи|как выглядит|фотограф|фотку|фотка|изображение|скинь)/i
           answer = Kirpich::Answer.new(:search_image, text.clean)
         elsif text.clean =~ /(посоветуй|дай совет|как надо|как жить|как быть|как стать)/i
           answer = Kirpich::Answer.new(:fga_random)
@@ -92,7 +92,7 @@ module Kirpich
           answer = Kirpich::Answer.new(:cat_image)
         elsif text.clean =~ /(правила)/i
           answer = Kirpich::Answer.new(:rules_text)
-        elsif text.clean =~ /афоризмы?/i
+        elsif text.clean =~ /афоризм?/i
           answer = Kirpich::Answer.new(:aphorism)
         elsif text.clean =~ /(.*?,)?(.*?)\sили\s(.*?)$/i
           options_match = text.clean.scan(/(.*?,)?(.*?)\sили\s(.*?)$/)
