@@ -48,14 +48,7 @@ module Kirpich::Messaging
     end
 
     def on_reaction(data)
-      member_id = data['user']
-      reactions = ::Slack.post('reactions.list', user: member_id, count: 1)
-      if reactions.key?('ok')
-        reaction = reactions['items'].first
-        if reaction['message']['ts'] == data['item']['ts']
-          Kirpich::Twitter.add(reaction['message'])
-        end
-      end
+      @bot.add_money(data['item']['channel'], data['item_user'])
     end
   end
 end

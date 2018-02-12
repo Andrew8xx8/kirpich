@@ -21,6 +21,12 @@ module Kirpich
       send_response(response, request)
     end
 
+    def add_money(channel, user)
+      if state[channel] && state[channel][:slots] && state[channel][:slots][user]
+        state[channel][:slots][user] += 1
+      end
+    end
+
     private
 
     def eval_answer(answer, request, state)
