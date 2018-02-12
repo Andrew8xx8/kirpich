@@ -18,7 +18,7 @@ module Kirpich::Providers
       end
 
       def spin(score, line_index = 1, rate = 1)
-        if score <= RATE * rate
+        if score < RATE * rate
           text = Kirpich::Dict::SPIN_ZERO.sample
           return [text, score]
         end
