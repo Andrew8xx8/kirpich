@@ -6,7 +6,7 @@ module Kirpich
       end
 
       def slots_rules(_, _)
-        build_response Kirpich::Dict::SPIN + [Kirpich::Providers::Slots.wintable]
+        build_response Kirpich::Dict::SPIN + Kirpich::Providers::Slots.wintable
       end
 
       def spin(request, state, line_index, rate)

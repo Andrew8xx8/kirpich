@@ -14,7 +14,7 @@ module Kirpich::Providers
 
     class << self
       def wintable
-        "Выплаты лучшие в городе, :APPEAL:! 3 x #{CHERRY} — #{CHERRY_SCORE_3}, 2 x #{CHERRY} — #{CHERRY_SCORE_2}, #{CHERRY} — #{CHERRY_SCORE_1}, 3 x #{BAR} — #{BAR_SCORE}, 3 x #{JACKPOT} — #{JACKPOT_SCORE}"
+        ["3 x #{CHERRY} — #{CHERRY_SCORE_3} | 2 x #{CHERRY} — #{CHERRY_SCORE_2} | #{CHERRY} — #{CHERRY_SCORE_1} | 3 x #{BAR} — #{BAR_SCORE} | 3 x #{JACKPOT} — #{JACKPOT_SCORE}", "Выплаты лучшие в городе, :APPEAL:!"]
       end
 
       def spin(score, line_index = 1, rate = 1)
