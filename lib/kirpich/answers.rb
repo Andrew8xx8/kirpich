@@ -5,17 +5,15 @@ module Kirpich
         build_response Kirpich::Dict::ABOUT
       end
 
-      def slots(request, state)
-        slots_state = state[:slots] || {}
-        score = slots_state[request.user] || 100
+      def slots_rules(_, _)
+        build_response Kirpich::Dict::SPIN + [Kirpich::Providers::Slots.wintable]
+      end
 
-        build_response('Ты проигрался, браток!', slots_state) if score <= 0
-
-        slots = Kirpich::Providers::Slots.spin
-        score = score - 10 + slots[1]
-        texts = slots[0] + ["Поднял: #{slots[1]}, счет: #{score}"]
-        slots_state[request.user] = score
-        build_response(texts, slots: slots_state)
+      def spin(request, state, line_index, rate)
+        slots = state[:slots] || {}
+        score = slots[request.user] || 100
+        text, new_score = Kirpich::Providers::Slots.spin(score, line_index, rate)
+        build_response(text, state.merge(slots: slots.merge({ request.user => new_score })))
       end
 
       def random_user(r, s, channel)

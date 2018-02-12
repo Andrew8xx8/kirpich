@@ -90,6 +90,33 @@ class Kirpich::BrainTest < Minitest::Test
     assert_answer('паш про админов давай', :devopsreactions_image)
   end
 
+  def test_slots_rules
+    assert_answer('паш, как поднять бабла?', :slots_rules)
+  end
+
+  def test_slots_spin
+    request = build_request('спин')
+    answer = @brain.respond_on(request)
+    assert { answer.type == :spin }
+    assert { answer.args == [2, 1] }
+
+    request = build_request('царский спин')
+    answer = @brain.respond_on(request)
+    assert { answer.args == [2, 2] }
+
+    request = build_request('спин на первую')
+    answer = @brain.respond_on(request)
+    assert { answer.args == [1, 1] }
+
+    request = build_request('царский спин на третью')
+    answer = @brain.respond_on(request)
+    assert { answer.args == [3, 2] }
+
+    request = build_request('фартовый спин на третью')
+    answer = @brain.respond_on(request)
+    assert { answer.args == [3, 3] }
+  end
+
   def assert_answer(text, method, args = [])
     request = build_request(text)
     answer = @brain.respond_on(request)

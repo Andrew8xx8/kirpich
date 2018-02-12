@@ -1,6 +1,11 @@
 module Kirpich::Providers
   class TextUtils
     class << self
+      def replace_consts(text)
+        appeal = Kirpich::Dict::APPEAL.sample
+        text.gsub(':APPEAL:', appeal)
+      end
+
       def materialize(text)
         result = []
         text.split(' ').each do |word|

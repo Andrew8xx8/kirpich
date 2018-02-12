@@ -42,7 +42,8 @@ module Kirpich
       return unless response.body.any?
 
       response.body.each do |text|
-        on_post.call(request, text)
+        interpolated_text = Kirpich::Providers::TextUtils.replace_consts(text)
+        on_post.call(request, interpolated_text)
       end
     end
   end

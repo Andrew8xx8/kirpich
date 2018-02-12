@@ -5,9 +5,15 @@ class Kirpich::Providers::SlotsTest < Minitest::Test
   def setup
   end
 
-  def test_slots
-    text = Kirpich::Providers::Slots.spin
-    assert { !text.empty? }
+  def test_zero_spin
+    text, state = Kirpich::Providers::Slots.spin(0)
+    assert { state == 0 }
+    assert { Kirpich::Dict::SPIN_ZERO.include?(text) }
+  end
+
+  def test_spin
+    text, state = Kirpich::Providers::Slots.spin(100)
+    assert { text.any? }
   end
 
   def test_scores

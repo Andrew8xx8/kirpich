@@ -22,6 +22,15 @@ module Kirpich
           Kirpich::Answer.new(:text, Kirpich::Dict::LADNO.sample)
         elsif text.clean =~ /(^|\s)(300|триста)($|\.|\?)/i
           Kirpich::Answer.new(:text, Kirpich::Dict::TRISTA.sample)
+        elsif text.clean =~ /(^|\s)(спин)\s?/i
+          line = 1
+          line = 0 if text.clean =~ /перв/i
+          line = 2 if text.clean =~ /треть/i
+          rate = 1
+          rate = 2 if text.clean =~ /царский/i
+          rate = 3 if text.clean =~ /фартовый/i
+
+          Kirpich::Answer.new(:spin, line, rate)
         elsif text.appeal? || request.channel == 'D081AUUHW'
           on_call(text, request.channel)
         end
@@ -30,8 +39,8 @@ module Kirpich
       def on_call(text, channel)
         if text.clean =~ /что.*?(надо|нужно|стоит).*?(делать|сделать).*если.*(не нравит|заебал|надоел|не устраивает)/i
           answer = Kirpich::Answer.new(:appeal_text, Kirpich::Dict::SVCHAT, 10)
-        elsif text.clean =~ /(крутани|777|азино|три топора|фарт)/i
-          answer = Kirpich::Answer.new(:slots)
+        elsif text.clean =~ /(777|азино|три топора|как поднять бабла)/i
+          answer = Kirpich::Answer.new(:slots_rules)
         elsif text.clean =~ /\bкак дела\b/i
           answer = Kirpich::Answer.new(:appeal_text, Kirpich::Dict::KAK_DELA.sample, 4)
         elsif text.clean =~ /(расскажи о себе|ты кто)/i
