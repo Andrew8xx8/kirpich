@@ -98,23 +98,23 @@ class Kirpich::BrainTest < Minitest::Test
     request = build_request('спин')
     answer = @brain.respond_on(request)
     assert { answer.type == :spin }
-    assert { answer.args == [2, 1] }
+    assert { answer.args == [1, 1] }
 
     request = build_request('царский спин')
     answer = @brain.respond_on(request)
-    assert { answer.args == [2, 2] }
+    assert { answer.args == [1, 2] }
 
     request = build_request('спин на первую')
     answer = @brain.respond_on(request)
-    assert { answer.args == [1, 1] }
+    assert { answer.args == [0, 1] }
 
     request = build_request('царский спин на третью')
     answer = @brain.respond_on(request)
-    assert { answer.args == [3, 2] }
+    assert { answer.args == [2, 2] }
 
     request = build_request('фартовый спин на третью')
     answer = @brain.respond_on(request)
-    assert { answer.args == [3, 3] }
+    assert { answer.args == [2, 3] }
   end
 
   def assert_answer(text, method, args = [])
