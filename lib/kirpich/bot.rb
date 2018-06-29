@@ -27,6 +27,10 @@ module Kirpich
       end
     end
 
+    def on_member_joined_channel(request)
+      send_response(Kirpich::Answers.karina, request) if request.karina?
+    end
+
     private
 
     def eval_answer(answer, request, state)

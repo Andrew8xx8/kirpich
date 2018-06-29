@@ -170,6 +170,10 @@ module Kirpich
         build_response(Kirpich::Dict::NO_CONTENT.sample)
       end
 
+      def karina
+        build_response('опа... замолкаю'.freeze)
+      end
+
       def build_response(body, state = {})
         Kirpich::Response.new(body: body, state: state)
       end
