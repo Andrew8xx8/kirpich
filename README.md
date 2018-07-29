@@ -44,7 +44,7 @@ SLACK_TOKEN=ВашТокен bin/run
 
 В репозитоии уже настроено все для деплоя на heroku, openshift.
 
-Для работы нужно установть соотвтсвтеющие переменные окружения. Минимально необходимые SLACK_TOKEN или TELEGRAM_TOKEN.
+Для работы нужно установть соответствующие переменные окружения. Минимально необходимые SLACK_TOKEN или TELEGRAM_TOKEN.
 
 https://devcenter.heroku.com/articles/config-vars
 https://developers.openshift.com/en/managing-environment-variables.html
