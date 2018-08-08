@@ -21,8 +21,11 @@ module Kirpich
 
         return unless user
 
-        name = user['real_name']
-        name = user['name'] if name.empty?
+        Kirpich.logger.info("random_user is [#{user}]")
+
+        name = user.fetch('display_name', '')
+        name = user.fetch('real_name', '') if name.empty?
+        name = user.fetch('name', '') if name.empty?
         appeal_text(r, s, name, 4)
       end
 
