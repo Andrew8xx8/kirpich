@@ -173,6 +173,14 @@ module Kirpich
         build_response(Kirpich::Dict::NO_CONTENT.sample)
       end
 
+      def oboobs(_, _)
+        build_response(Kirpich::Providers::Oboobs.new.boobs)
+      end
+
+      def obutts(_, _)
+        build_response(Kirpich::Providers::Oboobs.new.butts)
+      end
+
       def karina
         build_response('опа... замолкаю'.freeze)
       end

@@ -9,6 +9,7 @@ module Kirpich
     autoload 'Fga', 'kirpich/providers/fga'
     autoload 'SlackUser', 'kirpich/providers/slack_user'
     autoload 'Ololo', 'kirpich/providers/ololo'
+    autoload 'Ololo', 'kirpich/providers/oboobs'
 
     autoload 'TextUtils', 'kirpich/providers/text_utils'
   end
