@@ -54,10 +54,5 @@ module Kirpich::Messaging
     def on_reaction(data)
       @bot.add_money(data['item']['channel'], data['item_user'])
     end
-
-    def on_member_joined_channel(data)
-      request = Kirpich::Messaging::Slack::Request.new(data, auth)
-      bot.on_member_joined_channel(request)
-    end
   end
 end
