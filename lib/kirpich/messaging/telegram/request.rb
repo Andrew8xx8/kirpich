@@ -23,10 +23,6 @@ module Kirpich::Messaging
       true
     end
 
-    def karina?
-      false
-    end
-
     def to_s
       "Recived [#{text}] From [#{user}]"
     end

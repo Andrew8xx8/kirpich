@@ -26,10 +26,6 @@ module Kirpich::Messaging
         on_reaction(data)
       end
 
-      client.on :member_joined_channel do |data|
-        on_member_joined_channel(data)
-      end
-
       client.start
     end
 
