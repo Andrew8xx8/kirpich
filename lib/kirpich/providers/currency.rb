@@ -1,40 +1,31 @@
 module Kirpich::Providers
   class Currency
     class << self
+      def currency_url(currency_id)
+        "http://world.investfunds.ru/ajax/graph.currency.php?q=#{currency_id}"
+      end
+
       def usd_rub
-        url = 'https://quote.rbc.ru/data/simple/delay/ticker/selt.0/59109'
+        url = currency_url(493)
         currency = ''
         response = Faraday.get(url)
         parsed_json = JSON.parse(response.body)
-        data = parsed_json['result']['data']
-        currency = data[0][7] if data
+        currency = parsed_json[0]['data'].last[1] if parsed_json[0]['data']
         { name: 'USD', rate: currency, emoji: '💵' }
       end
 
-      def btc_usd
-        url = 'https://quote.rbc.ru/data/simple/delay/ticker/crypto.0/157694'
-        currency = ''
-        response = Faraday.get(url)
-        parsed_json = JSON.parse(response.body)
-        data = parsed_json['result']['data']
-        currency = data[0][7] if data
-        { name: 'BTC', rate: currency, emoji: '₿' }
-      end
-
       def eur_usd
-        url = 'https://quote.rbc.ru/data/simple/delay/ticker/selt.0/59089'
+        url = currency_url(495)
         currency = ''
         response = Faraday.get(url)
         parsed_json = JSON.parse(response.body)
-        data = parsed_json['result']['data']
-        currency = data[0][7] if data
+        currency = parsed_json[0]['data'].last[1] if parsed_json[0]['data']
         { name: 'EUR', rate: currency, emoji: '💶' }
       end
 
       def usd_rub_eur_rub_btc
         rates = []
         rates << usd_rub
-        rates << btc_usd
         rates << eur_usd
         rates
       end
