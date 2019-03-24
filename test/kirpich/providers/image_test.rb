@@ -6,7 +6,7 @@ class Kirpich::Providers::ImageTest < Minitest::Test
   end
 
   def test_gusar_image
-    stub_request(:get, /gusar/)
+    stub_request(:get, /g5r/)
       .to_return(status: 200, body: load_fixture('gusar_random.json'), headers: {})
 
     img = Kirpich::Providers::Image.gusar_image(0.5, 1, true, false)
