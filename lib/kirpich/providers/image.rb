@@ -27,6 +27,7 @@ module Kirpich::Providers
 
       def devopsreactions_image
         response = Faraday.new(url: 'http://devopsreactions.tumblr.com/random').get do |req|
+          faraday.use FaradayMiddleware::FollowRedirects, limit: 5
           req.headers['User-Agent'] = 'Slackbot 1.0(+https://api.slack.com/robots)'
         end
 
